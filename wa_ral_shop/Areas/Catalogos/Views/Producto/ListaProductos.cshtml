@@ -1,0 +1,93 @@
+﻿@using wa_ral_shop.Models.Anonymous.Catalogos;
+@model IEnumerable<ProductoAnonymous>
+@{ Layout = null;
+
+    string Total = "";
+
+    if (ViewData["Total"] != null)
+    {
+        Total = ViewData["Total"].ToString();
+    }
+    else
+    {
+        Total = "0";
+    }
+}
+@section Scripts{
+    <script src="~/Content/js/Catalogos/Producto/Producto.js"></script>
+}
+
+
+@if (Model != null)
+{
+    <h4 class="card-title">Encontrados: @Total</h4>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table id="tblProducto" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center" nowrap hidden="hidden"><b>IdProducto</b></th>
+                            <th style="text-align:center" nowrap>Categoria</th>
+                            <th style="text-align:center" nowrap>Nombre</th>
+                            <th style="text-align:center" nowrap>Modelo</th>
+                            <th style="text-align:center" nowrap>Descripcion</th>
+                            <th style="text-align:center">Tamaño</th>
+                            <th style="text-align:center">Peso</th>
+                            <th style="text-align:center">Precio</th>
+                            <th style="text-align:center">Existencias</th>
+                            <th style="text-align:center" nowrap>Fecha Hora Captura</th>
+                            <th style="text-align:center" nowrap>Estatus</th>
+                            <th style="text-align:center" nowrap>Operaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var fila in Model)
+                        {
+                        <tr>
+                            <td style="text-align:center" hidden="hidden">@fila.Id</td>
+                            <td style="text-align:left">@fila.categoriaAnonymous.Categoria</td>
+                            <td style="text-align:left" nowrap>@fila.Nombre</td>
+                            <td style="text-align:left">@fila.Modelo</td>
+                            <td style="text-align:left" nowrap>@fila.Descripcion</td>
+                            <td style="text-align:center" nowrap>@fila.Largo * @fila.Ancho * @fila.Alto  @fila.unidadMedidaT.Nombre</td>
+                            <td style="text-align:center" nowrap>@fila.Peso @fila.unidadMedidaP.Nombre</td>
+                            <td style="text-align:center" nowrap>$ @fila.PrecioVenta.ToString("0.##")</td>
+                            <td style="text-align:center">@fila.Existencias</td>
+                            <td style="text-align:center">@fila.FechaHoraCaptura</td>
+                            @if (fila.EstatusSTR == "Activo")
+                            {
+                                <td style="text-align:center"><div class="badge badge-success badge-pill">@fila.EstatusSTR</div></td>
+                            }
+                            else
+                            {
+                                <td style="text-align:center"><div class="badge badge-error badge-pill">@fila.EstatusSTR</div></td>
+                            }
+
+                        <td class="pr-0 text-center">
+                            <div class="badge badge-pill badge-primary text-center">
+                                <i class="mdi mdi-pencil" onclick="Editar(
+                                                  @fila.Id, @fila.IdCategoria, '@fila.Nombre', '@fila.Modelo', '@fila.Descripcion',
+                                                  @fila.Largo, @fila.Ancho, @fila.Alto, @fila.IdUMedidaT, @fila.Peso, @fila.IdUMedidaP,
+                                                  '@fila.CodBarras', @fila.PrecioVenta, '@fila.EstatusSTR');" style="cursor:pointer" title="Editar"></i>
+                            </div>
+                            <div class="badge badge-pill badge-warning text-center">
+                                <i class="mdi mdi-trash-can" onclick="Eliminar(@fila.Id, '@fila.EstatusSTR');" style="cursor:pointer" title="Eliminar"></i>
+                            </div>
+                            <div class="badge badge-pill badge-info text-center">
+                                <i class="mdi mdi-image-plus" onclick="AgregarImagen(@fila.Id, '@fila.Nombre');" style="cursor:pointer" title="Agregar Imagenes"></i>
+                            </div>
+                        </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <h4 class="card-title" style="text-align:center">Sin resultados para mostrar</h4>
+}

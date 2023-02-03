@@ -1,0 +1,343 @@
+﻿@using wa_ral_shop.Models.Anonymous;
+
+@{
+    ViewBag.Title = "Colaborador";
+Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Scripts{
+    <script src="~/Content/js/Catalogos/Colaborador/Colaborador.js"></script>
+}
+
+@*<div class="main-panel">*@
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><b> Colaboradores </b></h4>
+                    <form class="form-sample">
+                        <p class="card-description">
+                            Elige que deseas realizar (+ Agregar, Buscar, Editar o Eliminar)
+                        </p>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label for="txtNombre">Nombre</label>
+                                <input type="text" class="form-control" maxlength="50" id="txtNombre" placeholder="Nombre">
+                            </div>
+                            <div class="col-sm-3">
+
+                                <label>Puesto</label>
+
+                                @if (ViewData["cmbPuestos"] != null)
+                                {
+                                    @Html.DropDownList("Puestos", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbPuestos"], "Id", "dato"), new { @id = "sltPuesto", @class = "js-example-basic-single", data_placeholder = "Seleccione un Puesto", @style = "width:100%;" })
+                                }
+                                else
+                                {
+                                    <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltPuesto"></select>
+                                }
+
+
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label for="sltEstatus">Estatus </label>
+                                <select class="form-control" id="sltEstatus">
+                                    <option value="null" selected disabled>Seleccione Estatus</option>
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-2">
+                                <div class="template-demo">
+                                    <button type="button" id="btnBuscar"
+                                            class="btn btn-success btn-rounded mr-2 btn-fw"
+                                            onclick="Buscar();">
+                                        Buscar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="template-demo">
+                                    <button type="button" id="btnLimpiarBuscar"
+                                            class="btn btn-light btn-rounded mr-2 btn-fw"
+                                            onclick="LimpiarCamposBusqueda();">
+                                        Limpiar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <div id="divListaColaborador">
+                        @Html.Partial("ListaColaborador", ViewData["ListaCat"])
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @*Spinner que ayuda a mostrar el modal de alta*@
+        <div class="theme-setting-wrapper">
+            <div id="settings-trigger">
+                <i data-toggle="modal" data-target="#AltaModal" class="mdi mdi-plus" onclick="MostrarMenu();" style="cursor:pointer" title="Alta"></i>
+            </div>
+        </div>
+    </div>
+
+    @*Modal para alta de Colaborador*@
+    <div class="modal fade" id="AltaModal" tabindex="-1" role="dialog" aria-labelledby="AltaModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width:60%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fc-center" id="AltaModalLabel"><b>Captura la informaci&oacute;n y presiona guardar</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-sm-3">
+
+                            <label for="sltPuestoM">Puesto</label>
+
+                            @if (ViewData["cmbPuestos"] != null)
+                            {
+                                @Html.DropDownList("Puestos", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbPuestos"], "Id", "dato"), new { @id = "sltPuestoM", @class = "js-example-basic-single", data_placeholder = "Seleccione un Puesto", @style = "width:100%; height:100%" })
+                            }
+                            else
+                            {
+                                <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltPuestoM"></select>
+                            }
+
+
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label for="txtNombreM">Nombre</label>
+                            <input type="text" class="form-control" maxlength="50" id="txtNombreM" placeholder="Nombre">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtAPaternoM">A. Paterno</label>
+                            <input type="text" class="form-control" maxlength="50" id="txtAPaternoM" placeholder="Apellido Paterno">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtAMaternoM">A. Materno</label>
+                            <input type="text" class="form-control" maxlength="50" id="txtAMaternoM" placeholder="Apellido Materno">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="txtTelefonoM">Telefono</label>
+                            <input class="form-control" data-inputmask-alias="(999)-999-9999" im-insert="true" id="txtTelefonoM">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtEMailM">E Mail</label>
+                            <input type="text" class="form-control" data-inputmask="'alias': 'email'" im-insert="true" maxlength="50" id="txtEMailM">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtFecConM">Fecha Contratacion</label>
+                            <input class="form-control" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" im-insert="false" id="txtFecConM">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnGuardar"
+                            class="btn btn-success btn-rounded mr-2 btn-fw"
+                            onclick="AltaColaborador();">
+                        Guardar
+                    </button>
+                    <button type="button" id="btnLimpiar"
+                            class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                            onclick="LimpiarCampos();">
+                        Limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Modal para editar el Colaborador*@
+    <div class="modal fade" id="ModificarModal" tabindex="-1" role="dialog" aria-labelledby="ModificarModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width:60%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fc-center" id="ModificarModalLabel"><b>Captura la informaci&oacute;n y presiona guardar</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-sm-3">
+
+                            <label for="sltPuestoMEditar">Puesto</label>
+
+                            @if (ViewData["cmbPuestos"] != null)
+                            {
+                                @Html.DropDownList("Puestos", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbPuestos"], "Id", "dato"), new { @id = "sltPuestoMEditar", @class = "js-example-basic-single", data_placeholder = "Seleccione un Puesto", @style = "width:100%; height:100%" })
+                            }
+                            else
+                            {
+                                <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltPuestoMEditar"></select>
+                            }
+
+
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label for="txtNombreMEditar">Nombre</label>
+                            <input type="text" class="form-control" maxlength="50" id="txtNombreMEditar" placeholder="Nombre">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtAPaternoMEditar">A. Paterno</label>
+                            <input type="text" class="form-control" maxlength="50" id="txtAPaternoMEditar" placeholder="Apellido Paterno">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtAMaternoMEditar">A. Materno</label>
+                            <input type="text" class="form-control" maxlength="50" id="txtAMaternoMEditar" placeholder="Apellido Materno">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="txtTelefonoMEditar">Telefono</label>
+                            <input class="form-control" data-inputmask-alias="(999)-999-9999" im-insert="true" id="txtTelefonoMEditar">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtEMailMEditar">E Mail</label>
+                            <input type="text" class="form-control" data-inputmask="'alias': 'email'" im-insert="true" maxlength="50" id="txtEMailMEditar">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtFecConMEditar">Fecha Contratacion</label>
+                            <input class="form-control" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" im-insert="false" id="txtFecConMEditar">
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label for="sltEstatusModificar">Estatus</label>
+                            <select class="form-control" id="sltEstatusModificar">
+                                <option value="null" selected disabled>Seleccione Estatus</option>
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        @*<div class="col-sm-1">*@
+                        <input type="text" class="form-control" hidden="hidden" id="txtIdColaboradorMEditar" placeholder="Id">
+                        @*</div>*@
+                        @*<div class="col-sm-2">*@
+                        <button type="button" id="btnEditar"
+                                class="btn btn-success btn-rounded mr-2 btn-fw"
+                                onclick="EditarColaborador();">
+                            Guardar
+                        </button>
+                        @*</div>*@
+                        @*<div class="col-sm-2">*@
+                        <button type="button" id="btnLimpiar"
+                                class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                                onclick="LimpiarCamposEditar();">
+                            Limpiar
+                        </button>
+                        @*</div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Modal para alta de Documentos Colaborador*@
+    <div class="modal fade" id="AltaDModal" tabindex="-1" role="dialog" aria-labelledby="AltaDModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width:60%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fc-center" id="AltaDModalLabel"><b id="AltaDModalLabelB"></b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="sltDocumentoMD">Documento</label>
+                            @if (ViewData["cmbDocumentos"] != null)
+                            {
+                                @Html.DropDownList("Documentos", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbDocumentos"], "Id", "dato"), new { @id = "sltDocumentoMD", @class = "js-example-basic-single", data_placeholder = "Seleccione un Documento", @style = "width:100%;" })
+                            }
+                            else
+                            {
+                                <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltDocumentoMD"></select>
+                            }
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Archivos</label>
+                            <input id="iptArchivos" type="file" name="files[]" class="dropify" data-height="100" data-allowed-file-extensions="*" multiple>
+                            @*<label class="m-1 float-right" id="lblImgSize"><span class="badge badge-light badge-pill p-1"><i> 0 MB</i></span></label>*@
+                        </div>
+                        @*<div class="col-sm-3">
+                                <label for="sltRutaM">Ruta</label>
+                                @if (ViewData["cmbRutas"] != null)
+                                   {
+                                    @Html.DropDownList("Rutas", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbRutas"], "Id", "dato"), new { @id = "sltRutaM", @class = "js-example-basic-single", data_placeholder = "Seleccione una Ruta", @style = "width:100%;" })
+                                   }
+                                 else
+                                   {
+                                    <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltRutaM"></select>
+                                   }
+                            </div>*@
+                        @*<div class="col-sm-3">
+                            <label for="sltColaboradorM">Colaborador</label>
+                            @if (ViewData["cmbColaboradores"] != null)
+                            {
+                                @Html.DropDownList("Colaboradores", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbColaboradores"], "Id", "dato"), new { @id = "sltColaboradorM", @class = "js-example-basic-single", data_placeholder = "Seleccione un Colaborador", @style = "width:100%;" })
+                            }
+                            else
+                            {
+                                <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltColaboradorM"></select>
+                            }
+                        </div>*@
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <input type="text" class="form-control" hidden="hidden" id="txtIdColaboradorMD" placeholder="Id">
+                    <input type="text" hidden="hidden" id="txtIdRutaMD" value="@ViewData["IdRuta"]" />
+                    <input type="text" hidden="hidden" id="txtRutaMD" value="@ViewData["Ruta"]"/>
+
+                    <button type="button" id="btnGuardarD"
+                            class="btn btn-success btn-rounded mr-2 btn-fw"
+                            onclick="AltaDColaborador();">
+                        Guardar
+                    </button>
+                    <button type="button" id="btnLimpiarD"
+                            class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                            onclick="LimpiarCamposD();">
+                        Limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>

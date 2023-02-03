@@ -1,0 +1,74 @@
+﻿@using wa_ral_shop.Models.Anonymous.Catalogos;
+@model IEnumerable<CategoriaAnonymous>
+@{ Layout = null;
+
+    string Total = "";
+
+    if (ViewData["Total"] != null)
+    {
+        Total = ViewData["Total"].ToString();
+    }
+    else
+    {
+        Total = "0";
+    } 
+ }
+
+@section Scripts{
+    <script src="~/Content/js/Catalogos/Categoria/Categoria.js"></script>
+}
+
+
+@if (Model != null)
+{
+<h4 class="card-title">Encontrados: @Total</h4>
+                
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table id="tblCategoria" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center" nowrap hidden="hidden"><b>IdCategoria</b></th>
+                            <th style="text-align:center" nowrap><b>Categoria</b></th>
+                            <th style="text-align:center" nowrap><b>Fecha Hora Captura</b></th>
+                            <th style="text-align:center" nowrap><b>Estatus</b></th>
+                            <th style="text-align:center" nowrap><b>Operaciones</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var fila in Model)
+                        {
+                            <tr>
+                                <td style="text-align:center" hidden="hidden">@fila.Id</td>
+                                <td style="text-align:left">@fila.Categoria</td>
+                                <td style="text-align:center">@fila.FechaHoraCaptura</td>
+                                @if (fila.EstatusSTR == "Activo")
+                                {
+                                    <td style="text-align:center"><div class="badge badge-success badge-pill">@fila.EstatusSTR</div></td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:center"><div class="badge badge-error badge-pill">@fila.EstatusSTR</div></td>
+                                }
+
+                                <td class="pr-0 text-center">
+                                    <div class="badge badge-pill badge-primary text-center">
+                                        <i class="mdi mdi-pencil" onclick="Editar(@fila.Id, '@fila.Categoria', '@fila.EstatusSTR');" style="cursor:pointer" title="Editar"></i>
+                                    </div>
+                                    <div class="badge badge-pill badge-warning text-center">
+                                        <i class="mdi mdi-trash-can" onclick="Eliminar(@fila.Id, '@fila.EstatusSTR');" style="cursor:pointer" title="Eliminar"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                         }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+ }
+else
+{
+    <h4 class="card-title" style="text-align:center">Sin resultados para mostrar</h4>
+}

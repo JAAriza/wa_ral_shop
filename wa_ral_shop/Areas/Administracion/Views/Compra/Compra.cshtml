@@ -1,0 +1,443 @@
+﻿@using wa_ral_shop.Models.Anonymous;
+
+@{
+    ViewBag.Title = "Compra";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts{
+    <script src="~/Content/js/Administracion/Compra/Compra.js"></script>
+}
+
+@*<div class="main-panel">*@
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><b> Compras </b></h4>
+                    <form class="form-sample">
+                        <p class="card-description">
+                            Elige que deseas realizar (+ Agregar, Buscar, Editar)
+                        </p>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label>Fecha Inicio:</label>
+                                <input id="iptFI" class="form-control" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" im-insert="false">
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Fecha Fin:</label>
+                                <input id="iptFF" class="form-control" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" im-insert="false">
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="sltEstatus">Estatus</label>
+                                <select class="form-control" id="sltEstatus">
+                                    <option value="null" selected disabled>Seleccione Estatus</option>
+                                    <option value="Comprado">Comprado</option>
+                                    <option value="En camino">En camino</option>
+                                    <option value="En USA">En USA</option>
+                                    <option value="Rumbo MX">Rumbo MX</option>
+                                    <option value="En bodega">En bodega</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-1">
+                                <i class="mdi mdi-information" data-toggle="popover" data-original-title="Informaci&oacute;n" data-content="Si desea buscar por fecha debe capturar ambas fechas" data-custom-class="popover-info" style="cursor:pointer">
+                                </i>
+                            </div>
+                            <div class="col-sm-1"></div>
+                            <div class="col-md-2">
+                                <div class="template-demo">
+                                    <button type="button" id="btnBuscar" style="align-items:baseline"
+                                            class="btn btn-success btn-rounded mr-2 btn-fw"
+                                            onclick="Buscar();">
+                                        Buscar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="template-demo">
+                                    <button type="button" id="btnLimpiarBuscar"
+                                            class="btn btn-light btn-rounded mr-2 btn-fw"
+                                            onclick="LimpiarCamposBusqueda();">
+                                        Limpiar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <div id="divListaCompra">
+                        @Html.Partial("ListaCompras", ViewData["ListaCat"])
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @*Spinner que ayuda a mostrar el modal de alta*@
+        <div class="theme-setting-wrapper">
+            <div id="settings-trigger">
+                <i data-toggle="modal" data-target="#AltaModal" class="mdi mdi-plus" onclick="MostrarMenu();" style="cursor:pointer" title="Alta"></i>
+            </div>
+        </div>
+    </div>
+
+    @*Modal para alta de Compra*@
+    <div class="modal fade" id="AltaModal" tabindex="-1" role="dialog" aria-labelledby="AltaModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width:60%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fc-center" id="AltaModalLabel"><b>Introduce los datos y presiona guardar</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3 id="h3Compra" style="text-align:center"><b> Resumen de compra </b></h3>
+                            <br />
+                            <br />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label>Costo Envío:</label>
+                            <input id="txtCEnvio" class="form-control" data-inputmask="'alias':'currency'" im-insert="true" style="text-align: right;">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Aviso Importaci&oacute;n:</label>
+                            <input id="txtAvisoImp" class="form-control" data-inputmask="'alias':'datetime'" data-inputmask-inputformat="dd/mm/yyyy HH:MM:ss" im-insert="false">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Fecha Hora Llegada MX:</label>
+                            <input id="txtLlegadaMX" class="form-control" data-inputmask="'alias':'datetime'" data-inputmask-inputformat="dd/mm/yyyy HH:MM:ss" im-insert="false">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Costo Total:</label>
+                            <input id="txtCTotal" class="form-control" data-inputmask="'alias':'currency'" im-insert="true" style="text-align: right;">
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="sltEstatusM">Estatus</label>
+                            <select class="form-control" id="sltEstatusM">
+                                <option value="null" selected disabled>Seleccione Estatus</option>
+                                <option value="Comprado">Comprado</option>
+                                <option value="En camino">En camino</option>
+                                <option value="En USA">En USA</option>
+                                <option value="Rumbo MX">Rumbo MX</option>
+                                <option value="En bodega">En bodega</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <br />
+                            <br />
+                            <h3 id="h3Compra" style="text-align:center"><b> Detalle de compra </b></h3>
+                            <br />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="sltProductoM">Producto</label>
+                            @if (ViewData["cmbProducto"] != null)
+                            {
+                                @Html.DropDownList("Nombre", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbProducto"], "Id", "dato"), new { @id = "sltProductoM", @class = "js-example-basic-single", data_placeholder = "Seleccione un Producto", @style = "width:100%;" })
+                            }
+                            else
+                            {
+                                <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltProductoM"></select>
+                            }
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="txtCantidadM">Cantidad</label>
+                            <input class="form-control input-number" maxlength="10" placeholder="Cantidad" id="txtCantidadM">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="sltProveedorM">Proveedor</label>
+                            @if (ViewData["cmbProveedor"] != null)
+                            {
+                                @Html.DropDownList("Nombre", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbProveedor"], "Id", "dato"), new { @id = "sltProveedorM", @class = "js-example-basic-single", data_placeholder = "Seleccione un Proveedor", @style = "width:100%;" })
+                            }
+                            else
+                            {
+                                <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltProveedorM"></select>
+                            }
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Costo Unitario:</label>
+                            <input id="txtCUnitarioM" class="form-control" data-inputmask="'alias':'currency'" im-insert="true" style="text-align: right;">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Costo Envio:</label>
+                            <input id="txtCEnvioDM" class="form-control" data-inputmask="'alias':'currency'" im-insert="true" style="text-align: right;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br />
+                        <br />
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>Fecha Hora Compra:</label>
+                            <input id="txtCompraM" class="form-control" data-inputmask="'alias':'datetime'" data-inputmask-inputformat="dd/mm/yyyy HH:MM:ss" im-insert="false">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Fecha Hora Llegada USA:</label>
+                            <input id="txtLlegadaUSAM" class="form-control" data-inputmask="'alias':'datetime'" data-inputmask-inputformat="dd/mm/yyyy HH:MM:ss" im-insert="false">
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2">
+                            <div class="template-demo">
+                                <button type="button" id="btnAgregarDetalle" style="align-items:baseline"
+                                        class="btn btn-info btn-rounded mr-2 btn-fw"
+                                        onclick="AgregarDetalle();">
+                                    Agregar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="template-demo">
+                                <button type="button" id="btnLimpiarDetalle" style="align-items:baseline"
+                                        class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                                        onclick="LimpiarCamposDetalle();">
+                                    Limpiar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br />
+                        <br />
+                    </div>
+
+                    <div class="row">
+                        <div class="template-demo col-lg-12 grid-margin stretch-card" id="divtblDetCompra">
+                            <div class="table-responsive">
+                                <table id="tblDetCompra" class="table-hover table-bordered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th hidden="hidden">IdProduto</th>
+                                            <th class="pl-0" nowrap><b>Producto</b></th>
+                                            <th class="pl-0" nowrap><b>Cantidad</b></th>
+                                            <th hidden="hidden">IdProveedor</th>
+                                            <th class="pl-0" nowrap><b>Proveedor</b></th>
+                                            <th class="pl-0" nowrap><b>Costo Unitario</b></th>
+                                            <th class="pl-0" nowrap><b>Costo Envio</b></th>
+                                            <th class="pl-0" nowrap><b>Fecha Hora Compra</b></th>
+                                            <th class="pl-0" nowrap><b>Fecha Hora Llegada USA</b></th>
+                                            <th>   </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodytblDetCompra">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnGuardar"
+                            class="btn btn-success btn-rounded mr-2 btn-fw"
+                            onclick="AltaCompra();">
+                        Guardar
+                    </button>
+                    <button type="button" id="btnLimpiar"
+                            class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                            onclick="LimpiarTodo();">
+                        Limpiar Todo
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    @*Modal para Editar Compra*@
+    <div class="modal fade" id="EditarModal" tabindex="-1" role="dialog" aria-labelledby="EditarModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width:60%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fc-center" id="EditarModalLabel"><b>Introduce los datos y presiona guardar</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3 id="h3Compra" style="text-align:center"><b> Resumen de compra </b></h3>
+                            <br />
+                            <br />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label>Costo Envío:</label>
+                            <input id="txtCEnvioMEditar" class="form-control" data-inputmask="'alias':'currency'" im-insert="true" style="text-align: right;">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Aviso Importaci&oacute;n:</label>
+                            <input id="txtAvisoImpMEditar" class="form-control" data-inputmask="'alias':'datetime'" data-inputmask-inputformat="dd/mm/yyyy HH:MM:ss" im-insert="false">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Fecha Hora Llegada MX:</label>
+                            <input id="txtLlegadaMXMEditar" class="form-control" data-inputmask="'alias':'datetime'" data-inputmask-inputformat="dd/mm/yyyy HH:MM:ss" im-insert="false">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Costo Total:</label>
+                            <input id="txtCTotalMEditar" class="form-control" data-inputmask="'alias':'currency'" im-insert="true" style="text-align: right;">
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="sltEstatusMEditar">Estatus</label>
+                            <select class="form-control" id="sltEstatusMEditar">
+                                <option value="null" selected disabled>Seleccione Estatus</option>
+                                <option value="Comprado">Comprado</option>
+                                <option value="En camino">En camino</option>
+                                <option value="En USA">En USA</option>
+                                <option value="Rumbo MX">Rumbo MX</option>
+                                <option value="En bodega">En bodega</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <br />
+                            <br />
+                            <h3 id="h3Compra" style="text-align:center"><b> Detalle de compra </b></h3>
+                            <br />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="sltProductoMEditar">Producto</label>
+                            @if (ViewData["cmbProducto"] != null)
+                            {
+                                @Html.DropDownList("Nombre", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbProducto"], "Id", "dato"), new { @id = "sltProductoMEditar", @class = "js-example-basic-single", data_placeholder = "Seleccione un Producto", @style = "width:100%;" })
+                            }
+                            else
+                            {
+                                <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltProductoMEditar"></select>
+                            }
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="txtCantidadMEditar">Cantidad</label>
+                            <input class="form-control input-number" maxlength="10" placeholder="Cantidad" id="txtCantidadMEditar">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="sltProveedorMEditar">Proveedor</label>
+                            @if (ViewData["cmbProveedor"] != null)
+                            {
+                                @Html.DropDownList("Nombre", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbProveedor"], "Id", "dato"), new { @id = "sltProveedorMEditar", @class = "js-example-basic-single", data_placeholder = "Seleccione un Proveedor", @style = "width:100%;" })
+                            }
+                            else
+                            {
+                                <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltProveedorMEditar"></select>
+                            }
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Costo Unitario:</label>
+                            <input id="txtCUnitarioMEditar" class="form-control" data-inputmask="'alias':'currency'" im-insert="true" style="text-align: right;">
+                        </div>
+                        <div class="col-sm-2">
+                            <label>Costo Envio:</label>
+                            <input id="txtCEnvioDMEditar" class="form-control" data-inputmask="'alias':'currency'" im-insert="true" style="text-align: right;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br />
+                        <br />
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>Fecha Hora Compra:</label>
+                            <input id="txtCompraMEditar" class="form-control" data-inputmask="'alias':'datetime'" data-inputmask-inputformat="dd/mm/yyyy HH:MM:ss" im-insert="false">
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Fecha Hora Llegada USA:</label>
+                            <input id="txtLlegadaUSAMEditar" class="form-control" data-inputmask="'alias':'datetime'" data-inputmask-inputformat="dd/mm/yyyy HH:MM:ss" im-insert="false">
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2">
+                            <div class="template-demo">
+                                <button type="button" id="btnAgregarDetalleEditar" style="align-items:baseline"
+                                        class="btn btn-info btn-rounded mr-2 btn-fw"
+                                        onclick="AgregarDetalleEditar();">
+                                    Agregar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="template-demo">
+                                <button type="button" id="btnLimpiarDetalleEditar" style="align-items:baseline"
+                                        class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                                        onclick="LimpiarCamposDetalleEditar();">
+                                    Limpiar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br />
+                        <br />
+                    </div>
+
+                    <div class="row">
+                        <div class="template-demo col-lg-12 grid-margin stretch-card" id="divtblDetCompraMEditar">
+                            <div class="table-responsive">
+                                <table id="tblDetCompraMEditar" class="table-hover table-bordered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th hidden="hidden">IdProduto</th>
+                                            <th class="pl-0" nowrap><b>Producto</b></th>
+                                            <th class="pl-0" nowrap><b>Cantidad</b></th>
+                                            <th hidden="hidden">IdProveedor</th>
+                                            <th class="pl-0" nowrap><b>Proveedor</b></th>
+                                            <th class="pl-0" nowrap><b>Costo Unitario</b></th>
+                                            <th class="pl-0" nowrap><b>Costo Envio</b></th>
+                                            <th class="pl-0" nowrap><b>Fecha Hora Compra</b></th>
+                                            <th class="pl-0" nowrap><b>Fecha Hora Llegada USA</b></th>
+                                            <th class="pl-0" nowrap><b>Operaciones</b></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodytblDetCompraMEditar">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="text" class="form-control" hidden="hidden" id="txtIdCompraMEditar" placeholder="Id">
+                    <button type="button" id="btnGuardarMEditar"
+                            class="btn btn-success btn-rounded mr-2 btn-fw"
+                            onclick="EditarCompra();">
+                        Guardar
+                    </button>
+                    <button type="button" id="btnLimpiar"
+                            class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                            onclick="LimpiarTodoEditar();">
+                        Limpiar Todo
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

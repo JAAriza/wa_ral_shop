@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "ErrorLogin";
+    Layout = null;
+}
+
+<html lang="es">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Mercar</title>
+    <!-- plugins:css -->
+
+    <link rel="stylesheet" href="~/Content/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="~/Content/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/Content/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="~/Content/vendors/feather/feather.css">
+    <link rel="stylesheet" href="~/Content/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+
+    <link rel="stylesheet" href="~/Content/css/vertical-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Content/images/favicon.png">
+
+    
+</head>
+
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-center auth" style="background-color: #ff914d">
+                <div class="row w-100">
+                    <div class="col-lg-4 mx-auto">
+                        <div class="auth-form-light text-left p-5">
+                            <div class="brand-logo">
+                                <img src="~/Content/images/logo.svg" alt="logo">
+                            </div>
+                            <h1 style="text-align:center">Hola! =(</h1>
+                            <br />
+                            <br />
+                            <h4 style="text-align:center">Ususario y/o Contraseña incorrecto(s), favor de revisar</h4>
+                            <br />
+                            <br />
+                            <form class="forms-sample" controller="Sesion" action="Login" method="post">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Regresar a Inicio de Sesi&oacute;n</button>
+                                </div>
+                            </form>
+
+                        </div>                    
+
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="~/Content/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src="~/Content/js/off-canvas.js"></script>
+    <script src="~/Content/js/hoverable-collapse.js"></script>
+    <script src="~/Content/js/template.js"></script>
+    <script src="~/Content/js/settings.js"></script>
+    <script src="~/Content/js/todolist.js"></script>
+    <!-- endinject -->
+    
+</body>
+</html>

@@ -1,0 +1,461 @@
+﻿@using wa_ral_shop.Models.Anonymous;
+
+@{
+    ViewBag.Title = "Producto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts{
+    <script src="~/Content/js/Catalogos/Producto/Producto.js"></script>
+}
+
+@*<div class="main-panel">*@
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><b> Productos </b></h4>
+                    <form class="form-sample">
+                        <p class="card-description">
+                            Elige que deseas realizar (+ Agregar, Buscar, Editar o Eliminar)
+                        </p>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="txtProducto">Nombre</label>
+                                <input type="text" class="form-control" maxlength="100" id="txtProducto" placeholder="Producto">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label for="sltEstatus">Estatus </label>
+                                <select class="form-control" id="sltEstatus">
+                                    <option value="null" selected disabled>Seleccione Estatus</option>
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-1"></div>
+                            <div class="col-md-2">
+                                <div class="template-demo">
+                                    <button type="button" id="btnBuscar" style="align-items:baseline"
+                                            class="btn btn-success btn-rounded mr-2 btn-fw"
+                                            onclick="Buscar();">
+                                        Buscar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="template-demo">
+                                    <button type="button" id="btnLimpiarBuscar"
+                                            class="btn btn-light btn-rounded mr-2 btn-fw"
+                                            onclick="LimpiarCamposBusqueda();">
+                                        Limpiar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <div id="divListaProducto">
+                        @Html.Partial("ListaProductos", ViewData["ListaCat"])
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @*Spinner que ayuda a mostrar el modal de alta*@
+        <div class="theme-setting-wrapper">
+            <div id="settings-trigger">
+                <i data-toggle="modal" data-target="#AltaModal" class="mdi mdi-plus" onclick="MostrarMenu();" style="cursor:pointer" title="Alta"></i>
+            </div>
+        </div>
+    </div>
+
+    @*Modal para alta de Producto*@
+    <div class="modal fade" id="AltaModal" tabindex="-1" role="dialog" aria-labelledby="AltaModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width:60%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fc-center" id="AltaModalLabel"><b>Introduce los datos y presiona guardar</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label for="sltCategoriaM">Categoria</label>
+                            @if (ViewData["cmbCategorias"] != null)
+                            {
+                                @Html.DropDownList("Categorias", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbCategorias"], "Id", "dato"), new { @id = "sltCategoriaM", @class = "js-example-basic-single", data_placeholder = "Seleccione una Categoria", @style = "width:100%;" })
+                            }
+                            else
+                            {
+                                <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltCategoriaM"></select>
+                            }
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="txtProductoM">Producto</label>
+                            <input type="text" class="form-control" maxlength="100" id="txtProductoM" placeholder="Producto">
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="txtModeloM">Modelo</label>
+                            <input type="text" class="form-control" maxlength="150" id="txtModeloM" placeholder="Modelo">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="txtDescripcionM">Descripcion</label>
+                            <textarea id="txtDescripcionM" class="maxlength-textarea form-control" maxlength="500" rows="2" placeholder="Limite 500 caracteres"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="txtLargoM">Largo</label>
+                            <input type="number" id="txtLargoM" class="form-control" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtAnchoM">Ancho</label>
+                            <input type="number" id="txtAnchoM" class="form-control" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtAltoM">Alto</label>
+                            <input type="number" id="txtAltoM" class="form-control" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="sltUMedidaTM">U. Medida</label>
+                            @if (ViewData["cmbUnidadMedida"] != null)
+                            {
+                                @Html.DropDownList("UMedida", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbUnidadMedida"], "Id", "dato"), new { @id = "sltUMedidaTM", @class = "js-example-basic-single", data_placeholder = "Seleccione una U. Medida", @style = "width:100%;" })
+                            }
+                            else
+                            {
+                                <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltUMedidaTM"></select>
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="txtPesoM">Peso</label>
+                            <input type="number" id="txtPesoM" class="form-control" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="sltUMedidaPM">U. Medida</label>
+                            @if (ViewData["cmbUnidadMedida"] != null)
+                            {
+                                @Html.DropDownList("UMedida", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbUnidadMedida"], "Id", "dato"), new { @id = "sltUMedidaPM", @class = "js-example-basic-single", data_placeholder = "Seleccione una U. Medida", @style = "width:100%;" })
+                            }
+                            else
+                            {
+                                <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltUMedidaPM"></select>
+                            }
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtCodBarrasM">Cod. Barras</label>
+                            <input type="text" class="form-control" maxlength="50" id="txtCodBarrasM" placeholder="C. Barras">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtPrecioM">Precio</label>
+                            <input type="number" id="txtPrecioM" class="form-control" min="0" step="0.01" placeholder="0.00">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnGuardar"
+                            class="btn btn-success btn-rounded mr-2 btn-fw"
+                            onclick="AltaProducto();">
+                        Guardar
+                    </button>
+                    <button type="button" id="btnLimpiar"
+                            class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                            onclick="LimpiarCampos();">
+                        Limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Modal para editar la Producto*@
+    <div class="modal fade" id="ModificarModal" tabindex="-1" role="dialog" aria-labelledby="ModificarModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width:60%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fc-center" id="ModificarModalLabel"><b>Introduce Producto y presiona guardar</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label for="sltCategoriaMEditar">Categoria</label>
+                            @if (ViewData["cmbCategorias"] != null)
+                            {
+                                @Html.DropDownList("Categorias", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbCategorias"], "Id", "dato"), new { @id = "sltCategoriaMEditar", @class = "js-example-basic-single", data_placeholder = "Seleccione una Categoria", @style = "width:100%;" })
+                            }
+                            else
+                            {
+                                <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltCategoriaMEditar"></select>
+                            }
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="txtProductoMEditar">Producto</label>
+                            <input type="text" class="form-control" maxlength="100" id="txtProductoMEditar" placeholder="Producto">
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="txtModeloMEditar">Modelo</label>
+                            <input type="text" class="form-control" maxlength="150" id="txtModeloMEditar" placeholder="Modelo">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="txtDescripcionMEditar">Descripcion</label>
+                            <textarea id="txtDescripcionMEditar" class="maxlength-textarea form-control" maxlength="500" rows="2" placeholder="Limite 500 caracteres"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="txtLargoMEditar">Largo</label>
+                            <input type="number" id="txtLargoMEditar" class="form-control" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtAnchoMEditar">Ancho</label>
+                            <input type="number" id="txtAnchoMEditar" class="form-control" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtAltoMEditar">Alto</label>
+                            <input type="number" id="txtAltoMEditar" class="form-control" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="sltUMedidaTMEditar">U. Medida</label>
+                            @if (ViewData["cmbUnidadMedida"] != null)
+                            {
+                                @Html.DropDownList("UMedida", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbUnidadMedida"], "Id", "dato"), new { @id = "sltUMedidaTMEditar", @class = "js-example-basic-single", data_placeholder = "Seleccione una U. Medida", @style = "width:100%;" })
+                            }
+                            else
+                            {
+                                <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltUMedidaTMEditar"></select>
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label for="txtPesoMEditar">Peso</label>
+                            <input type="number" id="txtPesoMEditar" class="form-control" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="sltUMedidaPMEditar">U. Medida</label>
+                            @if (ViewData["cmbUnidadMedida"] != null)
+                            {
+                                @Html.DropDownList("UMedida", new SelectList((IEnumerable<ComboAnonymous>)ViewData["cmbUnidadMedida"], "Id", "dato"), new { @id = "sltUMedidaPMEditar", @class = "js-example-basic-single", data_placeholder = "Seleccione una U. Medida", @style = "width:100%;" })
+                            }
+                            else
+                            {
+                                <select class="js-example-basic-single w-100" data-placeholder="Sin datos" style="width:100%;" id="sltUMedidaPMEditar"></select>
+                            }
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtCodBarrasMEditar">Cod. Barras</label>
+                            <input type="text" class="form-control" maxlength="50" id="txtCodBarrasMEditar" placeholder="C. Barras">
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="txtPrecioMEditar">Precio</label>
+                            <input type="text" id="txtPrecioMEditar" class="form-control" placeholder="0.00">
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="sltEstatusModificar">Estatus</label>
+                            <select class="form-control" id="sltEstatusModificar">
+                                <option value="null" selected disabled>Seleccione Estatus</option>
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        @*<div class="col-sm-1">*@
+                        <input type="text" class="form-control" hidden="hidden" id="txtIdProductoMEditar" placeholder="Id">
+                        @*</div>*@
+                        @*<div class="col-sm-2">*@
+                        <button type="button" id="btnEditar"
+                                class="btn btn-success btn-rounded mr-2 btn-fw"
+                                onclick="EditarProducto();">
+                            Guardar
+                        </button>
+                        @*</div>*@
+                        @*<div class="col-sm-2">*@
+                        <button type="button" id="btnLimpiar"
+                                class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                                onclick="LimpiarCamposEditar();">
+                            Limpiar
+                        </button>
+                        @*</div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Modal para cargar imagenes de Producto*@
+    <div class="modal fade" id="ImgModal" tabindex="-1" role="dialog" aria-labelledby="ImgModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width:90%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fc-center" id="AltaImgModalLabel"><b>Introduce los datos y presiona guardar</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="content-wrapper">
+                        <div class="row">
+
+                            <div class="col-md-5 d-flex align-items-stretch grid-margin">
+                                <div class="row flex-grow">
+                                    <div class="col-12 grid-margin">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title"><b>Subir Imagenes</b></h4>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label>Imagenes</label>
+                                                        <input id="iptMedia" type="file" name="files[]" class="dropify" data-height="100" accept=".jpg, .jpeg, .bmp, .tif, .png, .webp, .mp4, .mov, .wmv, .avi, .flv" multiple>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <br />
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-2"></div>
+                                                    <div class="col-sm-2"></div>
+                                                    <div class="col-sm-2"></div>
+                                                    
+                                                    <div class="col-sm-2"></div>
+                                                    <div class="col-sm-2">
+                                                        <button style="align-content:end" type="button" id="btnEditar"
+                                                                class="btn btn-info btn-rounded mr-2 btn-fw"
+                                                                onclick="AltaMProducto();">
+                                                            Procesar
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 stretch-card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title"><b>Ordenar Imagenes</b></h4>
+                                                <div class="row">
+                                                    <div class="col-sm-7">
+                                                        <label for="sltNomImg">Imagenes</label>
+                                                        <select class="form-control" id="sltNomImg">
+                                                           
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <label for="sltOrdenImg">Orden</label>
+                                                        <select class="form-control" id="sltOrdenImg">
+                                                            
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-2"></div>
+                                                    <div class="col-sm-2"></div>
+                                                    <div class="col-sm-1"></div>
+                                                    <button type="button" id="btnEditar"
+                                                            class="btn btn-info btn-rounded mr-2 btn-fw"
+                                                            onclick="AgregarOrden();">
+                                                        Agregar
+                                                    </button>
+                                                    @*</div>*@
+                                                    @*<div class="col-sm-2">*@
+                                                    <button type="button" id="btnLimpiar"
+                                                            class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                                                            onclick="LimpiarCamposOrden();">
+                                                        Limpiar
+                                                    </button>
+                                                </div>
+                                                <br />
+                                                <br />
+
+                                                
+                                                    <div class="template-demo" id="divtblimg">
+                                                        <table id="tblImgProd" class="table mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="pl-0">Nombre</th>
+                                                                    <th class="text-center">Orden</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbodytblImgProd">
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                               
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-7 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title"><b>Visor Imagenes</b></h4>
+                                        <div id="divViewImg"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+
+                    <input type="number" class="form-control" hidden="hidden" id="txtIdProductoMD" placeholder="Id">
+                    <input type="number" hidden="hidden" id="txtIdRutaMD" value="@ViewData["IdRuta"]" />
+                    <input type="text" hidden="hidden" id="txtRutaMD" value="@ViewData["Ruta"]" />
+
+                    <button type="button" id="btnGuardar"
+                            class="btn btn-success btn-rounded mr-2 btn-fw"
+                            onclick="GuardarImgTbl();">
+                        Guardar
+                    </button>
+                    <button type="button" id="btnLimpiar"
+                            class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                            onclick="LimpiarImgMdl();">
+                        Limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

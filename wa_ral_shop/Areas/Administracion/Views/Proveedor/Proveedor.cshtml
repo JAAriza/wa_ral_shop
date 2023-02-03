@@ -1,0 +1,252 @@
+﻿
+@{
+    ViewBag.Title = "Proveedor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts{
+    <script src="~/Content/js/Administracion/Proveedor/Proveedor.js"></script>
+}
+
+@*<div class="main-panel">*@
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><b> Proveedores </b></h4>
+                    <form class="form-sample">
+                        <p class="card-description">
+                            Elige que deseas realizar (+ Agregar, Buscar, Editar o Eliminar)
+                        </p>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label for="txtNombre">Nombre</label>
+                                <input type="text" class="form-control" maxlength="50" id="txtNombre" placeholder="Nombre">
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="template-demo">
+                                    <label for="cmbPais">Pais</label>
+                                    <select class="js-example-basic-single w-100" style="width:100%;" id="cmbPais"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="sltEstatus">Estatus </label>
+                                <select class="form-control" id="sltEstatus">
+                                    <option value="null" selected disabled>Seleccione Estatus</option>
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-2">
+                                <div class="template-demo">
+                                    <button type="button" id="btnBuscar" style="align-items:baseline"
+                                            class="btn btn-success btn-rounded mr-2 btn-fw"
+                                            onclick="Buscar();">
+                                        Buscar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="template-demo">
+                                    <button type="button" id="btnLimpiarBuscar"
+                                            class="btn btn-light btn-rounded mr-2 btn-fw"
+                                            onclick="LimpiarCamposBusqueda();">
+                                        Limpiar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <div id="divListaProveedor">
+                        @Html.Partial("ListaProveedores", ViewData["ListaCat"])
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @*Spinner que ayuda a mostrar el modal de alta*@
+        <div class="theme-setting-wrapper">
+            <div id="settings-trigger">
+                <i data-toggle="modal" data-target="#AltaModal" class="mdi mdi-plus" onclick="MostrarMenu();" style="cursor:pointer" title="Alta"></i>
+            </div>
+        </div>
+    </div>
+
+    @*Modal para alta de Proveedor*@
+    <div class="modal fade" id="AltaModal" tabindex="-1" role="dialog" aria-labelledby="AltaModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width:60%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fc-center" id="AltaModalLabel"><b>Introduce los datos y presiona guardar</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="txtNombreM">Nombre</label>
+                            <input type="text" class="form-control" maxlength="150" id="txtNombreM" placeholder="Nombre">
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="template-demo">
+                                <label for="cmbPaisM">Pais</label>
+                                <select class="js-example-basic-single w-100" style="width:100%;" id="cmbPaisM"></select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtTelefonoM">Telefono</label>
+                            <input class="form-control" data-inputmask-alias="+99(999)-999-9999" im-insert="true" id="txtTelefonoM">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtTelefonoM2">Telefono 2</label>
+                            <input class="form-control" data-inputmask-alias="+99(999)-999-9999" im-insert="true" id="txtTelefonoM2">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="txtEMailM">E Mail</label>
+                            <input type="text" class="form-control" data-inputmask="'alias': 'email'" im-insert="true" maxlength="50" id="txtEMailM">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtEMailM2">E Mail 2</label>
+                            <input type="text" class="form-control" data-inputmask="'alias': 'email'" im-insert="true" maxlength="50" id="txtEMailM2">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="sltEstrellas">Valoracion</label>
+                            <div class="br-wrapper br-theme-fontawesome-stars">
+                                <select class="example-fontawesome" id="sltEstrellas" name="rating" autocomplete="off">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnGuardar"
+                            class="btn btn-success btn-rounded mr-2 btn-fw"
+                            onclick="AltaProveedor();">
+                        Guardar
+                    </button>
+                    <button type="button" id="btnLimpiar"
+                            class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                            onclick="LimpiarCampos();">
+                        Limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Modal para editar el Proveedor*@
+    <div class="modal fade" id="ModificarModal" tabindex="-1" role="dialog" aria-labelledby="ModificarModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width:60%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fc-center" id="ModificarModalLabel"><b>Introduce los Datos y presiona guardar</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="txtNombreMEditar">Nombre</label>
+                            <input type="text" class="form-control" maxlength="50" id="txtNombreMEditar" placeholder="Nombre">
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="template-demo">
+                                <label for="cmbPaisMEditar">Pais</label>
+                                <select class="js-example-basic-single w-100" style="width:100%;" id="cmbPaisMEditar"></select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtTelefonoMEditar">Telefono</label>
+                            <input class="form-control" data-inputmask-alias="+99(999)-999-9999" im-insert="true" id="txtTelefonoMEditar">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtTelefonoMEditar2">Telefono 2</label>
+                            <input class="form-control" data-inputmask-alias="+99(999)-999-9999" im-insert="true" id="txtTelefonoMEditar2">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="txtEMailMEditar">E Mail</label>
+                            <input type="text" class="form-control" data-inputmask="'alias': 'email'" im-insert="true" maxlength="50" id="txtEMailMEditar">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="txtEMailMEditar2">E Mail 2</label>
+                            <input type="text" class="form-control" data-inputmask="'alias': 'email'" im-insert="true" maxlength="50" id="txtEMailMEditar2">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="sltEstrellasEditar">Valoracion</label>
+                            <div class="br-wrapper br-theme-fontawesome-stars">
+                                <select class="example-fontawesome" id="sltEstrellasEditar" name="rating" autocomplete="off">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="template-demo">
+                                <label for="sltEstatusModificar">Estatus </label>
+                                <select class="form-control" id="sltEstatusModificar">
+                                    <option value="null" selected disabled>Seleccione Estatus</option>
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        @*<div class="col-sm-1">*@
+                        <input type="text" class="form-control" hidden="hidden" id="txtIdProveedorMEditar" placeholder="Id">
+                        @*</div>*@
+                        @*<div class="col-sm-2">*@
+                        <button type="button" id="btnEditar"
+                                class="btn btn-success btn-rounded mr-2 btn-fw"
+                                onclick="EditarProveedor();">
+                            Guardar
+                        </button>
+                        @*</div>*@
+                        @*<div class="col-sm-2">*@
+                        <button type="button" id="btnLimpiar"
+                                class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                                onclick="LimpiarCamposEditar();">
+                            Limpiar
+                        </button>
+                        @*</div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+</div>

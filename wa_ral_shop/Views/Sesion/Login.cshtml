@@ -1,0 +1,485 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+
+<html lang="es">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Mercar</title>
+    <!-- plugins:css -->
+
+    <link rel="stylesheet" href="~/Content/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="~/Content/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/Content/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="~/Content/vendors/feather/feather.css">
+    <link rel="stylesheet" href="~/Content/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+
+    <link rel="stylesheet" href="~/Content/css/vertical-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Content/images/favicon.png">
+
+    @*Necesario para funcionamiento toast*@
+    <link rel="stylesheet" href="~/Content/vendors/jquery-toast-plugin/jquery.toast.min.css" />
+
+    @*Necesario para funcionamiento de estrellas de valoracion*@
+    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-1to10.css" />
+    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-horizontal.css" />
+    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-movie.css" />
+    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-pill.css" />
+    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-reversed.css" />
+    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-square.css" />
+    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bootstrap-stars.css" />
+    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/css-stars.css" />
+    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/examples.css" />
+    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/fontawesome-stars-o.css" />
+    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/fontawesome-stars.css" />
+    <link rel="stylesheet" href="~/Content/vendors/jquery-asColorPicker/css/asColorPicker.min.css" />
+    <link rel="stylesheet" href="~/Content/vendors/x-editable/bootstrap-editable.css" />
+    <link rel="stylesheet" href="~/Content/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="~/Content/vendors/dropify/dropify.min.css" />
+    <link rel="stylesheet" href="~/Content/vendors/jquery-file-upload/uploadfile.css" />
+    <link rel="stylesheet" href="~/Content/vendors/jquery-tags-input/jquery.tagsinput.min.css" />
+    <link rel="stylesheet" href="~/Content/vendors/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css" />
+    <link rel="stylesheet" href="~/Content/vendors/dropzone/dropzone.css" />
+
+    @*Necesario para funcionamiento de select2*@
+    <link rel="stylesheet" href="~/Content/vendors/icheck/skins/all.css" />
+    <link rel="stylesheet" href="~/Content/vendors/select2/select2.min.css" />
+    <link rel="stylesheet" href="~/Content/vendors/select2-bootstrap-theme/select2-bootstrap.min.css" />
+
+</head>
+
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-center auth" style="background-color: #ff914d">
+                <div class="row w-100">
+                    <div class="col-lg-4 mx-auto">
+                        <div class="auth-form-light text-left p-5">
+                            <div class="brand-logo">
+                                <img src="~/Content/images/logo.svg" alt="logo">
+                            </div>
+                            <h4>Hola!</h4>
+                            <h6 class="font-weight-light">Inicia sesión para continuar</h6>
+                            <form class="pt-3" method="post" action="@Url.Action("Iniciar", "Sesion", new { area = "" })">
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-lg" id="txtEMail" placeholder="EMail" name="email">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control form-control-lg" id="txtPassword" placeholder="Contraseña" name="password">
+                                </div>
+
+                                <div class="mt-3">
+                                    <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Continuar</button>
+                                </div>
+
+                                @*Comentado hasta que se agregue envio de correo para cambio de contraseña*@
+                                @*<div class="my-2 d-flex justify-content-between align-items-center">
+                                        <a href="#" title="Recupera Contraseña" class="auth-link text-primary"> ¿Olvidaste la contraseña? </a>
+                                    </div>*@
+
+                                <div class="text-center mt-4 font-weight-light">
+                                    ¿No tienes cuenta?
+                                    <a href="#" title="Crear cuenta" onclick="CrearCuenta();return false" class="text-primary">
+                                        Crear una
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+
+
+
+                        @*Modal para alta de Cliente*@
+                        <div class="modal fade" id="AltaModal" tabindex="-1" role="dialog" aria-labelledby="AltaModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" style="max-width:60%;" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title fc-center" id="AltaModalLabel"><b>Introduce los datos y presiona guardar         </b> (Paso 1 de 2) </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+
+                                            <div class="col-sm-4 form-group">
+                                                <label for="txtNombreM">Nombre</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-account text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-lg border-left-0" maxlength="50" id="txtNombreM" placeholder="Nombre">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4 form-group">
+                                                <label for="txtAPaternoM">A. paterno</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-account text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-lg border-left-0" maxlength="50" id="txtAPaternoM" placeholder="Apellido Paterno">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4 form-group">
+                                                <label for="txtAMaternoM">A. materno</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-account text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-lg border-left-0" maxlength="50" id="txtAMaternoM" placeholder="Apellido Materno">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <br />
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-sm-4 form-group">
+                                                <label>Tel&eacute;fono</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-phone text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input class="form-control form-control-lg border-left-0" data-inputmask-alias="(999)-999-9999" im-insert="true" id="txtTelefonoM">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4 form-group">
+                                                <label>Email</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-email text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="email" class="form-control form-control-lg border-left-0" data-inputmask="'alias': 'email'" im-insert="true" maxlength="50" id="txtEMailM" placeholder="Email">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4 form-group">
+                                                <label>Contraseña</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-lock text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="password" class="form-control form-control-lg border-left-0" placeholder="Contraseña (Max: 10)" maxlength="10" id="txtPassM">
+                                                </div>
+                                                <input type="checkbox" onclick="ViewPass();"><label style="font-size:smaller">Ver contraseña</label>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="btnGuardar"
+                                                class="btn btn-success btn-rounded mr-2 btn-fw"
+                                                onclick="AltaCliente();">
+                                            Guardar
+                                        </button>
+                                        <button type="button" id="btnLimpiar"
+                                                class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                                                onclick="LimpiarCampos();">
+                                            Limpiar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        @*Modal para agregar ubicacion cliente*@
+                        <div class="modal fade" id="UbicacionModal" tabindex="-1" role="dialog" aria-labelledby="UbicacionModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="overflow-y:scroll">
+                            <div class="modal-dialog modal-lg" style="max-width:65%;" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title fc-center" id="UbicacionModalLabel"><b>Introduce los datos y presiona guardar</b>       (Paso 2 de 2)</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-3 form-group">
+                                                <label for="txtNombreMUbicacion">Nombre</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-account text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-lg border-left-0" maxlength="50" id="txtNombreMUbicacion" placeholder="Nombre" readonly="readonly">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2 form-group">
+                                                <label>Tel&eacute;fono</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-phone text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input class="form-control form-control-lg border-left-0" data-inputmask-alias="(999)-999-9999" im-insert="true" id="txtTelefonoMUbicacion" readonly="readonly">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2 form-group">
+                                                <label for="txtCPMUbicacion">CP</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-map-marker text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-lg border-left-0 input-number" maxlength="5" id="txtCPMUbicacion" placeholder="CP">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-2">
+                                                <div class="template-demo">
+                                                    <button type="button" id="btnBuscarCP"
+                                                            class="btn btn-info btn-rounded mr-2 btn-fw"
+                                                            onclick="BuscarCP();">
+                                                        <i class="mdi mdi-find-replace"></i>
+                                                        Buscar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="template-demo">
+                                                    <button type="button" id="btnLimpiarBuscar"
+                                                            class="btn btn-light btn-rounded mr-2 btn-fw"
+                                                            onclick="LimpiarCP();">
+                                                        <i class="mdi mdi-broom"></i>
+                                                        Cambiar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="divDireccion" class="form-group row">
+
+                                            <div class="col-sm-4 form-group">
+                                                <label for="txtEstadoMUbicacion">Estado</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-map-marker text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-lg border-left-0" readonly="readonly" id="txtEstadoMUbicacion" placeholder="Estado">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4 form-group">
+                                                <label for="txtMpioMUbicacion">Municipio</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-map-marker text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-lg border-left-0" readonly="readonly" id="txtMpioMUbicacion" placeholder="Municipio">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <div class="template-demo">
+                                                    <label for="cmbColonia">Colonias</label>
+                                                    <select class="js-example-basic-single w-100 form-control-lg" style="width:100%;" id="cmbColonia"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="divDireccionDetalle" class="form-group row">
+                                            <div class="col-sm-4 form-group">
+                                                <label for="txtCalleMUbicacion">Calle</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-road-variant text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-lg border-left-0" maxlength="50" id="txtCalleMUbicacion" placeholder="Calle">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4 form-group">
+                                                <label for="txtNExteriorMUbicacion">Num. exterior</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-door-closed text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-lg border-left-0" maxlength="50" id="txtNExteriorMUbicacion" placeholder="# Exterior">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4 form-group">
+                                                <label for="txtNInteriorMUbicacion">Num. interior (Opcional)</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-door-closed text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-lg border-left-0" maxlength="50" id="txtNInteriorMUbicacion" placeholder="# Interior (Opcional)">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="divCalles" class="form-group row">
+                                            <div class="col-sm-6 form-group">
+                                                <label for="txtEntreCalleMUbicacion">Entre calle</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-road-variant text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-lg border-left-0" maxlength="50" id="txtEntreCalleMUbicacion" placeholder="Entre Calle">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6 form-group">
+                                                <label for="txtYCalleMUbicacion">Y calle</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-road-variant text-danger"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-lg border-left-0" maxlength="50" id="txtYCalleMUbicacion" placeholder="Y Calle">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="divDireccionF" class="form-group row">
+
+                                            <div class="col-sm-12">
+                                                <label for="txtDescripcionMUbicacion">Descripcion adicional de docimicilio (Opcional)</label>
+                                                <textarea id="txtDescripcionMUbicacion" class="maxlength-textarea form-control" maxlength="200" rows="3" placeholder="Limite 200 caracteres"></textarea>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="text" class="form-control" hidden="hidden" id="txtIdClienteMUbicacion" placeholder="Id">
+                                        <button type="button" id="btnEditar"
+                                                class="btn btn-success btn-rounded mr-2 btn-fw"
+                                                onclick="GuardarCDireccion();">
+                                            Guardar
+                                        </button>
+                                        <button type="button" id="btnLimpiar"
+                                                class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                                                onclick="LimpiarUbicacion();">
+                                            Limpiar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="~/Content/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src="~/Content/js/off-canvas.js"></script>
+    <script src="~/Content/js/hoverable-collapse.js"></script>
+    <script src="~/Content/js/template.js"></script>
+    <script src="~/Content/js/settings.js"></script>
+    <script src="~/Content/js/todolist.js"></script>
+    <!-- endinject -->
+    @* (Inicio) Se agrega vinculo con JS para utilizar funciones para cambio de contraseña
+        y creacion de cuenta*@
+    <script src="~/Content/js/Login/Login.js"></script>
+    @*(Fin) Se agrega vinculo con JS para utilizar funciones para cambio de contraseña
+        y creacion de cuenta*@
+
+    @* Necesario para el funcionamiento de: Modal*@
+    <script src="~/Content/js/modal-demo.js"></script>
+
+
+    @* Necesario para el funcionamiento de: SweetAlert*@
+    <script src="~/Content/vendors/jquery.avgrund/jquery.avgrund.min.js"></script>
+    <script src="~/Content/vendors/sweetalert/sweetalert.min.js"></script>
+    <script src="~/Content/js/alerts.js"></script>
+    <script src="~/Content/js/avgrund.js"></script>
+
+    @*Necesario para funcionamiento de los toast*@
+    <script src="~/Content/vendors/jquery-toast-plugin/jquery.toast.min.js"></script>
+    <script src="~/Content/js/toastDemo.js"></script>
+    @*<script src="~/Content/js/desktop-notification.js"></script>*@
+
+    @*Necesarios para funcionamiento de maxlenght*@
+    <script src="~/Content/vendors/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/Content/vendors/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+    <script src="~/Content/js/form-validation.js"></script>
+    <script src="~/Content/js/bt-maxLength.js"></script>
+
+    @*Necesario para funcionamiento de estrellas de valoracion*@
+    <script src="~/Content/vendors/jquery-bar-rating/jquery.barrating.min.js"></script>
+    <script src="~/Content/vendors/jquery-asColor/jquery-asColor.min.js"></script>
+    <script src="~/Content/vendors/jquery-asGradient/jquery-asGradient.min.js"></script>
+    <script src="~/Content/vendors/jquery-asColorPicker/jquery-asColorPicker.min.js"></script>
+    <script src="~/Content/vendors/x-editable/bootstrap-editable.min.js"></script>
+    <script src="~/Content/vendors/moment/moment.min.js"></script>
+    <script src="~/Content/vendors/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.js"></script>
+    <script src="~/Content/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="~/Content/vendors/dropify/dropify.min.js"></script>
+    <script src="~/Content/vendors/jquery-file-upload/jquery.uploadfile.min.js"></script>
+    <script src="~/Content/vendors/jquery-tags-input/jquery.tagsinput.min.js"></script>
+    <script src="~/Content/vendors/dropzone/dropzone.js"></script>
+    <script src="~/Content/vendors/jquery.repeater/jquery.repeater.min.js"></script>
+    <script src="~/Content/vendors/inputmask/jquery.inputmask.bundle.js"></script>
+    <script src="~/Content/vendors/inputmask/inputmask.binding.js"></script>
+
+    <script src="~/Content/js/formpickers.js"></script>
+    <script src="~/Content/js/form-addons.js"></script>
+    <script src="~/Content/js/x-editable.js"></script>
+    <script src="~/Content/js/dropify.js"></script>
+    <script src="~/Content/js/dropzone.js"></script>
+    <script src="~/Content/js/jquery-file-upload.js"></script>
+
+    <script src="~/Content/js/formpickers.js"></script>
+
+    <script src="~/Content/js/form-repeater.js"></script>
+
+    @*Necesario para funcionamiento del select2*@
+    <script src="~/Content/vendors/icheck/icheck.min.js"></script>
+    <script src="~/Content/vendors/typeahead.js/typeahead.bundle.min.js"></script>
+    <script src="~/Content/vendors/select2/select2.min.js"></script>
+
+</body>
+</html>
