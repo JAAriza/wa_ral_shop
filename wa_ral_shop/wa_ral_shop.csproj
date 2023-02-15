@@ -159,9 +159,11 @@
     <Compile Include="Areas\Administracion\Controllers\CProveedorController.cs" />
     <Compile Include="Areas\Administracion\Controllers\ProveedorController.cs" />
     <Compile Include="Areas\Catalogos\CatalogosAreaRegistration.cs" />
+    <Compile Include="Areas\Catalogos\Controllers\CarritoController.cs" />
     <Compile Include="Areas\Catalogos\Controllers\CategoriaController.cs" />
     <Compile Include="Areas\Catalogos\Controllers\ColaboradorController.cs" />
     <Compile Include="Areas\Catalogos\Controllers\DocumentoController.cs" />
+    <Compile Include="Areas\Catalogos\Controllers\FavoritoController.cs" />
     <Compile Include="Areas\Catalogos\Controllers\PaqueteriaController.cs" />
     <Compile Include="Areas\Catalogos\Controllers\PorcentajeController.cs" />
     <Compile Include="Areas\Catalogos\Controllers\ProductoController.cs" />
@@ -180,12 +182,14 @@
     <Compile Include="Models\Anonymous\Administracion\DColaboradorAnonymous.cs" />
     <Compile Include="Models\Anonymous\Administracion\PaisAnonymous.cs" />
     <Compile Include="Models\Anonymous\Administracion\UsuarioAnonymous.cs" />
+    <Compile Include="Models\Anonymous\Catalogos\CarritoAnonymous.cs" />
     <Compile Include="Models\Anonymous\Catalogos\CategoriaAnonymous.cs" />
     <Compile Include="Models\Anonymous\Catalogos\ClienteAnonymous.cs" />
     <Compile Include="Models\Anonymous\Catalogos\ColaboradorAnonymous.cs" />
     <Compile Include="Models\Anonymous\Administracion\ComentarioPaqueteriaAnonymous.cs" />
     <Compile Include="Models\Anonymous\Catalogos\CProveedorAnonymous.cs" />
     <Compile Include="Models\Anonymous\Catalogos\DocumentoAnonymous.cs" />
+    <Compile Include="Models\Anonymous\Catalogos\FavoritoAnonymous.cs" />
     <Compile Include="Models\Anonymous\Catalogos\PaqueteriaAnonymous.cs" />
     <Compile Include="Models\Anonymous\Catalogos\PorcentajeAnonymous.cs" />
     <Compile Include="Models\Anonymous\Catalogos\ProductoAnonymous.cs" />
@@ -203,9 +207,11 @@
     <Compile Include="Models\Repositorios\Administracion\RepositorioCProveedor.cs" />
     <Compile Include="Models\Repositorios\Administracion\RepositorioPais.cs" />
     <Compile Include="Models\Repositorios\Administracion\RepositorioProveedor.cs" />
+    <Compile Include="Models\Repositorios\Catalogos\RepositorioCarrito.cs" />
     <Compile Include="Models\Repositorios\Catalogos\RepositorioCategoria.cs" />
     <Compile Include="Models\Repositorios\Catalogos\RepositorioColaborador.cs" />
     <Compile Include="Models\Repositorios\Catalogos\RepositorioDocumento.cs" />
+    <Compile Include="Models\Repositorios\Catalogos\RepositorioFavorito.cs" />
     <Compile Include="Models\Repositorios\Catalogos\RepositorioPaqueteria.cs" />
     <Compile Include="Models\Repositorios\Catalogos\RepositorioPorcentaje.cs" />
     <Compile Include="Models\Repositorios\Catalogos\RepositorioProducto.cs" />
@@ -1102,6 +1108,8 @@
     <Folder Include="Areas\Administracion\Views\CDireccion\" />
     <Folder Include="Areas\Administracion\Views\Shared\" />
     <Folder Include="Areas\Catalogos\Data\" />
+    <Folder Include="Areas\Catalogos\Views\Carrito\" />
+    <Folder Include="Areas\Catalogos\Views\Favorito\" />
     <Folder Include="Areas\Catalogos\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

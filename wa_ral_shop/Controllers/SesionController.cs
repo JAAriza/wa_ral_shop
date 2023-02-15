@@ -47,6 +47,7 @@ namespace wa_ral_shop.Controllers
                 {
                     //Consultar Objeto cliente
                     Session["EMail"] = email;
+                    Session["Ide"] = Inicio;//Ide es el IdCliente
                     return RedirectToAction("Principal", "Inicio");
                 }
             }

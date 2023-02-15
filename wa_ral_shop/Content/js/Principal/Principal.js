@@ -46,10 +46,10 @@ function ConsultaProductosActivos() {
                     '</div>' +
                     '<div>' +
                     '<button style="border:none; background:none; float:left" class="text-md-right" title="Favorito" Id="Favorito-' + Dato.Id + '" onClick="AgregarFavorito(' + Dato.Id + ')">' +
-                    '<i style="color:#dcdcdc" class="mdi mdi-heart mdi-24px"></i>' +
+                    '<i Id="iFavorito-' + Dato.Id + '" style="color:#dcdcdc" class="mdi mdi-heart mdi-24px"></i>' +
                     '</button>' +
                     '<button style="border:none; background:none; float:right" class="text-md-right" title="Carrito" Id ="Carrito-' + Dato.Id + '" onClick="AgregarCarrito(' + Dato.Id + ')">' +
-                    '<i style="color:#dcdcdc" class="fa fa-shopping-cart fa-2x"></i>' +
+                    '<i Id="iCarrito-' + Dato.Id+'" style = "color:#dcdcdc" class= "fa fa-shopping-cart fa-2x" ></i > ' +
                     '</button>' +
                     '</div>' +
                     '<div class="card-body">' +
@@ -90,6 +90,243 @@ function ConsultaProductosActivos() {
         // ToastInfo.reset();
     });
 }
+
+function AgregarFavorito(IdProducto) {
+    var f = "iFavorito-" + IdProducto;
+    if ($('#' + f).css('color') == 'rgb(255, 0, 0)') {
+
+        $.toast({
+            heading: 'Informaci&oacute;n',
+            text: 'Eliminando...',
+            showHideTransition: 'slide',
+            hideAfter: 3000,
+            icon: 'info',
+            loaderBg: '#46c35f',
+            position: 'top-right'
+        })
+        $.ajax({
+            url: '/Catalogos/Favorito/Eliminar',
+            type: "POST",
+            data: { IdProducto }
+
+        }).done(function (data, textStatus, jqXHR) {
+            if (data.codigo === "Error") {
+                resetToastPosition();
+                $.toast({
+                    heading: 'Error',
+                    text: data.mensaje,
+                    showHideTransition: 'slide',
+                    hideAfter: 8000,
+                    icon: 'error',
+                    loaderBg: '#f2a654',
+                    position: 'top-right'
+                })
+            }
+            else {
+                $('#' + f).css('color', '#dcdcdc');
+                $.toast({
+                    heading: 'Eliminado',
+                    text: 'El registro se ha eliminado correctamente',
+                    showHideTransition: 'slide',
+                    hideAfter: 6000,
+                    icon: 'success',
+                    loaderBg: '#f96868',
+                    position: 'top-right'
+                })
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            resetToastPosition();
+            $.toast({
+                heading: 'Error',
+                text: errorThrown,
+                showHideTransition: 'slide',
+                hideAfter: 8000,
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        }).always(function (data, textStatus, errorThrown) {
+            // ToastInfo.reset();
+        });
+    }
+    else {
+        //resetToastPosition();
+        //var ToastInfo =
+        $.toast({
+            heading: 'Informaci&oacute;n',
+            text: 'Guardando...',
+            showHideTransition: 'slide',
+            hideAfter: 3000,
+            icon: 'info',
+            loaderBg: '#46c35f',
+            position: 'top-right'
+        })
+        $.ajax({
+            url: '/Catalogos/Favorito/Agregar',
+            type: "POST",
+            data: { IdProducto }
+
+        }).done(function (data, textStatus, jqXHR) {
+            if (data.codigo === "Error") {
+                resetToastPosition();
+                $.toast({
+                    heading: 'Error',
+                    text: data.mensaje,
+                    showHideTransition: 'slide',
+                    hideAfter: 8000,
+                    icon: 'error',
+                    loaderBg: '#f2a654',
+                    position: 'top-right'
+                })
+            }
+            else {
+                $('#' + f).css('color', '#FF0000');
+
+                $.toast({
+                    heading: 'Guardado',
+                    text: 'El registro se ha guardado correctamente',
+                    showHideTransition: 'slide',
+                    hideAfter: 6000,
+                    icon: 'success',
+                    loaderBg: '#f96868',
+                    position: 'top-right'
+                })
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            resetToastPosition();
+            $.toast({
+                heading: 'Error',
+                text: errorThrown,
+                showHideTransition: 'slide',
+                hideAfter: 8000,
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        }).always(function (data, textStatus, errorThrown) {
+            // ToastInfo.reset();
+        });
+    }
+}
+
+function AgregarCarrito(IdProducto) {
+    var f = "iCarrito-" + IdProducto;
+    if ($('#' + f).css('color') == 'rgb(255, 255, 0)') {
+
+        $.toast({
+            heading: 'Informaci&oacute;n',
+            text: 'Eliminando...',
+            showHideTransition: 'slide',
+            hideAfter: 3000,
+            icon: 'info',
+            loaderBg: '#46c35f',
+            position: 'top-right'
+        })
+        $.ajax({
+            url: '/Catalogos/Carrito/Eliminar',
+            type: "POST",
+            data: { IdProducto }
+
+        }).done(function (data, textStatus, jqXHR) {
+            if (data.codigo === "Error") {
+                resetToastPosition();
+                $.toast({
+                    heading: 'Error',
+                    text: data.mensaje,
+                    showHideTransition: 'slide',
+                    hideAfter: 8000,
+                    icon: 'error',
+                    loaderBg: '#f2a654',
+                    position: 'top-right'
+                })
+            }
+            else {
+                $('#' + f).css('color', '#dcdcdc');
+                $.toast({
+                    heading: 'Eliminado',
+                    text: 'El registro se ha eliminado correctamente',
+                    showHideTransition: 'slide',
+                    hideAfter: 6000,
+                    icon: 'success',
+                    loaderBg: '#f96868',
+                    position: 'top-right'
+                })
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            resetToastPosition();
+            $.toast({
+                heading: 'Error',
+                text: errorThrown,
+                showHideTransition: 'slide',
+                hideAfter: 8000,
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        }).always(function (data, textStatus, errorThrown) {
+            // ToastInfo.reset();
+        });
+    }
+    else {
+        //resetToastPosition();
+        //var ToastInfo =
+        $.toast({
+            heading: 'Informaci&oacute;n',
+            text: 'Guardando...',
+            showHideTransition: 'slide',
+            hideAfter: 3000,
+            icon: 'info',
+            loaderBg: '#46c35f',
+            position: 'top-right'
+        })
+        $.ajax({
+            url: '/Catalogos/Carrito/Agregar',
+            type: "POST",
+            data: { IdProducto }
+
+        }).done(function (data, textStatus, jqXHR) {
+            if (data.codigo === "Error") {
+                resetToastPosition();
+                $.toast({
+                    heading: 'Error',
+                    text: data.mensaje,
+                    showHideTransition: 'slide',
+                    hideAfter: 8000,
+                    icon: 'error',
+                    loaderBg: '#f2a654',
+                    position: 'top-right'
+                })
+            }
+            else {
+                $('#' + f).css('color', '#FFFF00');
+
+                $.toast({
+                    heading: 'Guardado',
+                    text: 'El registro se ha guardado correctamente',
+                    showHideTransition: 'slide',
+                    hideAfter: 6000,
+                    icon: 'success',
+                    loaderBg: '#f96868',
+                    position: 'top-right'
+                })
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            resetToastPosition();
+            $.toast({
+                heading: 'Error',
+                text: errorThrown,
+                showHideTransition: 'slide',
+                hideAfter: 8000,
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        }).always(function (data, textStatus, errorThrown) {
+            // ToastInfo.reset();
+        });
+    }
+}
+
 
 function ValidarCampos() {
     var Valido = true;
