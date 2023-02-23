@@ -237,5 +237,44 @@ namespace wa_ral_shop.Models.Repositorios
             }
             return Val;
         }
+
+        public DataTable BuscarCliente(int Ide)
+        {
+            SqlDataReader sqldrCliente = null;
+            DataTable dtClientes = new DataTable();
+            Conexion conexion = new Conexion();
+            conexion.AbrirConexion(false);
+            try
+            {
+                conexion.sqlCommand.CommandType = CommandType.StoredProcedure;
+                conexion.sqlCommand.CommandText = "SelectClientePorId";
+                conexion.sqlCommand.Parameters.Clear();
+                conexion.sqlCommand.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int)).Value = Ide;
+                sqldrCliente = conexion.sqlCommand.ExecuteReader();
+                if (sqldrCliente.HasRows)
+                {
+                    dtClientes.Load(sqldrCliente);
+                }
+            }
+
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                if (sqldrCliente != null)
+                {
+                    if (!sqldrCliente.IsClosed)
+                    {
+                        sqldrCliente.Close();
+                    }
+                    sqldrCliente.Dispose();
+                }
+                conexion.CerrarConexion();
+            }
+            return dtClientes;
+        }
+
     }
 }

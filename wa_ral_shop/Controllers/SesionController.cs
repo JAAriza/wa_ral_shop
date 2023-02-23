@@ -22,6 +22,8 @@ namespace wa_ral_shop.Controllers
         // GET: Sesion
         public ActionResult Login()
         {
+            Info info = new Info();
+            Session["TUsuario"] = info.GetTUsuario();//Se agrega para evitar error en validacion en layout
             return View();
         }
         [HttpPost]
@@ -39,15 +41,24 @@ namespace wa_ral_shop.Controllers
                 Inicio = repositorioSesion.ValidaLogin(UserEnc, PassEnc, info.GetTUsuario());
                 if (Inicio <= 0)
                 {
-                    //Mensaje de error
-                    
+                    //Mensaje de error                    
                     return View("ErrorLogin");
                 }
                 else
                 {
                     //Consultar Objeto cliente
+                    ClienteAnonymous clienteAnonymous = new ClienteAnonymous();
+                    DataTable dtCliente = new DataTable();
+                    dtCliente = repositorioSesion.BuscarCliente(Inicio);
+                    clienteAnonymous.Id = int.Parse(dtCliente.Rows[0][0].ToString());
+                    clienteAnonymous.Nombre = dtCliente.Rows[0][1].ToString();
+                    clienteAnonymous.APaterno = dtCliente.Rows[0][2].ToString();
+                    clienteAnonymous.AMaterno = dtCliente.Rows[0][3].ToString();
+                    clienteAnonymous.Telefono = dtCliente.Rows[0][4].ToString();
+                    Session["Nombre"] = clienteAnonymous.Nombre;                    
                     Session["EMail"] = email;
                     Session["Ide"] = Inicio;//Ide es el IdCliente
+                    Session["TUsuario"] = info.GetTUsuario();//1= Cliente, 2 = Admin del sistema
                     return RedirectToAction("Principal", "Inicio");
                 }
             }

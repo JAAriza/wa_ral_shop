@@ -1,0 +1,163 @@
+﻿
+@{ ViewBag.Title = "Favorito";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+@section Scripts{
+    <script src="~/Content/js/Catalogos/Favorito/Favorito.js"></script>
+}
+
+@*<div class="main-panel">*@
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><b> Favoritos </b></h4>
+                    <form class="form-sample">
+                        
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="txtCategoria">Categoria</label>
+                                <input type="text" class="form-control" maxlength="50" id="txtCategoria" placeholder="Categoria">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label for="sltEstatus">Estatus </label>
+                                <select class="form-control" id="sltEstatus">
+                                    <option value="null" selected disabled>Seleccione Estatus</option>
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-1"></div>
+                            <div class="col-md-2">
+                                <div class="template-demo">
+                                    <button type="button" id="btnBuscar" style="align-items:baseline"
+                                            class="btn btn-success btn-rounded mr-2 btn-fw"
+                                            onclick="Buscar();">
+                                        Buscar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="template-demo">
+                                    <button type="button" id="btnLimpiarBuscar"
+                                            class="btn btn-light btn-rounded mr-2 btn-fw"
+                                            onclick="LimpiarCamposBusqueda();">
+                                        Limpiar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <div id="divListaCategoria">
+                        @Html.Partial("ListaCategorias", ViewData["ListaCat"])
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @*Spinner que ayuda a mostrar el modal de alta*@
+        <div class="theme-setting-wrapper">
+            <div id="settings-trigger">
+                <i data-toggle="modal" data-target="#AltaModal" class="mdi mdi-plus" onclick="MostrarMenu();" style="cursor:pointer" title="Alta"></i>
+            </div>
+        </div>
+    </div>
+
+    @*Modal para alta de categoria*@
+    <div class="modal fade" id="AltaModal" tabindex="-1" role="dialog" aria-labelledby="AltaModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width:60%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fc-center" id="AltaModalLabel"><b>Introduce categoria y presiona guardar</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <label for="txtCategoriaM">Categoria</label>
+                    <input type="text" class="form-control" maxlength="50" id="txtCategoriaM" placeholder="Categoria">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnGuardar"
+                            class="btn btn-success btn-rounded mr-2 btn-fw"
+                            onclick="AltaCategoria();">
+                        Guardar
+                    </button>
+                    <button type="button" id="btnLimpiar"
+                            class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                            onclick="LimpiarCampos();">
+                        Limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Modal para editar la categoria*@
+    <div class="modal fade" id="ModificarModal" tabindex="-1" role="dialog" aria-labelledby="ModificarModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width:60%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fc-center" id="ModificarModalLabel"><b>Introduce categoria y presiona guardar</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <label for="txtCategoriaMEditar">Categoria</label>
+                            <input type="text" class="form-control" maxlength="50" id="txtCategoriaMEditar" placeholder="Categoria">
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label for="sltEstatusModificar">Estatus</label>
+                            <select class="form-control" id="sltEstatusModificar">
+                                <option value="null" selected disabled>Seleccione Estatus</option>
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        @*<div class="col-sm-1">*@
+                        <input type="text" class="form-control" hidden="hidden" id="txtIdCategoriaMEditar" placeholder="Id">
+                        @*</div>*@
+                        @*<div class="col-sm-2">*@
+                        <button type="button" id="btnEditar"
+                                class="btn btn-success btn-rounded mr-2 btn-fw"
+                                onclick="EditarCategoria();">
+                            Guardar
+                        </button>
+                        @*</div>*@
+                        @*<div class="col-sm-2">*@
+                        <button type="button" id="btnLimpiar"
+                                class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                                onclick="LimpiarCamposEditar();">
+                            Limpiar
+                        </button>
+                        @*</div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

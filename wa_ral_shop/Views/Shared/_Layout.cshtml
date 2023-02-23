@@ -112,13 +112,18 @@
                 <ul class="nav ps ps--active-y">
                     <li class="nav-item nav-profile">
                         <div class="nav-link">
-                            <div class="profile-image">
-                                <img src="~/Content/images/faces/face3.jpg" alt="image" />
-                                @*<span class="online-status online"></span> change class online to offline or busy as needed*@
-                            </div>
+                            <!--<div class="profile-image">
+            <img src="~/Content/images/faces/face3.jpg" alt="image" />-->
+                            @*<span class="online-status online"></span> change class online to offline or busy as needed*@
+                            <!--</div>-->
+                            <br />
+
                             <div class="profile-name">
                                 <p class="name fc-center">
-                                    Alfonso
+                                    Hola!
+                                </p>
+                                <p class="name fc-center fc-header">
+                                    <b>@Session["Nombre"]</b>
                                 </p>
                             </div>
                         </div>
@@ -131,86 +136,92 @@
                         </a>
                     </li>
 
+                    @if (int.Parse(Session["TUsuario"].ToString()) == 1)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Categoria", "Categoria", new { area = "Catalogos" })">
+                                <i class="mdi mdi-heart menu-icon"></i>
+                                <span class="menu-title">Favoritos</span>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../pages/ui-features/popups.html">
+                                <i class="fa fa-shopping-cart menu-icon"></i>
+                                <span class="menu-title">Carrito</span>
+                            </a>
+                        </li>
+                     }
+                    @if (int.Parse(Session["TUsuario"].ToString()) == 2)
+                    {
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#page-catalogos" aria-expanded="false" aria-controls="page-catalogos">
+                        <i class="icon-folder menu-icon"></i>
+                        <span class="menu-title">Cat&aacute;logos</span>
+                        @*<span class="badge badge-success">1</span>*@
+                    </a>
+                    <div class="collapse" id="page-catalogos">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="d-none d-lg-block">
+                                <a class="nav-link" href="@Url.Action("Categoria", "Categoria", new { area = "Catalogos" })">Categorias</a>
+                            </li>
+                            <li class="d-none d-lg-block">
+                                <a class="nav-link" href="@Url.Action("Documento", "Documento", new { area = "Catalogos" })">Documentos</a>
+                            </li>
+                            <li class="d-none d-lg-block">
+                                <a class="nav-link" href="@Url.Action("Puesto", "Puesto", new { area = "Catalogos" })">Puestos</a>
+                            </li>
+                            <li class="d-none d-lg-block">
+                                <a class="nav-link" href="@Url.Action("RutaBase", "RutaBase", new { area = "Catalogos" })">Ruta Base</a>
+                            </li>
+                            <li class="d-none d-lg-block">
+                                <a class="nav-link" href="@Url.Action("Paqueteria", "Paqueteria", new { area = "Catalogos" })">Paqueteria</a>
+                            </li>
+                            <li class="d-none d-lg-block">
+                                <a class="nav-link" href="@Url.Action("Porcentaje", "Porcentaje", new { area = "Catalogos" })">Porcentaje</a>
+                            </li>
+                            <li class="d-none d-lg-block">
+                                <a class="nav-link" href="@Url.Action("Colaborador", "Colaborador", new { area = "Catalogos" })">Colaborador</a>
+                            </li>
+                            <li class="d-none d-lg-block">
+                                <a class="nav-link" href="@Url.Action("UnidadMedida", "UnidadMedida", new { area = "Catalogos" })">U. de Medida</a>
+                            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#page-catalogos" aria-expanded="false" aria-controls="page-catalogos">
-                            <i class="icon-folder menu-icon"></i>
-                            <span class="menu-title">Cat&aacute;logos</span>
-                            @*<span class="badge badge-success">1</span>*@
-                        </a>
-                        <div class="collapse" id="page-catalogos">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="d-none d-lg-block">
-                                    <a class="nav-link" href="@Url.Action("Categoria", "Categoria" , new { area="Catalogos" })">Categorias</a>
-                                </li>
-                                <li class="d-none d-lg-block">
-                                    <a class="nav-link" href="@Url.Action("Documento", "Documento" , new { area="Catalogos" })">Documentos</a>
-                                </li>
-                                <li class="d-none d-lg-block">
-                                    <a class="nav-link" href="@Url.Action("Puesto", "Puesto" , new { area="Catalogos" })">Puestos</a>
-                                </li>
-                                <li class="d-none d-lg-block">
-                                    <a class="nav-link" href="@Url.Action("RutaBase", "RutaBase" , new { area="Catalogos" })">Ruta Base</a>
-                                </li>
-                                <li class="d-none d-lg-block">
-                                    <a class="nav-link" href="@Url.Action("Paqueteria", "Paqueteria" , new { area="Catalogos" })">Paqueteria</a>
-                                </li>
-                                <li class="d-none d-lg-block">
-                                    <a class="nav-link" href="@Url.Action("Porcentaje", "Porcentaje" , new { area="Catalogos" })">Porcentaje</a>
-                                </li>
-                                <li class="d-none d-lg-block">
-                                    <a class="nav-link" href="@Url.Action("Colaborador", "Colaborador" , new { area="Catalogos" })">Colaborador</a>
-                                </li>
-                                <li class="d-none d-lg-block">
-                                    <a class="nav-link" href="@Url.Action("UnidadMedida", "UnidadMedida" , new { area="Catalogos" })">U. de Medida</a>
-                                </li>
+                        </ul>
+                    </div>
+                </li>
 
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="collapse" href="#page-admon" aria-expanded="false" aria-controls="page-admon">
+                                        <i class="icon-layers menu-icon"></i>
+                                        <span class="menu-title">Administracion</span>
+                                    </a>
+                                    <div class="collapse" id="page-admon">
+                                        <ul class="nav flex-column sub-menu">
+                                            <li class="d-none d-lg-block">
+                                                <a class="nav-link" href="@Url.Action("CPaqueteria", "CPaqueteria", new { area = "Administracion" })">C. Paqueteria</a>
+                                            </li>
+                                            <li class="d-none d-lg-block">
+                                                <a class="nav-link" href="@Url.Action("Cliente", "Cliente", new { area = "Administracion" })">Cliente</a>
+                                            </li>
+                                            <li class="d-none d-lg-block">
+                                                <a class="nav-link" href="@Url.Action("Proveedor", "Proveedor", new { area = "Administracion" })">Proveedor</a>
+                                            </li>
+                                            <li class="d-none d-lg-block">
+                                                <a class="nav-link" href="@Url.Action("CProveedor", "CProveedor", new { area = "Administracion" })">C. Proveedor</a>
+                                            </li>
+                                            <li class="d-none d-lg-block">
+                                                <a class="nav-link" href="@Url.Action("Producto", "Producto", new { area = "Catalogos" })">Producto</a>
+                                            </li>
+                                            <li class="d-none d-lg-block">
+                                                <a class="nav-link" href="@Url.Action("Compra", "Compra", new { area = "Administracion" })">Compras</a>
+                                            </li>
 
-                            </ul>
-                        </div>
-                    </li>
+                                        </ul>
+                                    </div>
 
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#page-admon" aria-expanded="false" aria-controls="page-admon">
-                            <i class="icon-layers menu-icon"></i>
-                            <span class="menu-title">Administracion</span>
-                        </a>
-                        <div class="collapse" id="page-admon">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="d-none d-lg-block">
-                                    <a class="nav-link" href="@Url.Action("CPaqueteria", "CPaqueteria" , new { area="Administracion" })">C. Paqueteria</a>
                                 </li>
-                                <li class="d-none d-lg-block">
-                                    <a class="nav-link" href="@Url.Action("Cliente", "Cliente" , new { area="Administracion" })">Cliente</a>
-                                </li>
-                                <li class="d-none d-lg-block">
-                                    <a class="nav-link" href="@Url.Action("Proveedor", "Proveedor" , new { area="Administracion" })">Proveedor</a>
-                                </li>
-                                <li class="d-none d-lg-block">
-                                    <a class="nav-link" href="@Url.Action("CProveedor", "CProveedor" , new { area="Administracion" })">C. Proveedor</a>
-                                </li>
-                                <li class="d-none d-lg-block">
-                                    <a class="nav-link" href="@Url.Action("Producto", "Producto" , new { area="Catalogos" })">Producto</a>
-                                </li>
-                                <li class="d-none d-lg-block">
-                                    <a class="nav-link" href="@Url.Action("Compra", "Compra" , new { area="Administracion" })">Compras</a>
-                                </li>
-
-                            </ul>
-                        </div>
-
-                    </li>
-
-
-
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="../../pages/ui-features/popups.html">
-                            <i class="icon-diamond menu-icon"></i>
-                            <span class="menu-title">Popups</span>
-                        </a>
-                    </li>
-                    
+}
 
                 </ul>
             </nav>
@@ -324,6 +335,9 @@
     @*Necesario para que funcione carousel*@
     <script src="~/Content/vendors/owl-carousel-2/owl.carousel.min.js"></script>
     <script src="~/Content/js/owl-carousel.js"></script>
+
+    
+
 </body>
 
 </html>
