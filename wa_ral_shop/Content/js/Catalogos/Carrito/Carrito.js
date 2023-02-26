@@ -1,8 +1,8 @@
 ﻿$(document).ready(function () {
-    ConsultaFavoritos();
+    ConsultaCarritos();
 });
 
-function ConsultaFavoritos() {
+function ConsultaCarritos() {
     resetToastPosition();
     //var ToastInfo =
     //$.toast({
@@ -15,7 +15,7 @@ function ConsultaFavoritos() {
     //    position: 'top-right'
     //})
     $.ajax({
-        url: '/Catalogos/Favorito/Buscar',
+        url: '/Catalogos/Carrito/Buscar',
         type: "POST"
 
     }).done(function (data, textStatus, jqXHR) {
@@ -36,14 +36,14 @@ function ConsultaFavoritos() {
             //Revisar bien el codigo para que itere el numero de veces necesario para mostrar
             //las imagenes que son por producto asi como los precios igual creo que hace falta
             //nombrar mas div para tener mejor control pero eso ya lo voy solucionando con las pruebas
-            $("#divFav").html("");
-            $.each(data.LFav, function (Id, Dato) {
+            $("#divCar").html("");
+            $.each(data.LCar, function (Id, Dato) {
                 var Pv = new Array();
                 Pv = Dato.PrecioVenta.toString().split('.');
                 if (Pv.length == 1) {
                     Pv.push("00");
                 }
-                $("#divFav").append(
+                $("#divCar").append(
                     '<div class="card">' +
                     '<div class="card-header">' +
                     '<div class="nonloop owl-carousel owl-theme full-width" id="div-' + Dato.Id + '">' +
@@ -54,7 +54,7 @@ function ConsultaFavoritos() {
                     '<i Id="iFavorito-' + Dato.Id + '" style="color:#ff0000" class="mdi mdi-heart mdi-24px"></i>' +
                     '</button>' +
                     '<button style="border:none; background:none; float:right" class="text-md-right" title="Carrito" Id ="Carrito-' + Dato.Id + '" onClick="AgregarCarrito(' + Dato.Id + ')">' +
-                    '<i Id="iCarrito-' + Dato.Id + '" style = "color:#dcdcdc" class= "fa fa-shopping-cart fa-2x" ></i > ' +
+                    '<i Id="iCarrito-' + Dato.Id + '" style = "color:#ffff00" class= "fa fa-shopping-cart fa-2x" ></i > ' +
                     '</button>' +
                     '</div>' +
                     '<div class="card-body">' +
@@ -69,7 +69,7 @@ function ConsultaFavoritos() {
                     '</div>' +
                     '</div>');
             });
-            $.each(data.LFav, function (Id, Dato) {
+            $.each(data.LCar, function (Id, Dato) {
                 $.each(data.LPI, function (Id2, Dato2) {
                     if (Dato.Id == Dato2.IdProducto) {
                         $("#div-" + Dato.Id + "").append(

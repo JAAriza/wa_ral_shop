@@ -50,34 +50,57 @@ namespace wa_ral_shop.Areas.Catalogos.Controllers
         {
             ContentResultObject ContentResultObject = new ContentResultObject();
             ActionResult actionResult = null;
-            RepositorioFavorito repositorioFavorito = new RepositorioFavorito();
-            
             string Mensaje = string.Empty;
-            DataTable dtFavorito = new DataTable();
-
+            Info info = new Info();
+            string Ubica = info.GetIp() + "Producto" + "\\";
+            DataTable dtProductosDash = new DataTable();
+            RepositorioFavorito repositorioFavorito = new RepositorioFavorito();
+            List<ProductoImagenAnonymous> LPIA = new List<ProductoImagenAnonymous>();
+            List<ProductoAnonymous> LPA = new List<ProductoAnonymous>();
             try
             {
-                dtFavorito = repositorioFavorito.Buscar(int.Parse(Session["Ide"].ToString()));
-                List<FavoritoAnonymous> lstFavoritoAnonymous = new List<FavoritoAnonymous>();
-                FavoritoAnonymous favoritoAnonymous;
-                foreach (DataRow dr in dtFavorito.Rows)
+                dtProductosDash = repositorioFavorito.Buscar(int.Parse(Session["Ide"].ToString()));
+                if (dtProductosDash.Rows.Count > 0)
                 {
-                    favoritoAnonymous = new FavoritoAnonymous();
-                    favoritoAnonymous.ProductoA = new ProductoAnonymous();
-                    favoritoAnonymous.Id = int.Parse(dr["Id"].ToString());
-                    favoritoAnonymous.IdProducto = int.Parse(dr["IdProducto"].ToString());
-                    favoritoAnonymous.ProductoA.Nombre = dr["Nombre"].ToString();
-                    favoritoAnonymous.IdCliente = int.Parse(dr["IdCliente"].ToString());
-                    lstFavoritoAnonymous.Add(favoritoAnonymous);
+                    DataTable dtProd = new DataTable();
+                    dtProd = dtProductosDash.DefaultView.ToTable(true, "IdProducto", "NomP", "Existencias", "PrecioVenta", "Estatus");
+
+                    LPIA = new List<ProductoImagenAnonymous>();
+                    foreach (DataRow dr in dtProductosDash.Rows)
+                    {
+                        ProductoImagenAnonymous PIA = new ProductoImagenAnonymous();
+                        PIA.productoAnonymous = new ProductoAnonymous();
+                        PIA.IdProducto = int.Parse(dr[0].ToString());
+                        PIA.productoAnonymous.Nombre = dr[1].ToString();
+                        PIA.productoAnonymous.PrecioVenta = decimal.Parse(dr[2].ToString());
+                        PIA.productoAnonymous.Existencias = string.IsNullOrEmpty(dr[3].ToString()) ? 0 : int.Parse(dr[3].ToString());
+                        PIA.Nombre = dr[4].ToString();
+                        PIA.Extension = dr[5].ToString();
+                        PIA.Consecutivo = byte.Parse(dr[6].ToString());
+                        LPIA.Add(PIA);
+                    }
+
+                    LPA = new List<ProductoAnonymous>();
+                    foreach (DataRow dr in dtProd.Rows)
+                    {
+                        ProductoAnonymous PA = new ProductoAnonymous();
+                        PA.Id = int.Parse(dr[0].ToString());
+                        PA.Nombre = dr[1].ToString();
+                        PA.Existencias = string.IsNullOrEmpty(dr[2].ToString()) ? 0 : int.Parse(dr[2].ToString());
+                        PA.PrecioVenta = decimal.Parse(dr[3].ToString());
+                        LPA.Add(PA);
+                    }
                 }
-
-                ViewData["Total"] = lstFavoritoAnonymous.Count;
-                //var gridCategorias = RenderRazorViewToString(this.ControllerContext, "ListaCategorias", lstCategoriaAnonymous);
-
-                //actionResult = Json(new
-                //{
-                //    ListaCat = gridCategorias
-                //});
+                string Ruta = string.Empty;
+                if (string.IsNullOrEmpty(Ubica))
+                {
+                    Ruta = @"C:\Mercar\Producto";
+                }
+                else
+                {
+                    Ruta = Ubica;
+                }
+                actionResult = Json(new { LPI = LPIA, LFav = LPA, RutaImg = Ruta });
             }
             catch (Exception Ex)
             {
@@ -87,6 +110,8 @@ namespace wa_ral_shop.Areas.Catalogos.Controllers
             }
             return actionResult;
         }
+
+
 
         [HttpPost]
         //[ValidateInput(false)]

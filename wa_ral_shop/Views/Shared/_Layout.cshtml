@@ -139,14 +139,14 @@
                     @if (int.Parse(Session["TUsuario"].ToString()) == 1)
                     {
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Categoria", "Categoria", new { area = "Catalogos" })">
+                            <a class="nav-link" href="@Url.Action("Favorito", "Favorito", new { area = "Catalogos" })">
                                 <i class="mdi mdi-heart menu-icon"></i>
                                 <span class="menu-title">Favoritos</span>
                             </a>
                         </li>
                         
                         <li class="nav-item">
-                            <a class="nav-link" href="../../pages/ui-features/popups.html">
+                            <a class="nav-link" href="@Url.Action("Carrito", "Carrito", new { area = "Catalogos" })">
                                 <i class="fa fa-shopping-cart menu-icon"></i>
                                 <span class="menu-title">Carrito</span>
                             </a>

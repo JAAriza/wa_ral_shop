@@ -38,6 +38,11 @@ function ConsultaProductosActivos() {
             //nombrar mas div para tener mejor control pero eso ya lo voy solucionando con las pruebas
             $("#divDashboard").html("");
             $.each(data.LProd, function (Id, Dato) {
+                var Pv = new Array();
+                Pv = Dato.PrecioVenta.toString().split('.');
+                if (Pv.length == 1) {
+                    Pv.push("00");
+                }
                 $("#divDashboard").append(
                     '<div class="card">' +
                     '<div class="card-header">' +
@@ -57,9 +62,12 @@ function ConsultaProductosActivos() {
 
                     '<s style="color:#dcdcdc"><span style="color:#dcdcdc;">$' + Dato.PrecioVenta + 15 + '</span></s>' +
                     '<br />' +
-                    '<span style="font-size:large">$' + Dato.PrecioVenta + '<sup>00</sup>&nbsp; </span><span style="color:#ff914d;">12% OFF</span>' +
+                    '<span style="font-size:large">$' + Pv[0] + '<sup>' + Pv[1] + '</sup>&nbsp; </span>' +
+                    '<span style="color:#ff914d;">12% OFF</span>' +
+                    //'<br />' +
+                    //'<span style="color:#dcdcdc; float:right">Existencias: ' + Dato.Existencias + '</span>' +
                     '</div>' +
-                    '</div >');
+                    '</div>');
             });
             $.each(data.LProd, function (Id, Dato) {
                 $.each(data.LPI, function (Id2, Dato2) {
@@ -162,7 +170,7 @@ function AgregarFavorito(IdProducto) {
             position: 'top-right'
         })
         $.ajax({
-            url: '/Catalogos/Favorito/Agregar',
+            url: '/Catalogos/Favorito/Alta',
             type: "POST",
             data: { IdProducto }
 
@@ -327,30 +335,6 @@ function AgregarCarrito(IdProducto) {
     }
 }
 
-
-function ValidarCampos() {
-    var Valido = true;
-    var dato = $("#txtProductoM").val();
-    if (dato === "") {
-        Valido = false;
-    }
-    if (!Valido) {
-        swal({
-            title: 'Informaci\u00f3n',
-            text: 'Es obligatorio capturar Producto',
-            icon: 'warning',
-            showCancelButton: false,
-            button: {
-                text: "Aceptar",
-                value: true,
-                visible: true,
-                className: "btn btn-primary",
-                closeModal: true
-            }
-        });
-    }
-    return Valido;
-}
 
 resetToastPosition = function () {
     $('.jq-toast-wrap').removeClass('bottom-left bottom-right top-left top-right mid-center'); // to remove previous position class
