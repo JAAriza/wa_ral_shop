@@ -51,7 +51,7 @@ function ConsultaCarritos() {
                     '</div>' +
                     '<div>' +
                     '<button style="border:none; background:none; float:left" class="text-md-right" title="Favorito" Id="Favorito-' + Dato.Id + '" onClick="AgregarFavorito(' + Dato.Id + ')">' +
-                    '<i Id="iFavorito-' + Dato.Id + '" style="color:#ff0000" class="mdi mdi-heart mdi-24px"></i>' +
+                    '<i Id="iFavorito-' + Dato.Id + '" style="color:#000000" class="mdi mdi-heart mdi-24px"></i>' +
                     '</button>' +
                     '<button style="border:none; background:none; float:right" class="text-md-right" title="Carrito" Id ="Carrito-' + Dato.Id + '" onClick="AgregarCarrito(' + Dato.Id + ')">' +
                     '<i Id="iCarrito-' + Dato.Id + '" style = "color:#ffff00" class= "fa fa-shopping-cart fa-2x" ></i > ' +
@@ -170,7 +170,7 @@ function AgregarFavorito(IdProducto) {
             position: 'top-right'
         })
         $.ajax({
-            url: '/Catalogos/Favorito/Agregar',
+            url: '/Catalogos/Favorito/Alta',
             type: "POST",
             data: { IdProducto }
 
@@ -288,7 +288,7 @@ function AgregarCarrito(IdProducto) {
             position: 'top-right'
         })
         $.ajax({
-            url: '/Catalogos/Carrito/Agregar',
+            url: '/Catalogos/Carrito/Alta',
             type: "POST",
             data: { IdProducto }
 

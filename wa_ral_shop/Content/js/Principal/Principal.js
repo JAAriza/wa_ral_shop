@@ -1,6 +1,22 @@
 ﻿$(document).ready(function () {
     ConsultaProductosActivos();
+    MostrarMenu();
+    $('#ModalDetProd').modal('show');
+
+    //Codigo para funcionamiento de zoom
+    $(".small_img").hover(function () {
+        $(".big_image").attr('src', $(this).attr('src'))
+    });
+    $(".big_image").imagezoomsl(function () {
+        zoomrange: [4, 4]
+    });
+    $('#modelId').on('shown.bs.modal', function () {
+        $(".big_image").imagezoomsl(function () {
+            zoomrange: [4, 4]
+        });
+    })
 });
+
 
 function ConsultaProductosActivos() {
     resetToastPosition();
@@ -54,7 +70,7 @@ function ConsultaProductosActivos() {
                     '<i Id="iFavorito-' + Dato.Id + '" style="color:#dcdcdc" class="mdi mdi-heart mdi-24px"></i>' +
                     '</button>' +
                     '<button style="border:none; background:none; float:right" class="text-md-right" title="Carrito" Id ="Carrito-' + Dato.Id + '" onClick="AgregarCarrito(' + Dato.Id + ')">' +
-                    '<i Id="iCarrito-' + Dato.Id+'" style = "color:#dcdcdc" class= "fa fa-shopping-cart fa-2x" ></i > ' +
+                    '<i Id="iCarrito-' + Dato.Id + '" style = "color:#dcdcdc" class= "fa fa-shopping-cart fa-2x" ></i > ' +
                     '</button>' +
                     '</div>' +
                     '<div class="card-body">' +
@@ -288,7 +304,7 @@ function AgregarCarrito(IdProducto) {
             position: 'top-right'
         })
         $.ajax({
-            url: '/Catalogos/Carrito/Agregar',
+            url: '/Catalogos/Carrito/Alta',
             type: "POST",
             data: { IdProducto }
 

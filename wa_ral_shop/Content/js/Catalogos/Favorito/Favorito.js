@@ -170,7 +170,7 @@ function AgregarFavorito(IdProducto) {
             position: 'top-right'
         })
         $.ajax({
-            url: '/Catalogos/Favorito/Agregar',
+            url: '/Catalogos/Favorito/Alta',
             type: "POST",
             data: { IdProducto }
 
@@ -288,7 +288,7 @@ function AgregarCarrito(IdProducto) {
             position: 'top-right'
         })
         $.ajax({
-            url: '/Catalogos/Carrito/Agregar',
+            url: '/Catalogos/Favorito/Alta',
             type: "POST",
             data: { IdProducto }
 
@@ -334,6 +334,8 @@ function AgregarCarrito(IdProducto) {
         });
     }
 }
+
+
 
 resetToastPosition = function () {
     $('.jq-toast-wrap').removeClass('bottom-left bottom-right top-left top-right mid-center'); // to remove previous position class

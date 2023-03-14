@@ -227,6 +227,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\images\xloading.gif" />
     <Content Include="Content\css\vertical-layout-light\style.css" />
     <Content Include="Content\images\auth\lockscreen-bg.jpg" />
     <Content Include="Content\images\auth\login-bg.jpg" />
@@ -388,6 +389,7 @@
     <Content Include="Content\js\typeahead.js" />
     <Content Include="Content\js\wizard.js" />
     <Content Include="Content\js\x-editable.js" />
+    <Content Include="Content\js\zoom\zoom.js" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\vendors\ace-builds\src-min\ace.js" />
     <Content Include="Content\vendors\ace-builds\src-min\mode-coffee.js" />
