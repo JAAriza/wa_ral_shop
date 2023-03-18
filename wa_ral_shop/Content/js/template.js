@@ -75,13 +75,13 @@
             var element = document.getElementById("collapsMenu");
             if ((body.hasClass('sidebar-toggle-display'))) { //|| (body.hasClass('sidebar-absolute'))) {
                 body.toggleClass('sidebar-hidden');
-                element.classList.remove("icon-circle-minus");
-                element.classList.add("icon-menu");
+                element.classList.remove("icon-arrow-right");
+                element.classList.add("icon-arrow-left");
             }
             if (body.hasClass('sidebar-toggle-display sidebar-hidden')) {
                 //body.toggleClass('sidebar-icon-only');
-                element.classList.remove("icon-menu");
-                element.classList.add("icon-circle-minus");
+                element.classList.remove("icon-arrow-left");
+                element.classList.add("icon-arrow-right");
             }
         });
 

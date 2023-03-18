@@ -58,7 +58,7 @@ function ConsultaCarritos() {
                     '</button>' +
                     '</div>' +
                     '<div class="card-body">' +
-                    '<h4 class="card-title">' + Dato.Nombre + '</h4>' +
+                    '<h4 class="card-title" onclick="ConsultaProductoDetalle(' + Dato.Id +');" style="cursor:pointer;">' + Dato.Nombre + '</h4>' +
 
                     '<s style="color:#dcdcdc"><span style="color:#dcdcdc;">$' + Dato.PrecioVenta + '</span></s>' +
                     '<br />' +
@@ -344,6 +344,126 @@ resetToastPosition = function () {
         "right": ""
     }); //to remove previous position style
 }
+
+function ConsultaProductoDetalle(IdProducto) {
+    resetToastPosition();
+    //var ToastInfo =
+    //$.toast({
+    //    heading: 'Informaci&oacute;n',
+    //    text: 'Guardando...',
+    //    showHideTransition: 'slide',
+    //    hideAfter: 3000,
+    //    icon: 'info',
+    //    loaderBg: '#46c35f',
+    //    position: 'top-right'
+    //})
+    $.ajax({
+        url: '/Catalogos/Producto/ConsultarProductoDetalle',
+        type: "POST",
+        data: { IdProducto }
+
+    }).done(function (data, textStatus, jqXHR) {
+        if (data.codigo === "Error") {
+            resetToastPosition();
+            $.toast({
+                heading: 'Error',
+                text: data.mensaje,
+                showHideTransition: 'slide',
+                hideAfter: 8000,
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        }
+        else {
+
+            $("#divBodyDet").html("");
+            $.each(data.LProd, function (Id, Dato) {
+                var Pv = new Array();
+                Pv = Dato.PrecioVenta.toString().split('.');
+                if (Pv.length == 1) {
+                    Pv.push("00");
+                }
+                $("#DetProdLabel").text(Dato.Nombre);
+                $("#divBodyDet").append(
+                    '<br />' +
+                    '<span><b>Modelo: </b>' + Dato.Modelo + '</span>' +
+                    '<br />' +
+                    '<br />' +
+                    '<p>' + Dato.Descripcion + '</p>' +
+                    '<br />' +
+                    '<span><b>Tamaño: </b>' + Dato.Largo + '*' + Dato.Ancho + '*' + Dato.Alto + '&nbsp;' + Dato.unidadMedidaT.Nombre + '</span>' +
+                    '<br />' +
+                    '<span><b>Peso: </b>' + Dato.Peso + '&nbsp;' + Dato.unidadMedidaP.Nombre + '</span>' +
+                    '<br />' +
+                    '<s style="color:#dcdcdc"><span style="color:#dcdcdc;">$' + Dato.PrecioVenta + 15 + '</span></s>' +
+                    '<br />' +
+                    '<span style="font-size:large">$' + Pv[0] + '<sup>' + Pv[1] + '</sup>&nbsp; </span>' +
+                    '<span style="color:#ff914d;">12% OFF</span>' +
+                    '<br />' +
+                    '<span style="color:#dcdcdc; float:right">Existencias: ' + Dato.Existencias + '</span>'
+                );
+            });
+
+            $("#divBodyImg").html("");
+            $.each(data.LPI, function (Id2, Dato2) {
+                if (Id2 == 0) {
+                    $("#divBodyImg").append(
+                        '<div class=" mb-2">' +
+                        //'< img src="' + data.RutaImg + '\\' + Dato2.Nombre + '" class="big_image mt-2 border border-0 w-100 " alt="img" style="width:auto; height:auto;" >' +
+                        '<img src="https://localhost:44301/Content/images/carousel/banner_1.jpg" class="big_image mt-2 border border-0 w-100 " alt="img" style="width:auto; height:auto;">' +
+                        '</div >' +
+                        '<div class="d-flex" style="overflow-x:auto;" id="divImg">' +
+                        '</div>'
+                    );
+                }
+            }
+            );
+
+            $("#divImg").html("");
+            $.each(data.LPI, function (Id2, Dato2) {
+                $("#divImg").append(
+                    //'<img src="' + data.RutaImg + '\\' + Dato2.Nombre + '" class="small_img border border-0 w-25" >'                    
+                    '<img src="https://localhost:44301/Content/images/carousel/banner_1.jpg" class="small_img border border-0 w-25">'
+                );
+            }
+            );
+            MostrarModal();
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        resetToastPosition();
+        $.toast({
+            heading: 'Error',
+            text: errorThrown,
+            showHideTransition: 'slide',
+            hideAfter: 8000,
+            icon: 'error',
+            loaderBg: '#f2a654',
+            position: 'top-right'
+        })
+    }).always(function (data, textStatus, errorThrown) {
+        // ToastInfo.reset();
+    });
+}
+
+function MostrarModal() {
+    MostrarMenu();
+    $('#ModalDetProd').modal('show');
+
+    //Codigo para funcionamiento de zoom
+    $(".small_img").hover(function () {
+        $(".big_image").attr('src', $(this).attr('src'))
+    });
+    $(".big_image").imagezoomsl(function () {
+        zoomrange: [4, 4]
+    });
+    $('#modelId').on('shown.bs.modal', function () {
+        $(".big_image").imagezoomsl(function () {
+            zoomrange: [4, 4]
+        });
+    })
+}
+
 
 //Funcion que valida si se ha de mostrar el menu izquierdo
 function Ocultar() {

@@ -309,5 +309,43 @@ namespace wa_ral_shop.Models.Repositorios.Catalogos
             return dtProductos;
         }
 
+        public DataTable GetProductoDetalle(int IdProducto)
+        {
+            SqlDataReader sqldrProductos = null;
+            DataTable dtProductos = new DataTable();
+            Conexion conexion = new Conexion();
+            conexion.AbrirConexion(false);
+            try
+            {
+                conexion.sqlCommand.CommandType = CommandType.StoredProcedure;
+                conexion.sqlCommand.CommandText = "SelectProductoeImagenes";
+                conexion.sqlCommand.Parameters.Clear();
+                conexion.sqlCommand.Parameters.Add(new SqlParameter("@IdProducto", SqlDbType.Int)).Value = IdProducto;
+                sqldrProductos = conexion.sqlCommand.ExecuteReader();
+                if (sqldrProductos.HasRows)
+                {
+                    dtProductos.Load(sqldrProductos);
+                }
+            }
+
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                if (sqldrProductos != null)
+                {
+                    if (!sqldrProductos.IsClosed)
+                    {
+                        sqldrProductos.Close();
+                    }
+                    sqldrProductos.Dispose();
+                }
+                conexion.CerrarConexion();
+            }
+            return dtProductos;
+        }
+
     }
 }

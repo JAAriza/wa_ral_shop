@@ -721,5 +721,86 @@ namespace wa_ral_shop.Areas.Catalogos.Controllers
             }
             return actionResult;
         }
+
+        [HttpPost]
+        //[ValidateInput(false)]
+        public ActionResult ConsultarProductoDetalle(int IdProducto)
+        {
+            ContentResultObject ContentResultObject = new ContentResultObject();
+            ActionResult actionResult = null;
+            string Mensaje = string.Empty;
+            DataTable dtProductosDash = new DataTable();
+            RepositorioProducto repositorioProducto = new RepositorioProducto();
+            List<ProductoImagenAnonymous> LPIA = new List<ProductoImagenAnonymous>();
+            List<ProductoImagenAnonymous> newLPIA = new List<ProductoImagenAnonymous>();
+            List<ProductoAnonymous> LPA = new List<ProductoAnonymous>();
+            try
+            {
+                dtProductosDash = repositorioProducto.GetProductoDetalle(IdProducto);
+                if (dtProductosDash.Rows.Count > 0)
+                {
+                    DataTable dtProd = new DataTable();
+                    dtProd = dtProductosDash.DefaultView.ToTable(
+                        true, "Id", "NomP", "Modelo", "Descripcion"
+                        , "Largo", "Ancho", "Alto", "NomUMT"
+                        , "Peso", "NomUMP"
+                        , "PrecioVenta", "Existencias");
+
+                    LPIA = new List<ProductoImagenAnonymous>();
+                    foreach (DataRow dr in dtProductosDash.Rows)
+                    {
+                        ProductoImagenAnonymous PIA = new ProductoImagenAnonymous();
+                        PIA.IdProducto = int.Parse(dr[0].ToString());
+                        PIA.Nombre = dr["NomI"].ToString();
+                        //PIA.Extension = dr["Extension"].ToString();
+                        PIA.Consecutivo = byte.Parse(dr["Consecutivo"].ToString());
+                        LPIA.Add(PIA);
+                    }
+                    newLPIA = LPIA.OrderBy(x => x.Nombre)
+                        .ThenBy(x => x.Consecutivo)
+                        .ToList();
+
+                    LPA = new List<ProductoAnonymous>();
+                    foreach (DataRow dr in dtProd.Rows)
+                    {
+                        ProductoAnonymous PA = new ProductoAnonymous();
+                        PA.unidadMedidaT = new UnidadMedidaAnonymous();
+                        PA.unidadMedidaP = new UnidadMedidaAnonymous();
+                        PA.Id = int.Parse(dr[0].ToString());
+                        PA.Nombre = dr["NomP"].ToString();
+                        PA.Modelo = dr["Modelo"].ToString();
+                        PA.Descripcion = dr["Descripcion"].ToString();
+                        PA.Largo = float.Parse(dr["Largo"].ToString());
+                        PA.Ancho = float.Parse(dr["Ancho"].ToString());
+                        PA.Alto = float.Parse(dr["Alto"].ToString());
+                        PA.unidadMedidaT.Nombre = dr["NomUMT"].ToString();
+                        PA.Peso = float.Parse(dr["Peso"].ToString());
+                        PA.unidadMedidaP.Nombre = dr["NomUMP"].ToString();
+                        PA.PrecioVenta = decimal.Parse(dr["PrecioVenta"].ToString());
+                        PA.Existencias = string.IsNullOrEmpty(dr["Existencias"].ToString()) ? 0 : int.Parse(dr["Existencias"].ToString());
+                        
+                        LPA.Add(PA);
+                    }
+                }
+                string Ruta = string.Empty;
+                if (string.IsNullOrEmpty(Ubica))
+                {
+                    Ruta = @"C:\Mercar\Producto";
+                }
+                else
+                {
+                    Ruta = Ubica;
+                }
+                actionResult = Json(new { LPI = newLPIA, LProd = LPA, RutaImg = Ruta });
+            }
+            catch (Exception Ex)
+            {
+                ContentResultObject.Codigo = "Error";
+                ContentResultObject.Mensaje = Ex.Message;
+                actionResult = Json(new { codigo = ContentResultObject.Codigo, mensaje = ContentResultObject.Mensaje });
+            }
+            return actionResult;
+        }
+
     }
 }
