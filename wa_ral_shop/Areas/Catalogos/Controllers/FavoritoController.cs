@@ -11,12 +11,18 @@ using System.IO;
 
 namespace wa_ral_shop.Areas.Catalogos.Controllers
 {
-    public class FavoritoController : Controller
+    public class FavoritoController : ControllerMaster
     {
         // GET: Catalogos/Favorito
         public ActionResult Favorito()
         {
-            return View();
+            ActionResult actionResult = null;
+            actionResult = SesionN("Fav");
+            if (actionResult == null)
+            {
+                actionResult = View();
+            }
+            return actionResult;
         }
 
         [HttpPost]

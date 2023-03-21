@@ -220,6 +220,7 @@
     <Compile Include="Models\Repositorios\Catalogos\RepositorioUnidadMedida.cs" />
     <Compile Include="Models\Repositorios\RepositorioSesion.cs" />
     <Compile Include="Models\Utilerias\ContentResultObject.cs" />
+    <Compile Include="Models\Utilerias\ControllerMaster.cs" />
     <Compile Include="Models\Utilerias\EncYDec.cs" />
     <Compile Include="Models\Utilerias\Envia.cs" />
     <Compile Include="Models\Utilerias\Info.cs" />

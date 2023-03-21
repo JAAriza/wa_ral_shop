@@ -9,14 +9,21 @@ using wa_ral_shop.Models.Anonymous.Catalogos;
 using System.Data;
 using System.IO;
 
+
 namespace wa_ral_shop.Areas.Catalogos.Controllers
 {
-    public class CategoriaController : Controller
+    public class CategoriaController : ControllerMaster
     {
         // GET: Catalogos/Categoria
         public ActionResult Categoria()
         {
-            return View();
+            ActionResult actionResult = null;
+            actionResult = SesionN("Cat");
+            if (actionResult == null)
+            {
+                actionResult = View();
+            }
+            return actionResult;
         }
 
         [HttpPost]

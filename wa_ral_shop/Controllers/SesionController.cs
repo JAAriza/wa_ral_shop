@@ -59,6 +59,11 @@ namespace wa_ral_shop.Controllers
                     Session["EMail"] = email;
                     Session["Ide"] = Inicio;//Ide es el IdCliente
                     Session["TUsuario"] = info.GetTUsuario();//1= Cliente, 2 = Admin del sistema
+
+                    //Agregar consulta de permisos por pantalla
+                    Session["Cat"] = 0;
+                    Session["Fav"] = 1;
+
                     return RedirectToAction("Principal", "Inicio");
                 }
             }
