@@ -162,6 +162,7 @@
     <Compile Include="Areas\Catalogos\Controllers\CarritoController.cs" />
     <Compile Include="Areas\Catalogos\Controllers\CategoriaController.cs" />
     <Compile Include="Areas\Catalogos\Controllers\ColaboradorController.cs" />
+    <Compile Include="Areas\Catalogos\Controllers\CuentaController.cs" />
     <Compile Include="Areas\Catalogos\Controllers\DocumentoController.cs" />
     <Compile Include="Areas\Catalogos\Controllers\FavoritoController.cs" />
     <Compile Include="Areas\Catalogos\Controllers\PaqueteriaController.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Models\Repositorios\Catalogos\RepositorioCarrito.cs" />
     <Compile Include="Models\Repositorios\Catalogos\RepositorioCategoria.cs" />
     <Compile Include="Models\Repositorios\Catalogos\RepositorioColaborador.cs" />
+    <Compile Include="Models\Repositorios\Catalogos\RepositorioCuenta.cs" />
     <Compile Include="Models\Repositorios\Catalogos\RepositorioDocumento.cs" />
     <Compile Include="Models\Repositorios\Catalogos\RepositorioFavorito.cs" />
     <Compile Include="Models\Repositorios\Catalogos\RepositorioPaqueteria.cs" />
@@ -326,6 +328,7 @@
     <Content Include="Content\js\Catalogos\Carrito\Carrito.js" />
     <Content Include="Content\js\Catalogos\Categoria\Categoria.js" />
     <Content Include="Content\js\Catalogos\Colaborador\Colaborador.js" />
+    <Content Include="Content\js\Catalogos\Cuenta\Cuenta.js" />
     <Content Include="Content\js\Catalogos\Documento\Documento.js" />
     <Content Include="Content\js\Catalogos\Favorito\Favorito.js" />
     <Content Include="Content\js\Catalogos\Paqueteria\Paqueteria.js" />
@@ -1161,6 +1164,8 @@
     <Content Include="Areas\Catalogos\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Catalogos\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Catalogos\Views\Carrito\Carrito.cshtml" />
+    <Content Include="Areas\Catalogos\Views\Cuenta\Cuenta.cshtml" />
+    <Content Include="Areas\Catalogos\Views\Cuenta\ListaUbicacion.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Inicio\Principal.cshtml" />

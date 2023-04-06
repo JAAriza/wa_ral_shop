@@ -1,0 +1,260 @@
+﻿
+@{
+    ViewBag.Title = "Cuenta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts{
+    <script src="~/Content/js/Catalogos/Cuenta/Cuenta.js"></script>
+}
+
+<div class="content-wrapper">
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title" style="text-align:center"><b> @Session["Nombre"].ToString() </b></h3>
+                <div class="row">
+                    <div class="col-md-11 mx-auto">
+                        <ul class="nav nav-pills nav-pills-custom" id="pills-tab-custom" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="Informacion-tab" data-toggle="pill" href="#informacion" role="tab" aria-controls="pills-home" aria-selected="true">
+                                    Informaci&oacute;n
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="Ubicacion-tab" data-toggle="pill" href="#ubicacion" role="tab" aria-controls="pills-contact" aria-selected="false">
+                                    Ubicaci&oacute;n
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-vibes-tab-custom" data-toggle="pill" href="#pills-vibes" role="tab" aria-controls="pills-contact" aria-selected="false">
+                                    Formas de Pago
+                                </a>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content tab-content-custom-pill" id="pills-tabContent-custom">
+                            @*Nombre*@
+                            <div class="tab-pane fade show active" id="informacion" role="tabpanel" aria-labelledby="informacion-tab">
+                                <div class="media-body">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label for="txtNombreM">Nombre</label>
+                                            <input type="text" class="form-control" maxlength="50" id="txtNombreM" placeholder="Nombre">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label for="txtAPaternoM">A. Paterno</label>
+                                            <input type="text" class="form-control" maxlength="50" id="txtAPaternoM" placeholder="A. Paterno">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label for="txtAMaternoM">A. Materno</label>
+                                            <input type="text" class="form-control" maxlength="50" id="txtAMaternoM" placeholder="A. Materno">
+                                        </div>
+
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label for="txtTelefonoM">Telefono</label>
+                                            <input class="form-control" data-inputmask-alias="(999)-999-9999" im-insert="true" id="txtTelefonoM">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label for="txtEMailM">E Mail</label>
+                                            <input type="text" class="form-control" data-inputmask="'alias': 'email'" im-insert="true" maxlength="50" id="txtEMailM">
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="row" style="float:right">
+
+                                        @*<input type="text" class="form-control" hidden="hidden" id="txtIdClienteMEditar" placeholder="Id">*@
+                                        <button type="button" id="btnEditarInfo"
+                                                class="btn btn-success btn-rounded mr-2 btn-fw"
+                                                onclick="EditarInfo();">
+                                            Editar
+                                        </button>
+
+                                        <button type="button" id="btnGuardar"
+                                                class="btn btn-success btn-rounded mr-2 btn-fw"
+                                                onclick="GuardarInfo();">
+                                            Guardar
+                                        </button>
+
+                                    </div>
+                                    <br />
+                                </div>
+                            </div>
+
+                            @*Ubicacion*@
+                            <div class="tab-pane fade" id="ubicacion" role="tabpanel" aria-labelledby="Ubicacion-tab">
+                                <div class="media-body">
+                                    <div class="row">
+
+                                        <div class="col-lg-12 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+
+                                                    <div class="col-12 grid-margin">
+                                                        <div id="divListaUbicaciones">
+                                                            @Html.Partial("ListaUbicacion", ViewData["ListaCat"])
+
+                                                        </div>
+                                                        <br />
+                                                        <br />
+                                                        <div class="row" style="float:right" id="divAgregar">
+                                                            <button type="button" id="btnAgregar"
+                                                                    class="btn btn-success btn-rounded mr-2 btn-fw"
+                                                                    onclick="AgregarUbica();">
+                                                                Agregar
+                                                            </button>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="card-body" id="divUbicaC">
+                                                        <br />
+                                                        <br />
+                                                        
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-3">
+                                                                <label for="txtNombreMUbicacion">Nombre</label>
+                                                                <input type="text" class="form-control" maxlength="50" id="txtNombreMUbicacion" placeholder="Nombre">
+                                                            </div>
+
+                                                            <div class="col-sm-2">
+                                                                <label for="txtTelefonoMUbicacion">Telefono</label>
+                                                                <input class="form-control" data-inputmask-alias="(999)-999-9999" im-insert="true" id="txtTelefonoMUbicacion">
+                                                            </div>
+
+                                                            <div class="col-sm-2">
+                                                                <label for="txtCPMUbicacion">Codigo Postal</label>
+                                                                <input class="form-control input-number" maxlength="5" placeholder="CP" id="txtCPMUbicacion">
+                                                            </div>
+
+                                                            <div class="col-sm-1"></div>
+
+                                                            <div class="col-sm-2">
+                                                                <div class="template-demo">
+                                                                    <button type="button" id="btnBuscarCP"
+                                                                            class="btn btn-info btn-rounded mr-2 btn-fw"
+                                                                            onclick="BuscarCP();">
+                                                                        Busca CP
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <div class="template-demo">
+                                                                    <button type="button" id="btnLimpiarBuscar"
+                                                                            class="btn btn-light btn-rounded mr-2 btn-fw"
+                                                                            onclick="LimpiarCP();">
+                                                                        Cambia CP
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="divDireccion" class="form-group row">
+                                                            <div class="col-sm-4">
+                                                                <label for="txtEstadoMUbicacion">Estado</label>
+                                                                <input type="text" class="form-control" readonly="readonly" id="txtEstadoMUbicacion" placeholder="Estado">
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <label for="txtMpioMUbicacion">Municipio</label>
+                                                                <input type="text" class="form-control" readonly="readonly" id="txtMpioMUbicacion" placeholder="Municipio">
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="template-demo">
+                                                                    <label for="cmbColonia">Colonias</label>
+                                                                    <select class="js-example-basic-single w-100" style="width:100%;" id="cmbColonia"></select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="divDireccionDetalle" class="form-group row">
+                                                            <div class="col-sm-4">
+                                                                <label for="txtCalleMUbicacion">Calle</label>
+                                                                <input type="text" class="form-control" maxlength="50" id="txtCalleMUbicacion" placeholder="Calle">
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <label for="txtNExteriorMUbicacion">Num. Exterior</label>
+                                                                <input type="text" class="form-control" maxlength="50" id="txtNExteriorMUbicacion" placeholder="# Exterior">
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <label for="txtNInteriorMUbicacion">Num. Interior</label>
+                                                                <input type="text" class="form-control" maxlength="50" id="txtNInteriorMUbicacion" placeholder="# Interior (Opcional)">
+                                                            </div>
+                                                        </div>
+                                                        <div id="divCalles" class="form-group row">
+                                                            <div class="col-sm-6">
+                                                                <label for="txtEntreCalleMUbicacion"> Entre Calle </label>
+                                                                <input type="text" class="form-control" maxlength="50" id="txtEntreCalleMUbicacion" placeholder="Calle">
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <label for="txtYCalleMUbicacion"> Y Calle </label>
+                                                                <input type="text" class="form-control" maxlength="50" id="txtYCalleMUbicacion" placeholder="# Exterior">
+                                                            </div>
+                                                        </div>
+                                                        <div id="divDireccionF" class="form-group row">
+                                                            <div class="col-sm-12">
+                                                                <label for="txtDescripcionMUbicacion">Descripcion Adicional de docimicilio (Opcional)</label>
+                                                                <textarea id="txtDescripcionMUbicacion" class="maxlength-textarea form-control" maxlength="200" rows="3" placeholder="Limite 200 caracteres"></textarea>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="row" id="divSaveUbica">
+                                                            <input type="text" class="form-control" hidden="hidden" id="txtIdCUbicacion" placeholder="Id">
+                                                            <button type="button" id="btnEditar"
+                                                                    class="btn btn-success btn-rounded mr-2 btn-fw"
+                                                                    onclick="GuardarCDireccion();">
+                                                                Guardar
+                                                            </button>
+
+                                                            <button type="button" id="btnGEditar"
+                                                                    class="btn btn-success btn-rounded mr-2 btn-fw"
+                                                                    onclick="EditarUbicacion();">
+                                                                Guardar
+                                                            </button>
+
+                                                            <button type="button" id="btnLimpiar"
+                                                                    class="btn btn-secondary btn-rounded mr-2 btn-fw"
+                                                                    onclick="LimpiarUbicacion();">
+                                                                Limpiar
+                                                            </button>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            @*Formas de Pago*@
+                            <div class="tab-pane fade" id="pills-vibes" role="tabpanel" aria-labelledby="pills-vibes-tab-custom">
+                                <div class="media">
+                                    <img class="mr-3 w-25 rounded" src="~/Content/images/samples/300x300/15.jpg" alt="sample image">
+                                    <div class="media-body">
+                                        <p>
+                                            This man is a knight in shining armor. I feel like a jigsaw puzzle missing a piece. And I'm not
+                                            even sure what the picture should be. Somehow, I doubt that. You have a good heart, Dexter. Keep your mind limber.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -18,7 +18,7 @@ namespace wa_ral_shop.Areas.Catalogos.Controllers
         public ActionResult Categoria()
         {
             ActionResult actionResult = null;
-            actionResult = SesionN("Cat");
+            actionResult = SesionN("Categoria");
             if (actionResult == null)
             {
                 actionResult = View();

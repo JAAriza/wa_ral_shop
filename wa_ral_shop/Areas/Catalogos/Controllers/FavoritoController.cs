@@ -17,7 +17,7 @@ namespace wa_ral_shop.Areas.Catalogos.Controllers
         public ActionResult Favorito()
         {
             ActionResult actionResult = null;
-            actionResult = SesionN("Fav");
+            actionResult = SesionN("Favorito");
             if (actionResult == null)
             {
                 actionResult = View();

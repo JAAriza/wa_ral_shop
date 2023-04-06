@@ -1,0 +1,87 @@
+﻿@using wa_ral_shop.Models.Anonymous.Administracion;
+@model IEnumerable<CDireccionAnonymous>
+@{ Layout = null;
+
+    string Total = "";
+
+    if (ViewData["Total"] != null)
+    {
+        Total = ViewData["Total"].ToString();
+    }
+    else
+    {
+        Total = "0";
+    } 
+}
+
+@section Scripts{
+    <script src="~/Content/js/Catalogos/Cuenta/Cuenta.js"></script>
+}
+
+
+@if (Model != null)
+{
+    <h4 class="card-title">Encontrados: @Total</h4>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table id="tblUbicacion" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center" nowrap><b>Nombre</b></th>
+                                        <th style="text-align:center" nowrap><b>Telefono</b></th>
+                                        <th style="text-align:center" nowrap><b>CP</b></th>
+                                        <th style="text-align:center" nowrap><b>Entre Calle</b></th>
+                                        <th style="text-align:center" nowrap><b>Y Calle</b></th>
+                                        <th style="text-align:center" nowrap><b>Calle</b></th>
+                                        <th style="text-align:center" nowrap><b>N. Exterior</b></th>
+                                        <th style="text-align:center" nowrap><b>N. Interior</b></th>
+                                        <th style="text-align:center" nowrap><b>Colonia</b></th>
+                                        <th style="text-align:center" nowrap><b>Municipio</b></th>
+                                        <th style="text-align:center" nowrap><b>Estado</b></th>
+                                        <th style="text-align:center"><b>Descripcion</b></th>
+                                        @*<th style="text-align:center" nowrap><b>Predeterminado</b></th>*@
+                                        <th style="text-align:center" nowrap><b>Operaciones</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var fila in Model)
+                                    {
+                                        <tr>
+                                            <td style="text-align:left">@fila.Nombre</td>
+                                            <td style="text-align:left">@fila.Telefono</td>
+                                            <td style="text-align:left">@fila.CP</td>
+                                            <td style="text-align:left">@fila.EntreCalle</td>
+                                            <td style="text-align:left">@fila.YCalle</td>
+                                            <td style="text-align:left">@fila.Calle</td>
+                                            <td style="text-align:left">@fila.NExterior</td>
+                                            <td style="text-align:left">@fila.NInterior</td>
+                                            <td style="text-align:left">@fila.Colonia</td>
+                                            <td style="text-align:left">@fila.Municipio</td>
+                                            <td style="text-align:left">@fila.Estado</td>
+                                            <td style="text-align:left">@fila.Descripcion</td>
+                                            <td class="pr-0 text-center">
+                                                <div class="badge badge-pill badge-primary text-center">
+                                                    <i class="mdi mdi-pencil" onclick="Editar(@fila.Id, '@fila.Nombre', '@fila.Telefono', @fila.CP, '@fila.EntreCalle'
+                                                                                                , '@fila.YCalle', '@fila.Calle', '@fila.NExterior', '@fila.NInterior'
+                                                                                                , '@fila.Colonia', '@fila.Municipio', '@fila.Estado', '@fila.Descripcion');"
+                                                       style="cursor:pointer" title="Editar"></i>
+                                                </div>
+                                                <div class="badge badge-pill badge-warning text-center">
+                                                    <i class="mdi mdi-trash-can" onclick="Eliminar(@fila.Id);" style="cursor:pointer" title="Eliminar"></i>
+                                                </div>
+                                                
+                                            </td>
+                                        </tr>
+                                      }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> 
+  }
+else
+{
+    <h4 class="card-title" style="text-align:center">Sin resultados para mostrar</h4>
+}

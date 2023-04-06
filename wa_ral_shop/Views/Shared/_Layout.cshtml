@@ -1,345 +1,484 @@
-﻿<!DOCTYPE html>
-<html lang="es-mx">
+﻿@{
+    bool error = false;
+    int CDireccion = 0;
+    int Cliente = 0;
+    int Compra = 0;
+    int CPaqueteria = 0;
+    int CProveedor = 0;
+    int Proveedor = 0;
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    int Carrito = 0;
+    int Categoria = 0;
+    int Colaborador = 0;
+    int Cuenta = 0;
+    int Documento = 0;
+    int Favorito = 0;
+    int Paqueteria = 0;
+    int Porcentaje = 0;
+    int Producto = 0;
+    int Puesto = 0;
+    int RutaBase = 0;
+    int UnidadMedida = 0;
 
-    <title>Mercar</title>
+    try
+    {
+        CDireccion = int.Parse(Session["CDireccion"].ToString());//ClienteDireccion
+        Cliente = int.Parse(Session["Cliente"].ToString());//Cliente
+        Compra = int.Parse(Session["Compra"].ToString());//Compra
+        CPaqueteria = int.Parse(Session["CPaqueteria"].ToString());//ComentarioPaqueteria
+        CProveedor = int.Parse(Session["CProveedor"].ToString());//ComentarioProveedor
+        Proveedor = int.Parse(Session["Proveedor"].ToString());//Proveedor
 
-    <!-- plugins:css -->
-    <link rel="stylesheet" href="~/Content/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="~/Content/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="~/Content/vendors/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="~/Content/vendors/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="~/Content/vendors/feather/feather.css">
-    <link rel="stylesheet" href="~/Content/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- inject:css -->
-    <link rel="stylesheet" href="~/Content/css/vertical-layout-light/style.css">
-    <!-- endinject -->
-    <link rel="shortcut icon" href="~/Content/images/favicon.png">
+        Carrito = int.Parse(Session["Carrito"].ToString());//CarritoCompras
+        Categoria = int.Parse(Session["Categoria"].ToString());//Categoria
+        Colaborador = int.Parse(Session["Colaborador"].ToString());//Colaborador
+        Cuenta = int.Parse(Session["Cuenta"].ToString());//Cuenta
+        Documento = int.Parse(Session["Documento"].ToString());//Documento
+        Favorito = int.Parse(Session["Favorito"].ToString());//Favorito
+        Paqueteria = int.Parse(Session["Paqueteria"].ToString());//Paqueteria
+        Porcentaje = int.Parse(Session["Porcentaje"].ToString());//Porcentaje
+        Producto = int.Parse(Session["Producto"].ToString());//Producto
+        Puesto = int.Parse(Session["Puesto"].ToString());//Puesto
+        RutaBase = int.Parse(Session["RutaBase"].ToString());//RutaBase
+        UnidadMedida = int.Parse(Session["UnidadMedida"].ToString());//UnidadMedida
 
-    @* Necesario para el funcionamiento de: Datatable*@
-    <link rel="stylesheet" href="~/Content/vendors/datatables.net-bs4/dataTables.bootstrap4.css" />
-
-    @*Necesario para funcionamiento toast*@
-    <link rel="stylesheet" href="~/Content/vendors/jquery-toast-plugin/jquery.toast.min.css" />
-
-    @*Necesario para funcionamiento de estrellas de valoracion*@
-    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-1to10.css" />
-    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-horizontal.css" />
-    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-movie.css" />
-    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-pill.css" />
-    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-reversed.css" />
-    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-square.css" />
-    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bootstrap-stars.css" />
-    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/css-stars.css" />
-    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/examples.css" />
-    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/fontawesome-stars-o.css" />
-    <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/fontawesome-stars.css" />
-    <link rel="stylesheet" href="~/Content/vendors/jquery-asColorPicker/css/asColorPicker.min.css" />
-    <link rel="stylesheet" href="~/Content/vendors/x-editable/bootstrap-editable.css" />
-    <link rel="stylesheet" href="~/Content/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
-    <link rel="stylesheet" href="~/Content/vendors/dropify/dropify.min.css" />
-    <link rel="stylesheet" href="~/Content/vendors/jquery-file-upload/uploadfile.css" />
-    <link rel="stylesheet" href="~/Content/vendors/jquery-tags-input/jquery.tagsinput.min.css" />
-    <link rel="stylesheet" href="~/Content/vendors/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css" />
-    <link rel="stylesheet" href="~/Content/vendors/dropzone/dropzone.css" />
-
-    @*Necesario para funcionamiento de select2*@
-    <link rel="stylesheet" href="~/Content/vendors/icheck/skins/all.css" />
-    <link rel="stylesheet" href="~/Content/vendors/select2/select2.min.css" />
-    <link rel="stylesheet" href="~/Content/vendors/select2-bootstrap-theme/select2-bootstrap.min.css" />
-
-    @*Necesario para que funcione carousel*@
-    <link rel="stylesheet" href="~/Content/vendors/owl-carousel-2/owl.carousel.min.css" />
-    <link rel="stylesheet" href="~/Content/vendors/owl-carousel-2/owl.theme.default.min.css" />
-
-
-    
-</head>
-
-<body class="sidebar-toggle-display">
-    <div class="container-scroller">
-        <!-- partial:../../partials/_navbar.html -->
-        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row navbar-danger">
-            <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-                <a class="navbar-brand brand-logo" href="@Url.Action("Principal", "Inicio" , new { area="" })"><img src="~/Content/images/logo.svg" alt="logo" /></a>
-                <a class="navbar-brand brand-logo-mini" href="@Url.Action("Principal", "Inicio" , new { area="" })"><img src="~/Content/images/logo-mini.svg" alt="logo" /></a>
-            </div>
-            <div class="navbar-menu-wrapper d-flex align-items-center">
-                <button class="navbar-toggler navbar-toggler align-self-center" type="button" title="Colapsar" data-toggle="minimize">
-                    <span id="collapsMenu" class="icon-arrow-left"></span>
-                </button>
-
-                <ul class="navbar-nav navbar-nav-right">
-
-                    <li class="nav-item dropdown">
-                        @*count-indicator clase que sirve para mostrar como su tuviera una notificacion adicional, como un punto rojo*@
-                        <a class="nav-link dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-                            <i class="icon-menu mx-0"></i>
-                            <span class="count"></span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-                            <div class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-danger">
-                                        <i class="icon-power mx-0"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <a style="cursor:pointer;" id="cerrar" class="dropdown-item" href="@Url.Action("LogOut", "Sesion" , new { area="" })">
-                                        <h6 class="preview-subject font-weight-medium">Salir</h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-
-                </ul>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-                    <span class="icon-menu"></span>
-                </button>
-            </div>
-        </nav>
-        <!-- partial -->
-        <div class="container-fluid page-body-wrapper">
-
-            <!-- partial -->
-            <!-- partial:../../partials/_sidebar.html -->
-            <nav class="sidebar sidebar-offcanvas" id="sidebar">
-                <ul class="nav ps ps--active-y">
-                    <li class="nav-item nav-profile">
-                        <div class="nav-link">
-                            <!--<div class="profile-image">
-            <img src="~/Content/images/faces/face3.jpg" alt="image" />-->
-                            @*<span class="online-status online"></span> change class online to offline or busy as needed*@
-                            <!--</div>-->
-                            <br />
-
-                            <div class="profile-name">
-                                <p class="name fc-center">
-                                    Hola!
-                                </p>
-                                <p class="name fc-center fc-header">
-                                    <b>@Session["Nombre"]</b>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Principal", "Inicio" , new { area="" })">
-                            <i class="icon-grid menu-icon"></i>
-                            <span class="menu-title">Inicio</span>
-                            @*<span class="badge badge-success">New</span>*@
-                        </a>
-                    </li>
-
-                    @if (int.Parse(Session["TUsuario"].ToString()) == 1)
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Favorito", "Favorito", new { area = "Catalogos" })">
-                                <i class="mdi mdi-heart menu-icon"></i>
-                                <span class="menu-title">Favoritos</span>
-                            </a>
-                        </li>
-                        
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Carrito", "Carrito", new { area = "Catalogos" })">
-                                <i class="fa fa-shopping-cart menu-icon"></i>
-                                <span class="menu-title">Carrito</span>
-                            </a>
-                        </li>
-                     }
-                    @if (int.Parse(Session["TUsuario"].ToString()) == 2)
-                    {
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" href="#page-catalogos" aria-expanded="false" aria-controls="page-catalogos">
-                        <i class="icon-folder menu-icon"></i>
-                        <span class="menu-title">Cat&aacute;logos</span>
-                        @*<span class="badge badge-success">1</span>*@
-                    </a>
-                    <div class="collapse" id="page-catalogos">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="d-none d-lg-block">
-                                <a class="nav-link" href="@Url.Action("Categoria", "Categoria", new { area = "Catalogos" })">Categorias</a>
-                            </li>
-                            <li class="d-none d-lg-block">
-                                <a class="nav-link" href="@Url.Action("Documento", "Documento", new { area = "Catalogos" })">Documentos</a>
-                            </li>
-                            <li class="d-none d-lg-block">
-                                <a class="nav-link" href="@Url.Action("Puesto", "Puesto", new { area = "Catalogos" })">Puestos</a>
-                            </li>
-                            <li class="d-none d-lg-block">
-                                <a class="nav-link" href="@Url.Action("RutaBase", "RutaBase", new { area = "Catalogos" })">Ruta Base</a>
-                            </li>
-                            <li class="d-none d-lg-block">
-                                <a class="nav-link" href="@Url.Action("Paqueteria", "Paqueteria", new { area = "Catalogos" })">Paqueteria</a>
-                            </li>
-                            <li class="d-none d-lg-block">
-                                <a class="nav-link" href="@Url.Action("Porcentaje", "Porcentaje", new { area = "Catalogos" })">Porcentaje</a>
-                            </li>
-                            <li class="d-none d-lg-block">
-                                <a class="nav-link" href="@Url.Action("Colaborador", "Colaborador", new { area = "Catalogos" })">Colaborador</a>
-                            </li>
-                            <li class="d-none d-lg-block">
-                                <a class="nav-link" href="@Url.Action("UnidadMedida", "UnidadMedida", new { area = "Catalogos" })">U. de Medida</a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="collapse" href="#page-admon" aria-expanded="false" aria-controls="page-admon">
-                                        <i class="icon-layers menu-icon"></i>
-                                        <span class="menu-title">Administracion</span>
-                                    </a>
-                                    <div class="collapse" id="page-admon">
-                                        <ul class="nav flex-column sub-menu">
-                                            <li class="d-none d-lg-block">
-                                                <a class="nav-link" href="@Url.Action("CPaqueteria", "CPaqueteria", new { area = "Administracion" })">C. Paqueteria</a>
-                                            </li>
-                                            <li class="d-none d-lg-block">
-                                                <a class="nav-link" href="@Url.Action("Cliente", "Cliente", new { area = "Administracion" })">Cliente</a>
-                                            </li>
-                                            <li class="d-none d-lg-block">
-                                                <a class="nav-link" href="@Url.Action("Proveedor", "Proveedor", new { area = "Administracion" })">Proveedor</a>
-                                            </li>
-                                            <li class="d-none d-lg-block">
-                                                <a class="nav-link" href="@Url.Action("CProveedor", "CProveedor", new { area = "Administracion" })">C. Proveedor</a>
-                                            </li>
-                                            <li class="d-none d-lg-block">
-                                                <a class="nav-link" href="@Url.Action("Producto", "Producto", new { area = "Catalogos" })">Producto</a>
-                                            </li>
-                                            <li class="d-none d-lg-block">
-                                                <a class="nav-link" href="@Url.Action("Compra", "Compra", new { area = "Administracion" })">Compras</a>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-
-                                </li>
+    }
+    catch (Exception)
+    {
+        error = true;
+    }
 }
 
-                </ul>
+@if (@error == true)
+{
+    Response.Redirect("~/Sesion/Login");
+}
+else
+{
+
+    <!DOCTYPE html>
+    <html lang="es-mx">
+
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Mercar</title>
+
+        <!-- plugins:css -->
+        <link rel="stylesheet" href="~/Content/vendors/flag-icon-css/css/flag-icon.min.css">
+        <link rel="stylesheet" href="~/Content/vendors/mdi/css/materialdesignicons.min.css">
+        <link rel="stylesheet" href="~/Content/vendors/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="~/Content/vendors/simple-line-icons/css/simple-line-icons.css">
+        <link rel="stylesheet" href="~/Content/vendors/feather/feather.css">
+        <link rel="stylesheet" href="~/Content/vendors/css/vendor.bundle.base.css">
+        <!-- endinject -->
+        <!-- inject:css -->
+        <link rel="stylesheet" href="~/Content/css/vertical-layout-light/style.css">
+        <!-- endinject -->
+        <link rel="shortcut icon" href="~/Content/images/favicon.png">
+
+        @* Necesario para el funcionamiento de: Datatable*@
+        <link rel="stylesheet" href="~/Content/vendors/datatables.net-bs4/dataTables.bootstrap4.css" />
+
+        @*Necesario para funcionamiento toast*@
+        <link rel="stylesheet" href="~/Content/vendors/jquery-toast-plugin/jquery.toast.min.css" />
+
+        @*Necesario para funcionamiento de estrellas de valoracion*@
+        <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-1to10.css" />
+        <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-horizontal.css" />
+        <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-movie.css" />
+        <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-pill.css" />
+        <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-reversed.css" />
+        <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bars-square.css" />
+        <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/bootstrap-stars.css" />
+        <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/css-stars.css" />
+        <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/examples.css" />
+        <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/fontawesome-stars-o.css" />
+        <link rel="stylesheet" href="~/Content/vendors/jquery-bar-rating/fontawesome-stars.css" />
+        <link rel="stylesheet" href="~/Content/vendors/jquery-asColorPicker/css/asColorPicker.min.css" />
+        <link rel="stylesheet" href="~/Content/vendors/x-editable/bootstrap-editable.css" />
+        <link rel="stylesheet" href="~/Content/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+        <link rel="stylesheet" href="~/Content/vendors/dropify/dropify.min.css" />
+        <link rel="stylesheet" href="~/Content/vendors/jquery-file-upload/uploadfile.css" />
+        <link rel="stylesheet" href="~/Content/vendors/jquery-tags-input/jquery.tagsinput.min.css" />
+        <link rel="stylesheet" href="~/Content/vendors/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css" />
+        <link rel="stylesheet" href="~/Content/vendors/dropzone/dropzone.css" />
+
+        @*Necesario para funcionamiento de select2*@
+        <link rel="stylesheet" href="~/Content/vendors/icheck/skins/all.css" />
+        <link rel="stylesheet" href="~/Content/vendors/select2/select2.min.css" />
+        <link rel="stylesheet" href="~/Content/vendors/select2-bootstrap-theme/select2-bootstrap.min.css" />
+
+        @*Necesario para que funcione carousel*@
+        <link rel="stylesheet" href="~/Content/vendors/owl-carousel-2/owl.carousel.min.css" />
+        <link rel="stylesheet" href="~/Content/vendors/owl-carousel-2/owl.theme.default.min.css" />
+
+
+
+    </head>
+
+    <body class="sidebar-toggle-display">
+        <div class="container-scroller">
+            <!-- partial:../../partials/_navbar.html -->
+            <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row navbar-danger">
+                <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+                    <a class="navbar-brand brand-logo" href="@Url.Action("Principal", "Inicio", new { area = "" })"><img src="~/Content/images/logo.svg" alt="logo" /></a>
+                    <a class="navbar-brand brand-logo-mini" href="@Url.Action("Principal", "Inicio", new { area = "" })"><img src="~/Content/images/logo-mini.svg" alt="logo" /></a>
+                </div>
+                <div class="navbar-menu-wrapper d-flex align-items-center">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" title="Colapsar" data-toggle="minimize">
+                        <span id="collapsMenu" class="icon-arrow-left"></span>
+                    </button>
+
+                    <ul class="navbar-nav navbar-nav-right">
+
+                        <li class="nav-item dropdown">
+                            @*count-indicator clase que sirve para mostrar como su tuviera una notificacion adicional, como un punto rojo*@
+                            <a class="nav-link dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+                                <i class="icon-menu mx-0"></i>
+                                <span class="count"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                                
+                                @if (Cuenta == 1)
+                                {
+                                    <div class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-danger">
+                                                <i class="fa fa-user-o mx-0"></i>
+                                            </div>
+                                        </div>
+                                        <div class="preview-item-content">
+                                            <a style="cursor:pointer;" id="cuenta" class="dropdown-item" href="@Url.Action("Cuenta", "Cuenta", new { area = "Catalogos" })">
+                                                <h6 class="preview-subject font-weight-medium">Mi cuenta</h6>
+                                            </a>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="dropdown-divider"></div>
+
+                                }
+                                <div class="dropdown-item preview-item">
+                                    <div class="preview-thumbnail">
+                                        <div class="preview-icon bg-danger">
+                                            <i class="icon-power mx-0"></i>
+                                        </div>
+                                    </div>
+                                    <div class="preview-item-content">
+                                        <a style="cursor:pointer;" id="cerrar" class="dropdown-item" href="@Url.Action("LogOut", "Sesion", new { area = "" })">
+                                            <h6 class="preview-subject font-weight-medium">Salir</h6>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </li>
+
+                    </ul>
+                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                        <span class="icon-menu"></span>
+                    </button>
+                </div>
             </nav>
             <!-- partial -->
-            <div class="main-panel">
-                @RenderBody()
-                <!-- content-wrapper ends -->
-                <!-- partial:../../partials/_footer.html -->
-                <footer class="footer">
-                    <div class="container-fluid clearfix">
-                        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2023 <a href="#">Mercar</a>. All rights reserved.</span>
-                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Inbox & Send with <i class="mdi mdi-heart text-success"></i></span>
-                    </div>
-                </footer>
+            <div class="container-fluid page-body-wrapper">
+
                 <!-- partial -->
+                <!-- partial:../../partials/_sidebar.html -->
+                <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                    <ul class="nav ps ps--active-y">
+                        <li class="nav-item nav-profile">
+                            <div class="nav-link">
+                                <!--<div class="profile-image">
+                                <img src="~/Content/images/faces/face3.jpg" alt="image" />-->
+                                @*<span class="online-status online"></span> change class online to offline or busy as needed*@
+                                <!--</div>-->
+                                <br />
+
+                                <div class="profile-name">
+                                    <p class="name fc-center">
+                                        Hola!
+                                    </p>
+                                    @if (Session["Nombre"] == null)
+                                    {
+                                        Response.Redirect("~/Login.cshtml");
+                                    }
+                                    else
+                                    {
+                                        <p class="name fc-center fc-header">
+                                            <b>@Session["Nombre"]</b>
+                                        </p>
+                                    }
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Principal", "Inicio", new { area = "" })">
+                                <i class="icon-grid menu-icon"></i>
+                                <span class="menu-title">Inicio</span>
+                                @*<span class="badge badge-success">New</span>*@
+                            </a>
+                        </li>
+                        @if (Session["TUsuario"] == null)
+                        {
+                            Response.Redirect("~/Login.cshtml");
+                        }
+                        else
+                        {
+                            if (int.Parse(Session["TUsuario"].ToString()) == 1)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Favorito", "Favorito", new { area = "Catalogos" })">
+                                        <i class="mdi mdi-heart menu-icon"></i>
+                                        <span class="menu-title">Favoritos</span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Carrito", "Carrito", new { area = "Catalogos" })">
+                                        <i class="fa fa-shopping-cart menu-icon"></i>
+                                        <span class="menu-title">Carrito</span>
+                                    </a>
+                                </li>
+                            }
+                            if (int.Parse(Session["TUsuario"].ToString()) == 2)
+                            {
+                                if (Categoria == 1 || Documento == 1 || Puesto == 1 || RutaBase == 1 || Paqueteria == 1 || Porcentaje == 1 || Colaborador == 1 || UnidadMedida == 1)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="collapse" href="#page-catalogos" aria-expanded="false" aria-controls="page-catalogos">
+                                            <i class="icon-folder menu-icon"></i>
+                                            <span class="menu-title">Cat&aacute;logos</span>
+                                            @*<span class="badge badge-success">1</span>*@
+                                        </a>
+                                        <div class="collapse" id="page-catalogos">
+                                            <ul class="nav flex-column sub-menu">
+                                                @if (Categoria == 1)
+                                                {
+                                                    <li class="d-none d-lg-block">
+                                                        <a class="nav-link" href="@Url.Action("Categoria", "Categoria", new { area = "Catalogos" })">Categorias</a>
+                                                    </li>
+                                                }
+                                                @if (Documento == 1)
+                                                {
+                                                    <li class="d-none d-lg-block">
+                                                        <a class="nav-link" href="@Url.Action("Documento", "Documento", new { area = "Catalogos" })">Documentos</a>
+                                                    </li>
+                                                }
+                                                @if (Puesto == 1)
+                                                {
+                                                    <li class="d-none d-lg-block">
+                                                        <a class="nav-link" href="@Url.Action("Puesto", "Puesto", new { area = "Catalogos" })">Puestos</a>
+                                                    </li>
+                                                }
+                                                @if (RutaBase == 1)
+                                                {
+                                                    <li class="d-none d-lg-block">
+                                                        <a class="nav-link" href="@Url.Action("RutaBase", "RutaBase", new { area = "Catalogos" })">Ruta Base</a>
+                                                    </li>
+                                                }
+                                                @if (Paqueteria == 1)
+                                                {
+                                                    <li class="d-none d-lg-block">
+                                                        <a class="nav-link" href="@Url.Action("Paqueteria", "Paqueteria", new { area = "Catalogos" })">Paqueteria</a>
+                                                    </li>
+                                                }
+                                                @if (Porcentaje == 1)
+                                                {
+                                                    <li class="d-none d-lg-block">
+                                                        <a class="nav-link" href="@Url.Action("Porcentaje", "Porcentaje", new { area = "Catalogos" })">Porcentaje</a>
+                                                    </li>
+                                                }
+                                                @if (Colaborador == 1)
+                                                {
+                                                    <li class="d-none d-lg-block">
+                                                        <a class="nav-link" href="@Url.Action("Colaborador", "Colaborador", new { area = "Catalogos" })">Colaborador</a>
+                                                    </li>
+                                                }
+                                                @if (UnidadMedida == 1)
+                                                {
+                                                    <li class="d-none d-lg-block">
+                                                        <a class="nav-link" href="@Url.Action("UnidadMedida", "UnidadMedida", new { area = "Catalogos" })">U. de Medida</a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+
+                                }
+
+                                if (Paqueteria == 1 || Cliente == 1 || Proveedor == 1 || CProveedor == 1 || Producto == 1 || Compra == 1)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="collapse" href="#page-admon" aria-expanded="false" aria-controls="page-admon">
+                                            <i class="icon-layers menu-icon"></i>
+                                            <span class="menu-title">Administracion</span>
+                                        </a>
+                                        <div class="collapse" id="page-admon">
+                                            <ul class="nav flex-column sub-menu">
+                                                @if (Paqueteria == 1)
+                                                {
+                                                    <li class="d-none d-lg-block">
+                                                        <a class="nav-link" href="@Url.Action("CPaqueteria", "CPaqueteria", new { area = "Administracion" })">C. Paqueteria</a>
+                                                    </li>
+                                                }
+                                                @if (Cliente == 1)
+                                                {
+                                                    <li class="d-none d-lg-block">
+                                                        <a class="nav-link" href="@Url.Action("Cliente", "Cliente", new { area = "Administracion" })">Cliente</a>
+                                                    </li>
+                                                }
+                                                @if (Proveedor == 1)
+                                                {
+                                                    <li class="d-none d-lg-block">
+                                                        <a class="nav-link" href="@Url.Action("Proveedor", "Proveedor", new { area = "Administracion" })">Proveedor</a>
+                                                    </li>
+                                                }
+                                                @if (CProveedor == 1)
+                                                {
+                                                    <li class="d-none d-lg-block">
+                                                        <a class="nav-link" href="@Url.Action("CProveedor", "CProveedor", new { area = "Administracion" })">C. Proveedor</a>
+                                                    </li>
+                                                }
+                                                @if (Producto == 1)
+                                                {
+                                                    <li class="d-none d-lg-block">
+                                                        <a class="nav-link" href="@Url.Action("Producto", "Producto", new { area = "Catalogos" })">Producto</a>
+                                                    </li>
+                                                }
+                                                @if (Compra == 1)
+                                                {
+                                                    <li class="d-none d-lg-block">
+                                                        <a class="nav-link" href="@Url.Action("Compra", "Compra", new { area = "Administracion" })">Compras</a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+
+                                    </li>
+                                }
+                            }
+                        }
+                    </ul>
+                </nav>
+                <!-- partial -->
+                <div class="main-panel">
+                    @RenderBody()
+                    <!-- content-wrapper ends -->
+                    <!-- partial:../../partials/_footer.html -->
+                    <footer class="footer">
+                        <div class="container-fluid clearfix">
+                            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2023 <a href="#">Mercar</a>. All rights reserved.</span>
+                            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Inbox & Send with <i class="mdi mdi-heart text-success"></i></span>
+                        </div>
+                    </footer>
+                    <!-- partial -->
+                </div>
+                <!-- main-panel ends -->
             </div>
-            <!-- main-panel ends -->
+            <!-- page-body-wrapper ends -->
         </div>
-        <!-- page-body-wrapper ends -->
-    </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script src="~/Content/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page-->
-    <!-- End plugin js for this page-->
-    <!-- inject:js -->
-    <script src="~/Content/js/off-canvas.js"></script>
-    <script src="~/Content/js/hoverable-collapse.js"></script>
-    <script src="~/Content/js/template.js"></script>
-    <script src="~/Content/js/settings.js"></script>
-    <script src="~/Content/js/todolist.js"></script>
+        <!-- container-scroller -->
+        <!-- plugins:js -->
+        <script src="~/Content/vendors/js/vendor.bundle.base.js"></script>
+        <!-- endinject -->
+        <!-- Plugin js for this page-->
+        <!-- End plugin js for this page-->
+        <!-- inject:js -->
+        <script src="~/Content/js/off-canvas.js"></script>
+        <script src="~/Content/js/hoverable-collapse.js"></script>
+        <script src="~/Content/js/template.js"></script>
+        <script src="~/Content/js/settings.js"></script>
+        <script src="~/Content/js/todolist.js"></script>
 
-    @* Necesario para el funcionamiento de: Datatable*@
-    <script src="~/Content/vendors/datatables.net/jquery.dataTables.js"></script>
-    <script src="~/Content/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-    <script src="~/Content/js/data-table.js"></script>
+        @* Necesario para el funcionamiento de: Datatable*@
+        <script src="~/Content/vendors/datatables.net/jquery.dataTables.js"></script>
+        <script src="~/Content/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+        <script src="~/Content/js/data-table.js"></script>
 
-    @* Necesario para el funcionamiento de: Modal*@
-    <script src="~/Content/js/modal-demo.js"></script>
+        @* Necesario para el funcionamiento de: Modal*@
+        <script src="~/Content/js/modal-demo.js"></script>
 
-    @*Sirve para especificar que no todos los Script son necesarios aplica para aquellas llamadas que por
-        pagina se utiliza un solo JS que es normalmente para conectar a la BD o funciones de cada pagina
-            @RenderSection("scripts", required: false)  *@
+        @*Sirve para especificar que no todos los Script son necesarios aplica para aquellas llamadas que por
+            pagina se utiliza un solo JS que es normalmente para conectar a la BD o funciones de cada pagina
+                @RenderSection("scripts", required: false)  *@
 
-    @RenderSection("scripts", required: false)
+        @RenderSection("scripts", required: false)
 
-    @* Necesario para el funcionamiento de: SweetAlert*@
-    <script src="~/Content/vendors/jquery.avgrund/jquery.avgrund.min.js"></script>
-    <script src="~/Content/vendors/sweetalert/sweetalert.min.js"></script>
-    <script src="~/Content/js/alerts.js"></script>
-    <script src="~/Content/js/avgrund.js"></script>
+        @* Necesario para el funcionamiento de: SweetAlert*@
+        <script src="~/Content/vendors/jquery.avgrund/jquery.avgrund.min.js"></script>
+        <script src="~/Content/vendors/sweetalert/sweetalert.min.js"></script>
+        <script src="~/Content/js/alerts.js"></script>
+        <script src="~/Content/js/avgrund.js"></script>
 
-    @*Necesario para funcionamiento de los toast*@
-    <script src="~/Content/vendors/jquery-toast-plugin/jquery.toast.min.js"></script>
-    <script src="~/Content/js/toastDemo.js"></script>
-    <script src="~/Content/js/desktop-notification.js"></script>
+        @*Necesario para funcionamiento de los toast*@
+        <script src="~/Content/vendors/jquery-toast-plugin/jquery.toast.min.js"></script>
+        <script src="~/Content/js/toastDemo.js"></script>
+        <script src="~/Content/js/desktop-notification.js"></script>
 
-    <!-- Custom js for this page-->
-    <!-- End custom js for this page-->
-    @*Necesarios para funcionamiento de maxlenght*@
-    <script src="~/Content/vendors/jquery-validation/jquery.validate.min.js"></script>
-    <script src="~/Content/vendors/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
-    <script src="~/Content/js/form-validation.js"></script>
-    <script src="~/Content/js/bt-maxLength.js"></script>
+        <!-- Custom js for this page-->
+        <!-- End custom js for this page-->
+        @*Necesarios para funcionamiento de maxlenght*@
+        <script src="~/Content/vendors/jquery-validation/jquery.validate.min.js"></script>
+        <script src="~/Content/vendors/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+        <script src="~/Content/js/form-validation.js"></script>
+        <script src="~/Content/js/bt-maxLength.js"></script>
 
-    @*Necesario para funcionamiento de estrellas de valoracion*@
-    <script src="~/Content/vendors/jquery-bar-rating/jquery.barrating.min.js"></script>
-    <script src="~/Content/vendors/jquery-asColor/jquery-asColor.min.js"></script>
-    <script src="~/Content/vendors/jquery-asGradient/jquery-asGradient.min.js"></script>
-    <script src="~/Content/vendors/jquery-asColorPicker/jquery-asColorPicker.min.js"></script>
-    <script src="~/Content/vendors/x-editable/bootstrap-editable.min.js"></script>
-    <script src="~/Content/vendors/moment/moment.min.js"></script>
-    <script src="~/Content/vendors/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.js"></script>
-    <script src="~/Content/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-    <script src="~/Content/vendors/dropify/dropify.min.js"></script>
-    <script src="~/Content/vendors/jquery-file-upload/jquery.uploadfile.min.js"></script>
-    <script src="~/Content/vendors/jquery-tags-input/jquery.tagsinput.min.js"></script>
-    <script src="~/Content/vendors/dropzone/dropzone.js"></script>
-    <script src="~/Content/vendors/jquery.repeater/jquery.repeater.min.js"></script>
-    <script src="~/Content/vendors/inputmask/jquery.inputmask.bundle.js"></script>
-    <script src="~/Content/vendors/inputmask/inputmask.binding.js"></script>
+        @*Necesario para funcionamiento de estrellas de valoracion*@
+        <script src="~/Content/vendors/jquery-bar-rating/jquery.barrating.min.js"></script>
+        <script src="~/Content/vendors/jquery-asColor/jquery-asColor.min.js"></script>
+        <script src="~/Content/vendors/jquery-asGradient/jquery-asGradient.min.js"></script>
+        <script src="~/Content/vendors/jquery-asColorPicker/jquery-asColorPicker.min.js"></script>
+        <script src="~/Content/vendors/x-editable/bootstrap-editable.min.js"></script>
+        <script src="~/Content/vendors/moment/moment.min.js"></script>
+        <script src="~/Content/vendors/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.js"></script>
+        <script src="~/Content/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+        <script src="~/Content/vendors/dropify/dropify.min.js"></script>
+        <script src="~/Content/vendors/jquery-file-upload/jquery.uploadfile.min.js"></script>
+        <script src="~/Content/vendors/jquery-tags-input/jquery.tagsinput.min.js"></script>
+        <script src="~/Content/vendors/dropzone/dropzone.js"></script>
+        <script src="~/Content/vendors/jquery.repeater/jquery.repeater.min.js"></script>
+        <script src="~/Content/vendors/inputmask/jquery.inputmask.bundle.js"></script>
+        <script src="~/Content/vendors/inputmask/inputmask.binding.js"></script>
 
-    <script src="~/Content/js/formpickers.js"></script>
-    <script src="~/Content/js/form-addons.js"></script>
-    <script src="~/Content/js/x-editable.js"></script>
-    <script src="~/Content/js/dropify.js"></script>
-    <script src="~/Content/js/dropzone.js"></script>
-    <script src="~/Content/js/jquery-file-upload.js"></script>
+        <script src="~/Content/js/formpickers.js"></script>
+        <script src="~/Content/js/form-addons.js"></script>
+        <script src="~/Content/js/x-editable.js"></script>
+        <script src="~/Content/js/dropify.js"></script>
+        <script src="~/Content/js/dropzone.js"></script>
+        <script src="~/Content/js/jquery-file-upload.js"></script>
 
-    <script src="~/Content/js/formpickers.js"></script>
+        <script src="~/Content/js/formpickers.js"></script>
 
-    <script src="~/Content/js/form-repeater.js"></script>
+        <script src="~/Content/js/form-repeater.js"></script>
 
 
 
-    @*Necesario para funcionamiento del select2*@
-    <script src="~/Content/vendors/icheck/icheck.min.js"></script>
-    <script src="~/Content/vendors/typeahead.js/typeahead.bundle.min.js"></script>
-    <script src="~/Content/vendors/select2/select2.min.js"></script>
+        @*Necesario para funcionamiento del select2*@
+        <script src="~/Content/vendors/icheck/icheck.min.js"></script>
+        <script src="~/Content/vendors/typeahead.js/typeahead.bundle.min.js"></script>
+        <script src="~/Content/vendors/select2/select2.min.js"></script>
 
 
-    @*Necesario para funcionamiento popover*@
-    <script src="~/Content/js/tooltips.js"></script>
-    <script src="~/Content/js/popover.js"></script>
+        @*Necesario para funcionamiento popover*@
+        <script src="~/Content/js/tooltips.js"></script>
+        <script src="~/Content/js/popover.js"></script>
 
-    @*Necesario para funcionamiento colcade*@
-    <script src="~/Content/vendors/colcade/colcade.js"></script>
-    <script src="~/Content/js/tight-grid.js"></script>
+        @*Necesario para funcionamiento colcade*@
+        <script src="~/Content/vendors/colcade/colcade.js"></script>
+        <script src="~/Content/js/tight-grid.js"></script>
 
-    @*Necesario para que funcione carousel*@
-    <script src="~/Content/vendors/owl-carousel-2/owl.carousel.min.js"></script>
-    <script src="~/Content/js/owl-carousel.js"></script>
+        @*Necesario para que funcione carousel*@
+        <script src="~/Content/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+        <script src="~/Content/js/owl-carousel.js"></script>
 
-    
 
-</body>
+
+    </body>
 
 </html>
 
+}

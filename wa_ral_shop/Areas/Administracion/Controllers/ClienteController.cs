@@ -159,7 +159,7 @@ namespace wa_ral_shop.Areas.Administracion.Controllers
                     Mensaje = "Error";
                 }
                  
-                actionResult = Json(new { mensaje = Mensaje });
+                actionResult = Json(new { codigo = Mensaje });
             }
             catch (Exception Ex)
             {

@@ -54,15 +54,65 @@ namespace wa_ral_shop.Controllers
                     clienteAnonymous.Nombre = dtCliente.Rows[0][1].ToString();
                     clienteAnonymous.APaterno = dtCliente.Rows[0][2].ToString();
                     clienteAnonymous.AMaterno = dtCliente.Rows[0][3].ToString();
-                    clienteAnonymous.Telefono = dtCliente.Rows[0][4].ToString();
-                    Session["Nombre"] = clienteAnonymous.Nombre;                    
+                    clienteAnonymous.Telefono = dtCliente.Rows[0][5].ToString();
+                    Session["Nombre"] = clienteAnonymous.Nombre;
+                    Session["APaterno"] = clienteAnonymous.APaterno;
+                    Session["AMaterno"] = clienteAnonymous.AMaterno;
+                    Session["Telefono"] = clienteAnonymous.Telefono;
                     Session["EMail"] = email;
                     Session["Ide"] = Inicio;//Ide es el IdCliente
                     Session["TUsuario"] = info.GetTUsuario();//1= Cliente, 2 = Admin del sistema
 
-                    //Agregar consulta de permisos por pantalla
-                    Session["Cat"] = 0;
-                    Session["Fav"] = 1;
+                    //Agregar consulta de permisos por pantalla por usuario
+                    if (int.Parse(Session["TUsuario"].ToString()) == 1)//Cliente
+                    {
+                        //Administracion
+                        Session["CDireccion"] = 0;//ClienteDireccion
+                        Session["Cliente"] = 0;//Cliente
+                        Session["Compra"] = 0;//Compra
+                        Session["CPaqueteria"] = 0;//ComentarioPaqueteria
+                        Session["CProveedor"] = 0;//ComentarioProveedor
+                        Session["Proveedor"] = 0;//Proveedor
+                        
+                        //Catalogos
+                        Session["Carrito"] = 1;//CarritoCompras
+                        Session["Categoria"] = 0;//Categoria
+                        Session["Colaborador"] = 0;//Colaborador
+                        Session["Cuenta"] = 1;//Cuenta
+                        Session["Documento"] = 0;//Documento
+                        Session["Favorito"] = 1;//Favorito
+                        Session["Paqueteria"] = 0;//Paqueteria
+                        Session["Porcentaje"] = 0;//Porcentaje
+                        Session["Producto"] = 0;//Producto
+                        Session["Puesto"] = 0;//Puesto
+                        Session["RutaBase"] = 0;//RutaBase
+                        Session["UnidadMedida"] = 0;//UnidadMedida
+                    }
+                    if (int.Parse(Session["TUsuario"].ToString()) == 2)//Admin/Colab
+                    {
+                        //Administracion
+                        Session["CDireccion"] = 1;//ClienteDireccion
+                        Session["Cliente"] = 1;//Cliente
+                        Session["Compra"] = 1;//Compra
+                        Session["CPaqueteria"] = 1;//ComentarioPaqueteria
+                        Session["CProveedor"] = 1;//ComentarioProveedor
+                        Session["Proveedor"] = 1;//Proveedor
+
+                        //Catalogos
+                        Session["Carrito"] = 0;//CarritoCompras
+                        Session["Categoria"] = 1;//Categoria
+                        Session["Colaborador"] = 1;//Colaborador
+                        Session["Cuenta"] = 0;//Cuenta
+                        Session["Documento"] = 1;//Documento
+                        Session["Favorito"] = 0;//Favorito
+                        Session["Paqueteria"] = 1;//Paqueteria
+                        Session["Porcentaje"] = 1;//Porcentaje
+                        Session["Producto"] = 1;//Producto
+                        Session["Puesto"] = 1;//Puesto
+                        Session["RutaBase"] = 1;//RutaBase
+                        Session["UnidadMedida"] = 1;//UnidadMedida
+                    }
+                    
 
                     return RedirectToAction("Principal", "Inicio");
                 }

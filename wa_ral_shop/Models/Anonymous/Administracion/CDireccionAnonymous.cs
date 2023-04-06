@@ -12,6 +12,8 @@ namespace wa_ral_shop.Models.Anonymous.Administracion
         public int IdCliente { get; set; }
         public ClienteAnonymous ClienteAnonymous { get; set; }
         public int CP { get; set; }
+        public string Estado { get; set; }
+        public string Municipio { get; set; }
         public string Colonia { get; set; }
         public string Calle { get; set; }
         public string NExterior { get; set; }
