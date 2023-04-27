@@ -27,5 +27,8 @@ namespace wa_ral_shop.Models.Anonymous.Catalogos
         public DateTime FechaHoraCaptura { get; set; }
         public bool Estatus { get; set; }
         public string EstatusSTR { get; set; }
+        //Cantidad solo se usara en carrito para poder dibujar un objeto sin tener que crear otra lista
+        //, pero esto no se debe hacer porque es un dato que no pertenece a este objeto
+        public int Cantidad { get; set; }
     }
 }

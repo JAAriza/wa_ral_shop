@@ -1,6 +1,14 @@
 ﻿$(document).ready(function () {
     ConsultaCarritos();
+
+    
+
+    
+
+
 });
+
+
 
 function ConsultaCarritos() {
     resetToastPosition();
@@ -59,11 +67,40 @@ function ConsultaCarritos() {
                     '</div>' +
                     '<div class="card-body">' +
                     '<h4 class="card-title" onclick="ConsultaProductoDetalle(' + Dato.Id +');" style="cursor:pointer;">' + Dato.Nombre + '</h4>' +
-
-                    '<s style="color:#dcdcdc"><span style="color:#dcdcdc;">$' + Dato.PrecioVenta + '</span></s>' +
+                    
+                    '<s style="color:#dcdcdc"><span style="color:#dcdcdc;" class="currency">$' + parseFloat(parseFloat(Dato.PrecioVenta) * parseFloat(1.12)).toFixed(2) + '</span></s>' +
                     '<br />' +
                     '<span style="font-size:large">$' + Pv[0] + '<sup>' + Pv[1] + '</sup>&nbsp; </span>' +
                     '<span style="color:#ff914d;">12% OFF</span>' +
+
+                    '<br/>' +
+                    '<br/>' +
+
+                    //'<div class="step">' +
+                    '<div class="form-group row">' +
+                    '<div clas="col-sm-2"' +
+                    '<span style="color:#dcdcdc; float:right">Existencias: ' + Dato.Existencias + '</span>' +
+                    '</div>' +
+                    '<div class="col-sm-2">' +
+                    '<label></label>' +
+                    '<button type="button" class="btn btn-secondary" style="border:none; background:none; float:left;" id="btnMenos-' + Dato.Id + '" onclick="Menos(' + Dato.Id + ' , 10)">' + //+ Dato.Existencias + ')">' +
+                    '<i class="fa fa-minus" style:"cursor:pointer;"></i>' +
+                    '</button>' +
+                    '</div>' +
+                    '<div class="col-sm-3">' +
+                    '<label>Cantidad:</label>' +
+                    //'<input class="form-control input-number" min="1" max="' + Dato.Existencias + '" value="' + Dato.Cantidad + '" id="txtCantidad-' + Dato.Id + '" type="number" step="1">' +
+                    '<input class="form-control input-number" min="1" max="10" value="' + Dato.Cantidad + '" id="txtCantidad-' + Dato.Id + '" type="number" step="1" onchange="ValidarExistencias(this.value, ' + Dato.Id + ' , 10)">' + //' + Dato.Existencias + ' )">' +
+                    '</div>' +
+                    '<div class="col-sm-2">' +
+                    '<label></label>' +
+                    '<button type="button" class="btn btn-secondary" style="border:none; background:none; float:right;" id="btnMas-' + Dato.Id + '" onclick="Mas(' + Dato.Id + ' , 10)">' +
+                    '<i class="fa fa-plus" style:"cursor:pointer;"></i>' +
+                    '</button>' +
+                    '</div>' +
+                    '</div>' +
+                    //'</div>' +
+
                     //'<br />'+
                     //'<span style="color:#dcdcdc; float:right">Existencias: '+Dato.Existencias+'</span>'+
                     '</div>' +
@@ -98,6 +135,57 @@ function ConsultaCarritos() {
         // ToastInfo.reset();
     });
 }
+
+function Menos(Id, Existencias) {
+    var f = "txtCantidad-" + Id;
+    var Cantidad = $('#' + f).val();
+    if (Cantidad == 1) {
+        $('#' + f).val(1);
+    }
+    else if (Cantidad == 0) {
+        $('#' + f).val(1);
+    }
+    else {
+        $('#' + f).val(Cantidad - 1);
+    }
+    if (Cantidad > Existencias) {
+        $('#' + f).val(Existencias);
+    }
+}
+
+function ValidarExistencias(a, Id, Existencias) {
+    var f = "txtCantidad-" + Id;
+    
+    if (a > Existencias) {
+        $('#' + f).val(Existencias);
+    }
+
+}
+
+function Mas(Id, Existencias) {
+    var f = "txtCantidad-" + Id;
+    var Cantidad = $('#' + f).val();
+    if (Cantidad == 1) {
+        $('#' + f).val(parseInt(Cantidad) + parseInt(1));
+    }
+    else if (Cantidad == 0) {
+        $('#' + f).val(1);
+    }
+    else {
+        if ((parseInt(Cantidad) + parseInt(1)) > Existencias) {
+            $('#' + f).val(Existencias);
+        }
+        else {
+            $('#' + f).val(parseInt(Cantidad) + parseInt(1));
+        }
+        
+    }
+    if (Cantidad > Existencias) {
+        $('#' + f).val(Existencias);
+    }
+    
+}
+
 
 function AgregarFavorito(IdProducto) {
     var f = "iFavorito-" + IdProducto;
@@ -219,6 +307,10 @@ function AgregarFavorito(IdProducto) {
 
 function AgregarCarrito(IdProducto) {
     var f = "iCarrito-" + IdProducto;
+
+    var t = "txtCantidad-" + IdProducto;
+    var Cantidad = $('#' + t).val();
+
     if ($('#' + f).css('color') == 'rgb(255, 255, 0)') {
 
         $.toast({
@@ -290,7 +382,7 @@ function AgregarCarrito(IdProducto) {
         $.ajax({
             url: '/Catalogos/Carrito/Alta',
             type: "POST",
-            data: { IdProducto }
+            data: { IdProducto, Cantidad }
 
         }).done(function (data, textStatus, jqXHR) {
             if (data.codigo === "Error") {

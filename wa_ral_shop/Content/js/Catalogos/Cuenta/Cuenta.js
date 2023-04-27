@@ -187,13 +187,13 @@ function AgregarUbica() {
     window.scrollBy(0, 500); // horizontal and vertical scroll increments    
 }
 
-function BuscarCP() {
+function BuscarCP(Colonia) {
     if (ValidarCP()) {
         var CP = $("#txtCPMUbicacion").val();
         $("#txtCPMUbicacion").prop('readonly', true);
         $("#txtEstadoMUbicacion").val('');
         $("#txtMpioMUbicacion").val('');
-        resetToastPosition();
+        //resetToastPosition();
         //var ToastInfo =
         $.toast({
             heading: 'Informaci&oacute;n',
@@ -211,7 +211,7 @@ function BuscarCP() {
             data: { CP }
         }).done(function (data, textStatus, jqXHR) {
             if (data.Codigo === "Error") {
-                resetToastPosition();
+                //resetToastPosition();
                 $.toast({
                     heading: 'Error',
                     text: data.mensaje,
@@ -224,7 +224,7 @@ function BuscarCP() {
                 OcultarUbica();
             }
             if (data.Codigo === "SinDatos") {
-                resetToastPosition();
+                //resetToastPosition();
                 $.toast({
                     heading: 'Informaci&oacute;n',
                     text: 'Verifica el Codigo Postal',
@@ -247,7 +247,7 @@ function BuscarCP() {
                     data: { CP }
                 }).done(function (data, textStatus, jqXHR) {
                     if (data.codigo === "Error") {
-                        resetToastPosition();
+                        //resetToastPosition();
                         $.toast({
                             heading: 'Error',
                             text: data.mensaje,
@@ -277,13 +277,13 @@ function BuscarCP() {
                         $("#divSaveUbica").show();
                         $("#cmbColonia").html("");
                         $.each(data.comboColonias, function (Id, Dato) {
-                            $("#cmbColonia").append('<option value="' + Dato.Dato + '">' + Dato.Dato + '</option>');
+                            $("#cmbColonia").append('<option value="' + Dato.Dato.toString() + '">' + Dato.Dato.toString() + '</option>');
                         });
-                        $("#cmbColonia").val('first').change();
+                        $("#cmbColonia").val(Colonia).change();
 
                     }
                 }).fail(function (jqXHR, textStatus, errorThrown) {
-                    resetToastPosition();
+                    //resetToastPosition();
                     $.toast({
                         heading: 'Error',
                         text: errorThrown,
@@ -298,7 +298,7 @@ function BuscarCP() {
                 })
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            resetToastPosition();
+            //resetToastPosition();
             $.toast({
                 heading: 'Error',
                 text: errorThrown,
@@ -313,6 +313,134 @@ function BuscarCP() {
         });
     }
 }
+
+function BuscarCP2() {
+    if (ValidarCP()) {
+        var CP = $("#txtCPMUbicacion").val();
+        $("#txtCPMUbicacion").prop('readonly', true);
+        $("#txtEstadoMUbicacion").val('');
+        $("#txtMpioMUbicacion").val('');
+        //resetToastPosition();
+        //var ToastInfo =
+        $.toast({
+            heading: 'Informaci&oacute;n',
+            text: 'Buscando CP...',
+            showHideTransition: 'slide',
+            hideAfter: 3000,
+            icon: 'info',
+            loaderBg: '#46c35f',
+            position: 'top-right'
+        })
+
+        $.ajax({
+            url: '/Catalogos/Cuenta/BuscarEdoyMpio',
+            type: "POST",
+            data: { CP }
+        }).done(function (data, textStatus, jqXHR) {
+            if (data.Codigo === "Error") {
+                //resetToastPosition();
+                $.toast({
+                    heading: 'Error',
+                    text: data.mensaje,
+                    showHideTransition: 'slide',
+                    hideAfter: 8000,
+                    icon: 'error',
+                    loaderBg: '#f2a654',
+                    position: 'top-right'
+                })
+                OcultarUbica();
+            }
+            if (data.Codigo === "SinDatos") {
+                //resetToastPosition();
+                $.toast({
+                    heading: 'Informaci&oacute;n',
+                    text: 'Verifica el Codigo Postal',
+                    showHideTransition: 'slide',
+                    hideAfter: 3000,
+                    icon: 'info',
+                    loaderBg: '#46c35f',
+                    position: 'top-right'
+                })
+                $("#txtCPMUbicacion").val('');
+                $("#txtCPMUbicacion").prop('readonly', false);
+            }
+            else {
+                $("#txtEstadoMUbicacion").val(data.Edo);
+                $("#txtMpioMUbicacion").val(data.Mpio);
+
+                $.ajax({
+                    url: '/Catalogos/Cuenta/BuscarColonias',
+                    type: "POST",
+                    data: { CP }
+                }).done(function (data, textStatus, jqXHR) {
+                    if (data.codigo === "Error") {
+                        //resetToastPosition();
+                        $.toast({
+                            heading: 'Error',
+                            text: data.mensaje,
+                            showHideTransition: 'slide',
+                            hideAfter: 8000,
+                            icon: 'error',
+                            loaderBg: '#f2a654',
+                            position: 'top-right'
+                        })
+                        OcultarUbica();
+                    }
+                    else {
+                        //resetToastPosition();
+                        $.toast({
+                            heading: 'Consultado',
+                            text: 'CP Encontrado',
+                            showHideTransition: 'slide',
+                            hideAfter: 6000,
+                            icon: 'success',
+                            loaderBg: '#f96868',
+                            position: 'top-right'
+                        })
+                        $("#divDireccion").show();
+                        $("#divDireccionDetalle").show();
+                        $("#divDireccionF").show();
+                        $("#divCalles").show();
+                        $("#divSaveUbica").show();
+                        $("#cmbColonia").html("");
+                        $.each(data.comboColonias, function (Id, Dato) {
+                            $("#cmbColonia").append('<option value="' + Dato.Dato.toString() + '">' + Dato.Dato.toString() + '</option>');
+                        });
+                        $("#cmbColonia").val('first').change();
+
+                    }
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    //resetToastPosition();
+                    $.toast({
+                        heading: 'Error',
+                        text: errorThrown,
+                        showHideTransition: 'slide',
+                        hideAfter: 8000,
+                        icon: 'error',
+                        loaderBg: '#f2a654',
+                        position: 'top-right'
+                    })
+                }).always(function (data, textStatus, errorThrown) {
+                    // ToastInfo.reset();
+                })
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            //resetToastPosition();
+            $.toast({
+                heading: 'Error',
+                text: errorThrown,
+                showHideTransition: 'slide',
+                hideAfter: 8000,
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        }).always(function (data, textStatus, errorThrown) {
+            // ToastInfo.reset();
+        });
+    }
+}
+
 
 function ValidarCP() {
     var Valido = false;
@@ -524,22 +652,18 @@ function Editar(Id, Nombre, Telefono, CP, EntreCalle, YCalle, Calle, NExterior
     $("#txtNombreMUbicacion").val(Nombre);
     $("#txtTelefonoMUbicacion").val(Telefono);
     $("#txtCPMUbicacion").val(CP);
-    BuscarCP();
-    //$("#cmbColonia").val(Colonia).change();
-    //$("#cmbColonia option:eq('" + Colonia + "')").prop('selected', true);
-    //$('#cmbColonia option[value="' + Colonia + '"]').prop('selected', true).change();
-
-
-    //$("#cmbColonia").val(Colonia); // Select the option with a value of '1'
-    //$("#cmbColonia").trigger('change'); // Notify any JS components that the value changed
-    //$("#cmbColonia").val('"' + Colonia + '"').trigger('change.select2');
-    $("#cmbColonia").val(Colonia).trigger("change");
+    BuscarCP(Colonia);
     
+    //alert(Colonia);
+    //$('#cmbColonia').val(null).trigger('change');
+    //$('#cmbColonia').val(Colonia); // Select the option with a value of '21'
+    //$('#cmbColonia').trigger('change.select2'); // Notify any JS components that the value changed
+    //$('#cmbColonia').val(Colonia).trigger('change');
+    //var Value = $('#cmbColonia').val();
+    //alert(Value);
 
-    //$("#cmbColonia").change();
-    //$(".js-example-basic-single").select2();
-    //$("#cmbColonia").select2().select2('val', Colonia);
 
+    
 
     $("#txtCalleMUbicacion").val(Calle);
     $("#txtNExteriorMUbicacion").val(NExterior);

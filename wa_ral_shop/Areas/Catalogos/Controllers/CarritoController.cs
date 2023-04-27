@@ -21,7 +21,7 @@ namespace wa_ral_shop.Areas.Catalogos.Controllers
 
         [HttpPost]
         //[ValidateInput(false)]
-        public ActionResult Alta(int IdProducto)
+        public ActionResult Alta(int IdProducto, int Cantidad)
         {
             ContentResultObject ContentResultObject = new ContentResultObject();
             ActionResult actionResult = null;
@@ -30,6 +30,7 @@ namespace wa_ral_shop.Areas.Catalogos.Controllers
             string Mensaje = string.Empty;
             carritoAnonymous.IdProducto = IdProducto;
             carritoAnonymous.IdCliente = int.Parse(Session["Ide"].ToString());
+            carritoAnonymous.Cantidad = Cantidad;
             try
             {
                 Mensaje = repositorioCarrito.Alta(carritoAnonymous) > 0 ? "Agregado Correctamente" : "Error";
@@ -89,7 +90,7 @@ namespace wa_ral_shop.Areas.Catalogos.Controllers
                 if (dtProductosDash.Rows.Count > 0)
                 {
                     DataTable dtProd = new DataTable();
-                    dtProd = dtProductosDash.DefaultView.ToTable(true, "IdProducto", "NomP", "Existencias", "PrecioVenta", "Estatus");
+                    dtProd = dtProductosDash.DefaultView.ToTable(true, "IdProducto", "NomP", "Existencias", "PrecioVenta", "Estatus", "Cantidad");
 
                     LPIA = new List<ProductoImagenAnonymous>();
                     foreach (DataRow dr in dtProductosDash.Rows)
@@ -114,6 +115,7 @@ namespace wa_ral_shop.Areas.Catalogos.Controllers
                         PA.Nombre = dr[1].ToString();
                         PA.Existencias = string.IsNullOrEmpty(dr[2].ToString()) ? 0 : int.Parse(dr[2].ToString());
                         PA.PrecioVenta = decimal.Parse(dr[3].ToString());
+                        PA.Cantidad = int.Parse(dr[5].ToString());
                         LPA.Add(PA);
                     }
                 }

@@ -60,12 +60,13 @@ function ConsultaFavoritos() {
                     '<div class="card-body">' +
                     '<h4 class="card-title" onclick="ConsultaProductoDetalle(' + Dato.Id +');" style="cursor:pointer;">' + Dato.Nombre + '</h4>' +
 
-                    '<s style="color:#dcdcdc"><span style="color:#dcdcdc;">$' + Dato.PrecioVenta + '</span></s>' +
+                    '<s style="color:#dcdcdc"><span style="color:#dcdcdc;" class="currency">$' + parseFloat(parseFloat(Dato.PrecioVenta) * parseFloat(1.12)).toFixed(2) + '</span></s>' +
                     '<br />' +
                     '<span style="font-size:large">$' + Pv[0] + '<sup>' + Pv[1] + '</sup>&nbsp; </span>' +
                     '<span style="color:#ff914d;">12% OFF</span>' +
-                    //'<br />'+
-                    //'<span style="color:#dcdcdc; float:right">Existencias: '+Dato.Existencias+'</span>'+
+                    '<br />' +
+                    '<br />' +
+                    '<span style="color:#dcdcdc; float:left">Existencias: '+Dato.Existencias+'</span>'+
                     '</div>' +
                     '</div>');
             });

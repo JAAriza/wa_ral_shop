@@ -24,6 +24,7 @@ namespace wa_ral_shop.Models.Repositorios.Catalogos
                 conexion.sqlCommand.Parameters.Clear();
                 conexion.sqlCommand.Parameters.Add(new SqlParameter("@IdProducto", SqlDbType.Int)).Value = carritoAnonymous.IdProducto;
                 conexion.sqlCommand.Parameters.Add(new SqlParameter("@IdCliente", SqlDbType.Int)).Value = carritoAnonymous.IdCliente;
+                conexion.sqlCommand.Parameters.Add(new SqlParameter("@Cantidad", SqlDbType.Int)).Value = carritoAnonymous.Cantidad;
                 IdCarrito = Convert.ToInt32(conexion.sqlCommand.ExecuteScalar().ToString());
             }
 
