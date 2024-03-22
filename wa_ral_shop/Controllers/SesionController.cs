@@ -36,6 +36,33 @@ namespace wa_ral_shop.Controllers
             Info info = new Info();
             try
             {
+                //string usdesc = EncYDec.DecryptCipherTextToPlainText("2DTxpwXVMs++xUdr8OVnAQ4ZaxAEzetp");//roariza@mercar.com
+                //string pswdesc = EncYDec.DecryptCipherTextToPlainText("7SuxOITHhH8=");//123456
+
+                //string usdesc = EncYDec.DecryptCipherTextToPlainText("qWKdtu4OmqI=");//jh
+                //string pswdesc = EncYDec.DecryptCipherTextToPlainText("ZbceD6NxW78=");//khjhkj
+
+                //string usdesc1 = EncYDec.DecryptCipherTextToPlainText("qIfSrTbfas2A++SLOQkR9ekfl4rrPl3iJjsD0byB2R0=");//alfonsoariza@live.com.mx
+                //string pswdesc1 = EncYDec.DecryptCipherTextToPlainText("FCSSgHlP6ME=");//123
+
+                //string usdesc2 = EncYDec.DecryptCipherTextToPlainText("j0eOoPAR6Yq+xUdr8OVnAQ4ZaxAEzetp");//alfonso@mercar.com
+                //string pswdesc2 = EncYDec.DecryptCipherTextToPlainText("7SuxOITHhH8=");//123456
+
+                //string usdesc = EncYDec.DecryptCipherTextToPlainText("QkJRmkxsVJ4=");//cv
+                //string pswdesc = EncYDec.DecryptCipherTextToPlainText("3Hufr7B++ZoJvIKK/zo33w==");//dfdfdfdfdf
+
+                //string usdesc1 = EncYDec.DecryptCipherTextToPlainText("uGHUK4nwOfkmOwPRvIHZHQ==");//46564546
+                //string pswdesc1 = EncYDec.DecryptCipherTextToPlainText("EztS67J8HjI=");//4645465
+
+                //string usdesc2 = EncYDec.DecryptCipherTextToPlainText("w+rZf0TO6gHgIT1Ln1Es6Q==");//897897lklkjlj
+                //string pswdesc2 = EncYDec.DecryptCipherTextToPlainText("/ozAJOr8uAs=");//1ñpol
+
+                //string usdesc3 = EncYDec.DecryptCipherTextToPlainText("ls1k6n2IPZo=");//kkjk
+                //string pswdesc3 = EncYDec.DecryptCipherTextToPlainText("wJ8FrkaJIlk=");//1346
+
+                //string usdesc4 = EncYDec.DecryptCipherTextToPlainText("buz2U9qQTM8M3LPeRejCxw==");//ideesIdCliente
+                //string pswdesc4 = EncYDec.DecryptCipherTextToPlainText("zQ2lNFz4zIw=");//123000
+
                 UserEnc = EncYDec.EncryptPlainTextToCipherText(email);
                 PassEnc = EncYDec.EncryptPlainTextToCipherText(password);
                 Inicio = repositorioSesion.ValidaLogin(UserEnc, PassEnc, info.GetTUsuario());
@@ -87,6 +114,7 @@ namespace wa_ral_shop.Controllers
                         Session["Puesto"] = 0;//Puesto
                         Session["RutaBase"] = 0;//RutaBase
                         Session["UnidadMedida"] = 0;//UnidadMedida
+                        Session["Almacen"] = 1; //Almacen (Como nombre de los almacenes)
                     }
                     if (int.Parse(Session["TUsuario"].ToString()) == 2)//Admin/Colab
                     {
@@ -111,6 +139,8 @@ namespace wa_ral_shop.Controllers
                         Session["Puesto"] = 1;//Puesto
                         Session["RutaBase"] = 1;//RutaBase
                         Session["UnidadMedida"] = 1;//UnidadMedida
+                        Session["Almacen"] = 1; //Almacen (Como nombre de los almacenes)
+                        ////Corrige esto que los permisos a una aplicación no se dan de esta forma
                     }
                     
 

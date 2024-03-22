@@ -159,6 +159,7 @@
     <Compile Include="Areas\Administracion\Controllers\CProveedorController.cs" />
     <Compile Include="Areas\Administracion\Controllers\ProveedorController.cs" />
     <Compile Include="Areas\Catalogos\CatalogosAreaRegistration.cs" />
+    <Compile Include="Areas\Catalogos\Controllers\AlmacenController.cs" />
     <Compile Include="Areas\Catalogos\Controllers\CarritoController.cs" />
     <Compile Include="Areas\Catalogos\Controllers\CategoriaController.cs" />
     <Compile Include="Areas\Catalogos\Controllers\ColaboradorController.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="Models\Anonymous\Administracion\DColaboradorAnonymous.cs" />
     <Compile Include="Models\Anonymous\Administracion\PaisAnonymous.cs" />
     <Compile Include="Models\Anonymous\Administracion\UsuarioAnonymous.cs" />
+    <Compile Include="Models\Anonymous\Catalogos\AlmacenAnonymous.cs" />
     <Compile Include="Models\Anonymous\Catalogos\CarritoAnonymous.cs" />
     <Compile Include="Models\Anonymous\Catalogos\CategoriaAnonymous.cs" />
     <Compile Include="Models\Anonymous\Catalogos\ClienteAnonymous.cs" />
@@ -208,6 +210,7 @@
     <Compile Include="Models\Repositorios\Administracion\RepositorioCProveedor.cs" />
     <Compile Include="Models\Repositorios\Administracion\RepositorioPais.cs" />
     <Compile Include="Models\Repositorios\Administracion\RepositorioProveedor.cs" />
+    <Compile Include="Models\Repositorios\Catalogos\RepositorioAlmacen.cs" />
     <Compile Include="Models\Repositorios\Catalogos\RepositorioCarrito.cs" />
     <Compile Include="Models\Repositorios\Catalogos\RepositorioCategoria.cs" />
     <Compile Include="Models\Repositorios\Catalogos\RepositorioColaborador.cs" />
@@ -325,6 +328,7 @@
     <Content Include="Content\js\bt-maxLength.js" />
     <Content Include="Content\js\c3.js" />
     <Content Include="Content\js\calendar.js" />
+    <Content Include="Content\js\Catalogos\Almacen\Almacen.js" />
     <Content Include="Content\js\Catalogos\Carrito\Carrito.js" />
     <Content Include="Content\js\Catalogos\Categoria\Categoria.js" />
     <Content Include="Content\js\Catalogos\Colaborador\Colaborador.js" />
@@ -1166,6 +1170,8 @@
     <Content Include="Areas\Catalogos\Views\Carrito\Carrito.cshtml" />
     <Content Include="Areas\Catalogos\Views\Cuenta\Cuenta.cshtml" />
     <Content Include="Areas\Catalogos\Views\Cuenta\ListaUbicacion.cshtml" />
+    <Content Include="Areas\Catalogos\Views\Almacen\Almacen.cshtml" />
+    <Content Include="Areas\Catalogos\Views\Almacen\ListaAlmacenes.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Inicio\Principal.cshtml" />

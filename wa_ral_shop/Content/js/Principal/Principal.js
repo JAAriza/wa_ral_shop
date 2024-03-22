@@ -61,26 +61,25 @@ function ConsultaProductosActivos() {
                     '</button>' +
                     '</div>' +
                     '<div class="card-body">' +
-                    '<h4 class="card-title" onclick="ConsultaProductoDetalle('+Dato.Id+');" style="cursor:pointer;">' + Dato.Nombre + '</h4>' +
-                    
-                    
-                    '<s style="color:#dcdcdc"><span style="color:#dcdcdc;" class="currency">$' + parseFloat(parseFloat(Dato.PrecioVenta) * parseFloat(1.12)).toFixed(2) + '</span></s>' +
+                    '<h4 class="card-title" onclick="ConsultaProductoDetalle(' + Dato.Id + ');" style="cursor:pointer;"><b>' + Dato.Nombre + '</b></h4>' +
+
+
+                    '<s style="color:#dcdcdc"><span style="color:#dcdcdc;" class="currency">$' + parseFloat(parseFloat(Dato.PrecioVenta) * parseFloat(1.12)).toFixed(2) + '</span></s>&nbsp; &nbsp;' +
+                    '<span style="color:#ff914d; font-size:small;">12% OFF</span>' +
                     '<br />' +
-                    '<span style="font-size:large">$' + Pv[0] + '<sup>' + Pv[1] + '</sup>&nbsp; </span>' +
-                    '<span style="color:#ff914d;">12% OFF</span>' +
-                    '<br />' +
-                    '<br />' +
-                    '<div class="form-group row">' +
-                    '<div clas="col-sm-2"' +
+                    '<span style="font-size:large; float:left;">$' + Pv[0] + '<sup>' + Pv[1] + '</sup>&nbsp; </span>' +
                     '<span style="color:#dcdcdc; float:right">Existencias: ' + Dato.Existencias + '</span>' +
-                    '</div>'+
+
+                    '<br />' +
+                    //'<br />' +
+                    '<div class="form-group row" style="justify-content:center;">' +
                     '<div class="col-sm-2">' +
                     '<label></label>' +
                     '<button type="button" class="btn btn-secondary" style="border:none; background:none; float:left;" id="btnMenos-' + Dato.Id + '" onclick="Menos(' + Dato.Id + ' , 10)">' + //+ Dato.Existencias + ')">' +
                     '<i class="fa fa-minus" style:"cursor:pointer;"></i>' +
                     '</button>' +
                     '</div>' +
-                    '<div class="col-sm-3">' +
+                    '<div class="col-sm-4">' +
                     '<label>Cantidad:</label>' +
                     //'<input class="form-control input-number" min="1" max="' + Dato.Existencias + '" value="' + Dato.Cantidad + '" id="txtCantidad-' + Dato.Id + '" type="number" step="1">' +
                     '<input class="form-control input-number" min="1" max="10" value="1" id="txtCantidad-' + Dato.Id + '" type="number" step="1" onchange="ValidarExistencias(this.value, ' + Dato.Id + ' , 10)">' + //' + Dato.Existencias + ' )">' +
@@ -92,6 +91,12 @@ function ConsultaProductosActivos() {
                     '</button>' +
                     '</div>' +
                     '</div>' +
+
+                    //'<br />' +
+                    '<div class="col-sm-12" style="display:flex; justify-content:center; align-items:center;">' +
+                    '<button type="button" class="btn btn-danger btn-rounded btn-fw" onclick="Compra(' + Dato.Id + ')">Comprar</button>' +
+                    '</div>' +
+
 
                     '</div>' +
                     '</div>');
@@ -176,6 +181,11 @@ function Mas(Id, Existencias) {
 
 }
 
+function Compra(Id) {
+    var f = "txtCantidad-" + Id;
+    var Cantidad = $('#' + f).val();
+    alert(Cantidad);
+}
 
 function ConsultaProductoDetalle(IdProducto) {
     resetToastPosition();
@@ -218,22 +228,65 @@ function ConsultaProductoDetalle(IdProducto) {
                 }
                 $("#DetProdLabel").text(Dato.Nombre);
                 $("#divBodyDet").append(
+                    '<div>' +
+                    '<button style="border:none; background:none; float:left" class="text-md-right" title="Favorito" Id="Favorito-' + Dato.Id + '" onClick="AgregarFavorito(' + Dato.Id + ')">' +
+                    '<i Id="iFavorito-' + Dato.Id + '" style="color:#dcdcdc" class="mdi mdi-heart mdi-24px"></i>' +
+                    '</button>' +
+                    '<button style="border:none; background:none; float:right" class="text-md-right" title="Carrito" Id ="Carrito-' + Dato.Id + '" onClick="AgregarCarrito(' + Dato.Id + ')">' +
+                    '<i Id="iCarrito-' + Dato.Id + '" style = "color:#dcdcdc" class= "fa fa-shopping-cart fa-2x" ></i > ' +
+                    '</button>' +
+                    '</div>' +
+                    '<br />' +
                     '<br />' +
                     '<span><b>Modelo: </b>' + Dato.Modelo + '</span>' +
                     '<br />' +
                     '<br />' +
-                    '<p>' + Dato.Descripcion + '</p>' +
-                    '<br />' +
+                    '<div class="form-group row" style="overflow-y:scroll; height:150px;">' +
+                    '<p>Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor(N.del T.persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen.No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original.Fue popularizado en los 60s con la creación de las hojas "Letraset", las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.¿P </p>' +
+                    '</div>' +
+                    //'<br />' +
                     '<span><b>Tamaño: </b>' + Dato.Largo + '*' + Dato.Ancho + '*' + Dato.Alto + '&nbsp;' + Dato.unidadMedidaT.Nombre + '</span>' +
                     '<br />' +
                     '<span><b>Peso: </b>' + Dato.Peso + '&nbsp;' + Dato.unidadMedidaP.Nombre + '</span>' +
                     '<br />' +
-                    '<s style="color:#dcdcdc"><span style="color:#dcdcdc;">$' + parseFloat(Dato.PrecioVenta) + parseFloat(15) + '</span></s>' +
+                    '<s style="color:#dcdcdc"><span style="color:#dcdcdc;" class="currency">$' + parseFloat(parseFloat(Dato.PrecioVenta) * parseFloat(1.12)).toFixed(2) + '</span></s>&nbsp; &nbsp;' +
+                    '<span style="color:#ff914d; font-size:small;">12% OFF</span>' +
                     '<br />' +
-                    '<span style="font-size:large">$' + Pv[0] + '<sup>' + Pv[1] + '</sup>&nbsp; </span>' +
-                    '<span style="color:#ff914d;">12% OFF</span>' +
+                    '<span style="font-size:large; float:left;">$' + Pv[0] + '<sup>' + Pv[1] + '</sup>&nbsp; </span>' +
+                    '<span style="color:#dcdcdc; float:right">Existencias: ' + Dato.Existencias + '</span>' +
+
                     '<br />' +
-                    '<span style="color:#dcdcdc; float:right">Existencias: ' + Dato.Existencias + '</span>'
+                    //'<br />' +
+                    '<div class="form-group row" style="justify-content:center;">' +
+                    
+                    '<div class="col-sm-2">' +
+                    '<label></label>' +
+                    '<label></label>' +
+                    '<br />' +
+                    '<button type="button" class="btn btn-secondary" style="border:none; background:none; float:left;" id="btnMenosD-' + IdProducto + '" onclick="MenosD(' + IdProducto + ' , 10)">' + //+ Dato.Existencias + ')">' +
+                    '<i class="fa fa-minus" style:"cursor:pointer;"></i>' +
+                    '</button>' +
+                    '</div>' +
+                    '<div class="col-sm-4">' +
+                    '<label>Cantidad:</label>' +
+                    //'<input class="form-control input-number" min="1" max="' + Dato.Existencias + '" value="' + Dato.Cantidad + '" id="txtCantidad-' + Dato.Id + '" type="number" step="1">' +
+                    '<input class="form-control input-number" min="1" max="10" value="1" id="txtCantidadD-' + IdProducto + '" type="number" step="1" onchange="ValidarExistenciasD(this.value, ' + IdProducto + ' , 10)">' + //' + Dato.Existencias + ' )">' +
+                    '</div>' +
+                    '<div class="col-sm-2">' +
+                    '<label></label>' +
+                    '<label></label>' +
+                    '<br />' +
+                    '<button type="button" class="btn btn-secondary" style="border:none; background:none; float:right;" id="btnMasD-' + IdProducto + '" onclick="MasD(' + IdProducto + ' , 10)">' +
+                    '<i class="fa fa-plus" style:"cursor:pointer;"></i>' +
+                    '</button>' +
+                    '</div>' +
+                    '</div>' +
+
+                    //'<br />' +
+                    '<div class="col-sm-12" style="display:flex; justify-content:center; align-items:center;">' +
+                    '<button type="button" class="btn btn-danger btn-rounded btn-fw" onclick="CompraD(' + Dato.Id + ')">Comprar</button>' +
+                    '</div>' 
+
                 );
             });
             
@@ -276,6 +329,62 @@ function ConsultaProductoDetalle(IdProducto) {
     }).always(function (data, textStatus, errorThrown) {
         // ToastInfo.reset();
     });
+}
+
+function MenosD(Id, Existencias) {
+    var f = "txtCantidadD-" + Id;
+    var Cantidad = $('#' + f).val();
+    if (Cantidad == 1) {
+        $('#' + f).val(1);
+    }
+    else if (Cantidad == 0) {
+        $('#' + f).val(1);
+    }
+    else {
+        $('#' + f).val(Cantidad - 1);
+    }
+    if (Cantidad > Existencias) {
+        $('#' + f).val(Existencias);
+    }
+}
+
+function ValidarExistenciasD(a, Id, Existencias) {
+    var f = "txtCantidadD-" + Id;
+
+    if (a > Existencias) {
+        $('#' + f).val(Existencias);
+    }
+
+}
+
+function MasD(Id, Existencias) {
+    var f = "txtCantidadD-" + Id;
+    var Cantidad = $('#' + f).val();
+    if (Cantidad == 1) {
+        $('#' + f).val(parseInt(Cantidad) + parseInt(1));
+    }
+    else if (Cantidad == 0) {
+        $('#' + f).val(1);
+    }
+    else {
+        if ((parseInt(Cantidad) + parseInt(1)) > Existencias) {
+            $('#' + f).val(Existencias);
+        }
+        else {
+            $('#' + f).val(parseInt(Cantidad) + parseInt(1));
+        }
+
+    }
+    if (Cantidad > Existencias) {
+        $('#' + f).val(Existencias);
+    }
+
+}
+
+function CompraD(Id) {
+    var f = "txtCantidadD-" + Id;
+    var Cantidad = $('#' + f).val();
+    alert(Cantidad);
 }
 
 function MostrarModal() {
