@@ -13,6 +13,7 @@ namespace wa_ral_shop.Models.Anonymous.Administracion
         public DateTime FechaHoraLlegadaMX { get; set; }
         public decimal CostoTotal { get; set; }
         public DateTime FechaHoraCaptura { get; set; }
-        public string Estatus { get; set; }   
+        public string Estatus { get; set; }
+        public bool Validado { get; set; }
     }
 }

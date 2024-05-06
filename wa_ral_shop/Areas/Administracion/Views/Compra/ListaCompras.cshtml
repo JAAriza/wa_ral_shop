@@ -34,38 +34,47 @@
                             <th style="text-align:center" nowrap>Fecha Hora Llegada MX</th>
                             <th style="text-align:center" nowrap>Costo Total</th>
                             <th style="text-align:center" nowrap>Estatus</th>
+                            <th style="text-align:center" nowrap>Validado</th>
                             <th style="text-align:center" nowrap>Operaciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var fila in Model)
                         {
-                            <tr>
-                                <td style="text-align:center" hidden="hidden">@fila.Id</td>
-                                <td style="text-align:left">@fila.CostoEnvio</td>
-                                <td style="text-align:left" nowrap>@fila.FechaHoraAvisoImportacion</td>
-                                <td style="text-align:left">@fila.FechaHoraLlegadaMX</td>
-                                <td style="text-align:left" nowrap>@fila.CostoTotal</td>
-                                <td style="text-align:center">@fila.Estatus</td>
-                                
-                                <td class="pr-0 text-center">
-                                    <div class="badge badge-pill badge-primary text-center">
-                                        <i class="mdi mdi-pencil" onclick="Editar(
+                        <tr>
+                            <td style="text-align:center" hidden="hidden">@fila.Id</td>
+                            <td style="text-align:left">@fila.CostoEnvio</td>
+                            <td style="text-align:left" nowrap>@fila.FechaHoraAvisoImportacion</td>
+                            <td style="text-align:left">@fila.FechaHoraLlegadaMX</td>
+                            <td style="text-align:left" nowrap>@fila.CostoTotal</td>
+                            <td style="text-align:center">@fila.Estatus</td>
+                            @if (fila.Validado)
+                            {
+                                <td style="text-align:center"><div class="badge badge-success badge-pill">Validado</div></td> 
+                             }
+                            else
+                            {
+                                <td style="text-align:center"><div class="badge badge-error badge-pill">Sin Validar</div></td>
+                             }
+
+                            <td class="pr-0 text-center">
+                                <div class="badge badge-pill badge-primary text-center">
+                                    <i class="mdi mdi-pencil" onclick="Editar(
                                                   @fila.Id, @fila.CostoEnvio, '@fila.FechaHoraAvisoImportacion', '@fila.FechaHoraLlegadaMX'
                                                     ,@fila.CostoTotal, '@fila.Estatus');" style="cursor:pointer" title="Editar"></i>
-                                    </div>
-                                
-                                    <div class="badge badge-pill badge-info text-center">
-                                        <i class="mdi mdi-file-document" onclick="Archivos(@fila.Id);" style="cursor:pointer" title="Archivos"></i>
-                                    </div>
-                                    @*Falta tambien agregar el numero de cajas por compra*@
-                                    @*Abrir caja va ser para almacenar el dato de quien abrio la caja y conto los productos garantizando que
-                                        llegaron la misma cantidad que se compraron y permita agregar una observacion por si fuera necesaria*@
-                                    @*<div class="badge badge-pill badge-danger text-center">
-                                        <i class="mdi mdi-inbox-arrow-up" onclick="AbrirCaja(@fila.Id);" style="cursor:pointer" title="Abrir Caja"></i>
-                                    </div>*@
-                                </td>
-                            </tr>
+                                </div>
+
+                                <div class="badge badge-pill badge-info text-center">
+                                    <i class="mdi mdi-file-document" onclick="Archivos(@fila.Id);" style="cursor:pointer" title="Archivos"></i>
+                                </div>
+                                @*Falta tambien agregar el numero de cajas por compra*@
+                                @*Abrir caja va ser para almacenar el dato de quien abrio la caja y conto los productos garantizando que
+            llegaron la misma cantidad que se compraron y permita agregar una observacion por si fuera necesaria*@
+                                @*<div class="badge badge-pill badge-danger text-center">
+                <i class="mdi mdi-inbox-arrow-up" onclick="AbrirCaja(@fila.Id);" style="cursor:pointer" title="Abrir Caja"></i>
+            </div>*@
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

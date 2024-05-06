@@ -106,6 +106,7 @@ namespace wa_ral_shop.Areas.Administracion.Controllers
                     CompraA.FechaHoraLlegadaMX = string.IsNullOrEmpty(dr["FechaHoraLlegadaMX"].ToString()) ? DateTime.MinValue : Convert.ToDateTime(dr["FechaHoraLLegadaMX"].ToString());
                     CompraA.CostoTotal = string.IsNullOrEmpty(dr["CostoTotal"].ToString()) ? decimal.Zero : Convert.ToDecimal(dr["CostoTotal"].ToString());
                     CompraA.Estatus = string.IsNullOrEmpty(dr["Estatus"].ToString()) ? string.Empty : dr["Estatus"].ToString();
+                    CompraA.Validado = string.IsNullOrEmpty(dr["Validado"].ToString()) ? false : Boolean.Parse(dr["Validado"].ToString()); 
                     lstCompraAnonymous.Add(CompraA);
                 }
 

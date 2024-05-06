@@ -157,6 +157,7 @@
     <Compile Include="Areas\Administracion\Controllers\CompraController.cs" />
     <Compile Include="Areas\Administracion\Controllers\CPaqueteriaController.cs" />
     <Compile Include="Areas\Administracion\Controllers\CProveedorController.cs" />
+    <Compile Include="Areas\Administracion\Controllers\PaymentController.cs" />
     <Compile Include="Areas\Administracion\Controllers\ProveedorController.cs" />
     <Compile Include="Areas\Catalogos\CatalogosAreaRegistration.cs" />
     <Compile Include="Areas\Catalogos\Controllers\AlmacenController.cs" />
@@ -279,6 +280,12 @@
     <Content Include="Content\images\lightbox\thumb-v-y-2.jpg" />
     <Content Include="Content\images\logo-mini.svg" />
     <Content Include="Content\images\logo.svg" />
+    <Content Include="Content\images\payment\cards1.png" />
+    <Content Include="Content\images\payment\cards2.png" />
+    <Content Include="Content\images\payment\cvv.png" />
+    <Content Include="Content\images\payment\openpay.png" />
+    <Content Include="Content\images\payment\radio_on.png" />
+    <Content Include="Content\images\payment\security.png" />
     <Content Include="Content\images\samples\1280x768\1.jpg" />
     <Content Include="Content\images\samples\1280x768\2.jpg" />
     <Content Include="Content\images\samples\1280x768\3.jpg" />
@@ -1172,6 +1179,7 @@
     <Content Include="Areas\Catalogos\Views\Cuenta\ListaUbicacion.cshtml" />
     <Content Include="Areas\Catalogos\Views\Almacen\Almacen.cshtml" />
     <Content Include="Areas\Catalogos\Views\Almacen\ListaAlmacenes.cshtml" />
+    <Content Include="Areas\Administracion\Views\Payment\Payment.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Inicio\Principal.cshtml" />

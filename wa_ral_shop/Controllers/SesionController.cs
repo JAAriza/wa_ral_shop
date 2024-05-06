@@ -100,7 +100,8 @@ namespace wa_ral_shop.Controllers
                         Session["CPaqueteria"] = 0;//ComentarioPaqueteria
                         Session["CProveedor"] = 0;//ComentarioProveedor
                         Session["Proveedor"] = 0;//Proveedor
-                        
+                        Session["Payment"] = 1;//Payment
+
                         //Catalogos
                         Session["Carrito"] = 1;//CarritoCompras
                         Session["Categoria"] = 0;//Categoria
@@ -115,6 +116,7 @@ namespace wa_ral_shop.Controllers
                         Session["RutaBase"] = 0;//RutaBase
                         Session["UnidadMedida"] = 0;//UnidadMedida
                         Session["Almacen"] = 1; //Almacen (Como nombre de los almacenes)
+                        
                     }
                     if (int.Parse(Session["TUsuario"].ToString()) == 2)//Admin/Colab
                     {
@@ -140,6 +142,7 @@ namespace wa_ral_shop.Controllers
                         Session["RutaBase"] = 1;//RutaBase
                         Session["UnidadMedida"] = 1;//UnidadMedida
                         Session["Almacen"] = 1; //Almacen (Como nombre de los almacenes)
+                        
                         ////Corrige esto que los permisos a una aplicación no se dan de esta forma
                     }
                     
