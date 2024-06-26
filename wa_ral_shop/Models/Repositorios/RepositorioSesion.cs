@@ -207,9 +207,10 @@ namespace wa_ral_shop.Models.Repositorios
             return IdCliente;
         }
 
-        public int ValidaLogin(string UserEnc, string PassEnc, int TUsuario)
+        public DataTable ValidaLogin(string UserEnc, string PassEnc)//, int TUsuario)
         {
-            int Val;
+            SqlDataReader sqldrUser = null;
+            DataTable dtUser = new DataTable();
             Conexion conexion = new Conexion();
             conexion.AbrirConexion(false);
             try
@@ -219,23 +220,30 @@ namespace wa_ral_shop.Models.Repositorios
                 conexion.sqlCommand.Parameters.Clear();
                 conexion.sqlCommand.Parameters.Add(new SqlParameter("@Usuario", SqlDbType.VarChar)).Value=UserEnc;
                 conexion.sqlCommand.Parameters.Add(new SqlParameter("@Password", SqlDbType.VarChar)).Value = PassEnc;
-                conexion.sqlCommand.Parameters.Add(new SqlParameter("@TUsuario", SqlDbType.TinyInt)).Value = byte.Parse(TUsuario.ToString());
-                var a = conexion.sqlCommand.ExecuteScalar();
-                if (a !=null)
+                //conexion.sqlCommand.Parameters.Add(new SqlParameter("@TUsuario", SqlDbType.TinyInt)).Value = byte.Parse(TUsuario.ToString());
+                sqldrUser = conexion.sqlCommand.ExecuteReader();
+                if (sqldrUser.HasRows)
                 {
-                    Val = Convert.ToInt32(a);
-                }
-                else
-                {
-                    Val = 0;
+                    dtUser.Load(sqldrUser);
                 }
             }
             catch (Exception)
             {
-
                 throw;
             }
-            return Val;
+            finally
+            {
+                if (sqldrUser != null)
+                {
+                    if (!sqldrUser.IsClosed)
+                    {
+                        sqldrUser.Close();
+                    }
+                    sqldrUser.Dispose();
+                }
+                conexion.CerrarConexion();
+            }
+            return dtUser;
         }
 
         public DataTable BuscarCliente(int Ide)
@@ -274,6 +282,44 @@ namespace wa_ral_shop.Models.Repositorios
                 conexion.CerrarConexion();
             }
             return dtClientes;
+        }
+
+        public DataTable BuscarColaborador(int Ide)
+        {
+            SqlDataReader sqldrColab = null;
+            DataTable dtColabs = new DataTable();
+            Conexion conexion = new Conexion();
+            conexion.AbrirConexion(false);
+            try
+            {
+                conexion.sqlCommand.CommandType = CommandType.StoredProcedure;
+                conexion.sqlCommand.CommandText = "SelectColaboradorPorId";
+                conexion.sqlCommand.Parameters.Clear();
+                conexion.sqlCommand.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int)).Value = Ide;
+                sqldrColab = conexion.sqlCommand.ExecuteReader();
+                if (sqldrColab.HasRows)
+                {
+                    dtColabs.Load(sqldrColab);
+                }
+            }
+
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                if (sqldrColab != null)
+                {
+                    if (!sqldrColab.IsClosed)
+                    {
+                        sqldrColab.Close();
+                    }
+                    sqldrColab.Dispose();
+                }
+                conexion.CerrarConexion();
+            }
+            return dtColabs;
         }
 
     }

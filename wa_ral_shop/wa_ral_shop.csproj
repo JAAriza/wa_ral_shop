@@ -49,6 +49,9 @@
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Openpay, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Openpay.1.0.27\lib\net452\Openpay.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp, Version=108.0.3.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.108.0.3\lib\netstandard2.0\RestSharp.dll</HintPath>
     </Reference>
@@ -235,6 +238,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\images\xloading.gif" />
+    <Content Include="Content\css\images\payment\style.css" />
     <Content Include="Content\css\vertical-layout-light\style.css" />
     <Content Include="Content\images\auth\lockscreen-bg.jpg" />
     <Content Include="Content\images\auth\login-bg.jpg" />
@@ -280,12 +284,12 @@
     <Content Include="Content\images\lightbox\thumb-v-y-2.jpg" />
     <Content Include="Content\images\logo-mini.svg" />
     <Content Include="Content\images\logo.svg" />
-    <Content Include="Content\images\payment\cards1.png" />
-    <Content Include="Content\images\payment\cards2.png" />
-    <Content Include="Content\images\payment\cvv.png" />
-    <Content Include="Content\images\payment\openpay.png" />
-    <Content Include="Content\images\payment\radio_on.png" />
-    <Content Include="Content\images\payment\security.png" />
+    <Content Include="Content\css\images\payment\cards1.png" />
+    <Content Include="Content\css\images\payment\cards2.png" />
+    <Content Include="Content\css\images\payment\cvv.png" />
+    <Content Include="Content\css\images\payment\openpay.png" />
+    <Content Include="Content\css\images\payment\radio_on.png" />
+    <Content Include="Content\css\images\payment\security.png" />
     <Content Include="Content\images\samples\1280x768\1.jpg" />
     <Content Include="Content\images\samples\1280x768\2.jpg" />
     <Content Include="Content\images\samples\1280x768\3.jpg" />
@@ -1128,6 +1132,7 @@
     <Folder Include="Areas\Administracion\Views\CDireccion\" />
     <Folder Include="Areas\Administracion\Views\Shared\" />
     <Folder Include="Areas\Catalogos\Data\" />
+    <Folder Include="Content\css\payment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Catalogos\Views\web.config" />
@@ -1180,6 +1185,7 @@
     <Content Include="Areas\Catalogos\Views\Almacen\Almacen.cshtml" />
     <Content Include="Areas\Catalogos\Views\Almacen\ListaAlmacenes.cshtml" />
     <Content Include="Areas\Administracion\Views\Payment\Payment.cshtml" />
+    <Content Include="Content\fonts\roboto\Roboto-Thin.ttf" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Inicio\Principal.cshtml" />

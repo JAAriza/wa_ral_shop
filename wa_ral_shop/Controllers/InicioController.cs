@@ -13,8 +13,8 @@ namespace wa_ral_shop.Controllers
         // GET: Inicio
         public ActionResult Principal()
         {
-            Info info = new Info();
-            Session["TUsuario"] = info.GetTUsuario();//Se agrega para evitar error en validacion en layout
+            //Info info = new Info();
+            //Session["TUsuario"] = info.GetTUsuario();//Se agrega para evitar error en validacion en layout
             return View();
         }
     }

@@ -22,18 +22,24 @@ namespace wa_ral_shop.Controllers
         // GET: Sesion
         public ActionResult Login()
         {
-            Info info = new Info();
-            Session["TUsuario"] = info.GetTUsuario();//Se agrega para evitar error en validacion en layout
+            //Info info = new Info();
+            //Session["TUsuario"] = info.GetTUsuario();//Se agrega para evitar error en validacion en layout
             return View();
         }
+        /// <summary>
+        /// Buscar por email y password
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Iniciar(string email, string password)
         {
             RepositorioSesion repositorioSesion = new RepositorioSesion();
             string UserEnc;
             string PassEnc;
-            int Inicio;
-            Info info = new Info();
+            DataTable dtUsr = new DataTable();
+            //Info info = new Info();
             try
             {
                 //string usdesc = EncYDec.DecryptCipherTextToPlainText("2DTxpwXVMs++xUdr8OVnAQ4ZaxAEzetp");//roariza@mercar.com
@@ -65,8 +71,8 @@ namespace wa_ral_shop.Controllers
 
                 UserEnc = EncYDec.EncryptPlainTextToCipherText(email);
                 PassEnc = EncYDec.EncryptPlainTextToCipherText(password);
-                Inicio = repositorioSesion.ValidaLogin(UserEnc, PassEnc, info.GetTUsuario());
-                if (Inicio <= 0)
+                dtUsr = repositorioSesion.ValidaLogin(UserEnc, PassEnc);//, info.GetTUsuario());
+                if (dtUsr.Rows.Count <= 0)
                 {
                     //Mensaje de error                    
                     return View("ErrorLogin");
@@ -75,20 +81,43 @@ namespace wa_ral_shop.Controllers
                 {
                     //Consultar Objeto cliente
                     ClienteAnonymous clienteAnonymous = new ClienteAnonymous();
-                    DataTable dtCliente = new DataTable();
-                    dtCliente = repositorioSesion.BuscarCliente(Inicio);
-                    clienteAnonymous.Id = int.Parse(dtCliente.Rows[0][0].ToString());
-                    clienteAnonymous.Nombre = dtCliente.Rows[0][1].ToString();
-                    clienteAnonymous.APaterno = dtCliente.Rows[0][2].ToString();
-                    clienteAnonymous.AMaterno = dtCliente.Rows[0][3].ToString();
-                    clienteAnonymous.Telefono = dtCliente.Rows[0][5].ToString();
-                    Session["Nombre"] = clienteAnonymous.Nombre;
-                    Session["APaterno"] = clienteAnonymous.APaterno;
-                    Session["AMaterno"] = clienteAnonymous.AMaterno;
-                    Session["Telefono"] = clienteAnonymous.Telefono;
-                    Session["EMail"] = email;
-                    Session["Ide"] = Inicio;//Ide es el IdCliente
-                    Session["TUsuario"] = info.GetTUsuario();//1= Cliente, 2 = Admin del sistema
+                    ColaboradorAnonymous colaboradorAnonymous = new ColaboradorAnonymous();
+                    DataTable dtUs = new DataTable();
+                    Session["TUsuario"] = int.Parse(dtUsr.Rows[0][1].ToString());
+                    if (Convert.ToInt32(dtUsr.Rows[0][1].ToString()) == 1)//[0][1] tipo usuario 1= Cliente, 2= Colaborador
+                    {
+                        dtUs = repositorioSesion.BuscarCliente(Convert.ToInt32(dtUsr.Rows[0][0].ToString()));//[0][0] ID del tipo de usuario
+                        clienteAnonymous.Id = int.Parse(dtUs.Rows[0][0].ToString());
+                        clienteAnonymous.Nombre = dtUs.Rows[0][1].ToString();
+                        clienteAnonymous.APaterno = dtUs.Rows[0][2].ToString();
+                        clienteAnonymous.AMaterno = dtUs.Rows[0][3].ToString();
+                        clienteAnonymous.Telefono = dtUs.Rows[0][5].ToString();
+
+                        Session["Nombre"] = clienteAnonymous.Nombre;
+                        Session["APaterno"] = clienteAnonymous.APaterno;
+                        Session["AMaterno"] = clienteAnonymous.AMaterno;
+                        Session["Telefono"] = clienteAnonymous.Telefono;
+                        Session["EMail"] = email;
+                        Session["Ide"] = clienteAnonymous.Id;//Ide es el IdCliente
+                        //Session["TUsuario"] = info.GetTUsuario();//1= Cliente, 2 = Admin del sistema
+                    }
+                    else
+                    {
+                        dtUs = repositorioSesion.BuscarColaborador(Convert.ToInt32(dtUsr.Rows[0][0].ToString()));//[0][0] ID del tipo de usuario
+                        colaboradorAnonymous.Id = short.Parse(dtUs.Rows[0][0].ToString());
+                        colaboradorAnonymous.Nombre = dtUs.Rows[0][1].ToString();
+                        colaboradorAnonymous.APaterno = dtUs.Rows[0][2].ToString();
+                        colaboradorAnonymous.AMaterno = dtUs.Rows[0][3].ToString();
+                        colaboradorAnonymous.Telefono = dtUs.Rows[0][5].ToString();
+
+                        Session["Nombre"] = colaboradorAnonymous.Nombre;
+                        Session["APaterno"] = colaboradorAnonymous.APaterno;
+                        Session["AMaterno"] = colaboradorAnonymous.AMaterno;
+                        Session["Telefono"] = colaboradorAnonymous.Telefono;
+                        Session["EMail"] = email;
+                        Session["Ide"] = colaboradorAnonymous.Id;
+                    }                   
+                    
 
                     //Agregar consulta de permisos por pantalla por usuario
                     if (int.Parse(Session["TUsuario"].ToString()) == 1)//Cliente

@@ -21,19 +21,19 @@ namespace wa_ral_shop.Models.Utilerias
             return IpImg;
         }
         
-        public int GetTUsuario() 
-        {
-            int TUi;
-            try
-            {
-                TUi = Convert.ToInt32(ConfigurationManager.AppSettings["TUsuario"].ToString());
-            }
-            catch (Exception e)
-            {
-                throw new ArgumentException(e.Message);
-            }
-            return TUi;
-        }
+        //public int GetTUsuario() 
+        //{
+        //    int TUi;
+        //    try
+        //    {
+        //        TUi = Convert.ToInt32(ConfigurationManager.AppSettings["TUsuario"].ToString());
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new ArgumentException(e.Message);
+        //    }
+        //    return TUi;
+        //}
 
     }
 }
