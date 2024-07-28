@@ -206,6 +206,7 @@
     <Compile Include="Models\Anonymous\Catalogos\RutaBaseAnonymous.cs" />
     <Compile Include="Models\Anonymous\Catalogos\UnidadMedidaAnonymous.cs" />
     <Compile Include="Models\Anonymous\ComboAnonymous.cs" />
+    <Compile Include="Models\Anonymous\Utilerias\JSONOpenPay.cs" />
     <Compile Include="Models\Conexion.cs" />
     <Compile Include="Models\Repositorios\Administracion\RepositorioCDireccion.cs" />
     <Compile Include="Models\Repositorios\Administracion\RepositorioCliente.cs" />
@@ -232,6 +233,7 @@
     <Compile Include="Models\Utilerias\ControllerMaster.cs" />
     <Compile Include="Models\Utilerias\EncYDec.cs" />
     <Compile Include="Models\Utilerias\Envia.cs" />
+    <Compile Include="Models\Utilerias\ErroresOpenPay.cs" />
     <Compile Include="Models\Utilerias\Info.cs" />
     <Compile Include="Models\Utilerias\Paginacion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

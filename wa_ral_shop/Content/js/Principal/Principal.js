@@ -107,7 +107,7 @@ function ConsultaProductosActivos() {
                         $("#div-" + Dato.Id + "").append(
                             '<div class="item">' +
                             //'<img src="' + data.RutaImg + '\\' + Dato2.IdProducto + '\\' + Dato2.Nombre + '" alt="image"/>' +
-                            '<img src="/../Content/images/carousel/banner_1.jpg" alt="image"/>' +
+                            '<img src="https://localhost:44301/Content/images/carousel/banner_1.jpg" alt="image"/>' +
                             '</div>'
                         );
                     }
@@ -296,6 +296,7 @@ function ConsultaProductoDetalle(IdProducto) {
                     $("#divBodyImg").append(
                         '<div class=" mb-2">' +
                         //'< img src="' + data.RutaImg + '\\' + Dato2.Nombre + '" class="big_image mt-2 border border-0 w-100 " alt="img" style="width:auto; height:auto;" >' +
+                        //'<img src="" class="big_image mt - 2 border border - 0 w - 100 " alt="img" style="width: auto; height: auto; ">' +
                         '<img src="https://localhost:44301/Content/images/carousel/banner_1.jpg" class="big_image mt-2 border border-0 w-100 " alt="img" style="width:auto; height:auto;">' +
                         '</div >' +
                         '<div class="d-flex" style="overflow-x:auto;" id="divImg">' +
@@ -309,6 +310,7 @@ function ConsultaProductoDetalle(IdProducto) {
             $.each(data.LPI, function (Id2, Dato2) {
                 $("#divImg").append(                    
                     //'<img src="' + data.RutaImg + '\\' + Dato2.Nombre + '" class="small_img border border-0 w-25" >'                    
+                    //'<img src="https://localhost:44301/Content/images/carousel/banner_1.jpg" class="small_img border border-0 w-25">'
                     '<img src="https://localhost:44301/Content/images/carousel/banner_1.jpg" class="small_img border border-0 w-25">'
                 );
             }

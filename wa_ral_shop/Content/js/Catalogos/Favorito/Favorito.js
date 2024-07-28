@@ -75,7 +75,7 @@ function ConsultaFavoritos() {
                     if (Dato.Id == Dato2.IdProducto) {
                         $("#div-" + Dato.Id + "").append(
                             '<div class="item">' +
-                            '<img src="' + data.RutaImg + '\\' + Dato2.IdProducto + '\\' + Dato2.Nombre + '" alt="image"/>' +
+                            '<img src="' + data.RutaImg + Dato2.IdProducto + '\\' + Dato2.Nombre + '" alt="image"/>' +
                             //'<img src="/Content/images/carousel/banner_12.jpg" alt="image">'+
                             '</div>'
                         );
