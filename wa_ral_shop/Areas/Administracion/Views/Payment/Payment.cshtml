@@ -9,28 +9,30 @@
 @section Scripts{
 
     <script type="text/javascript" src="https://js.openpay.mx/openpay.v1.min.js"></script>
+    <script type="text/javascript" src="~/Content/js/Administracion/Payment/Payment.js"></script>
 
 
     <script type="text/javascript">
         $(document).ready(function () {
 
-            OpenPay.setId('mcpqgoe22dmeeukfcajw');
-            OpenPay.setApiKey('pk_dbdf44828124408aa3b9c227795846a9');
+            //OpenPay.setId('mcpqgoe22dmeeukfcajw');
+            //OpenPay.setApiKey('pk_dbdf44828124408aa3b9c227795846a9');
 
-            OpenPay.setSandboxMode(true);
+            //OpenPay.setSandboxMode(true);
 
 
-            
+
             $('#pay-button').on('click', function (event) {
                 alert("click");
+                Buscar(@Session["Ide"]);
                 // event.preventDefault();
                 // $("#pay-button").prop("disabled", true);
-                alert(OpenPay.card.validateCardNumber($("#ipttarjeta").val()));
-                alert(OpenPay.card.validateCVC($("#iptcvv").val(), $("#ipttarjeta").val()));
-                alert(OpenPay.card.validateExpiry($("#iptmonth").val(), $("#iptyear").val()));
-                alert(OpenPay.card.cardType($("#ipttarjeta").val()));
-                OpenPay.token.extractFormAndCreate('processCard', SuccessCallback, ErrorCallback);
-                alert("click2");
+                //alert(OpenPay.card.validateCardNumber($("#ipttarjeta").val()));
+                //alert(OpenPay.card.validateCVC($("#iptcvv").val(), $("#ipttarjeta").val()));
+                //alert(OpenPay.card.validateExpiry($("#iptmonth").val(), $("#iptyear").val()));
+                //alert(OpenPay.card.cardType($("#ipttarjeta").val()));
+                //OpenPay.token.extractFormAndCreate('processCard', SuccessCallback, ErrorCallback);
+                //alert("click2");
             });
 
             function SuccessCallback(response) {

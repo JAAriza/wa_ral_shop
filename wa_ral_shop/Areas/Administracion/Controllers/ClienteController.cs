@@ -126,6 +126,54 @@ namespace wa_ral_shop.Areas.Administracion.Controllers
             return actionResult;
         }
 
+        //[HttpPost]
+        ////[ValidateInput(false)]
+        //public ActionResult BuscarPorId(int Id)
+        //{
+        //    ContentResultObject ContentResultObject = new ContentResultObject();
+        //    ActionResult actionResult = null;
+        //    RepositorioCliente repositorioCliente = new RepositorioCliente();
+        //    string Mensaje = string.Empty;
+        //    DataTable dtCliente = new DataTable();
+
+        //    try
+        //    {
+        //        dtCliente = repositorioCliente.BuscarPorId(Id);
+        //        List<ClienteAnonymous> lstClienteAnonymous = new List<ClienteAnonymous>();
+        //        ClienteAnonymous clienteA;
+        //        foreach (DataRow dr in dtCliente.Rows)
+        //        {
+        //            clienteA = new ClienteAnonymous();
+        //            clienteA.Id = Int32.Parse(dr["Id"].ToString());
+        //            clienteA.Nombre = dr["Nombre"].ToString();
+        //            clienteA.APaterno = dr["APaterno"].ToString();
+        //            clienteA.AMaterno = dr["AMaterno"].ToString();
+        //            clienteA.Estrellas = byte.Parse(dr["Estrellas"].ToString());
+        //            clienteA.Telefono = dr["Telefono"].ToString();
+        //            clienteA.EMail = dr["EMail"].ToString();
+        //            clienteA.FechaHoraCaptura = DateTime.Parse(dr["FechaHoraCaptura"].ToString());
+        //            clienteA.Estatus = Boolean.Parse(dr["Estatus"].ToString());
+        //            clienteA.EstatusSTR = Boolean.Parse(dr["Estatus"].ToString()) == true ? "Activo" : "Inactivo";
+        //            lstClienteAnonymous.Add(clienteA);
+        //        }
+        //        Session
+        //        //ViewData["Total"] = lstClienteAnonymous.Count;
+        //        //var gridClientes = RenderRazorViewToString(this.ControllerContext, "ListaClientes", lstClienteAnonymous);
+
+        //        //actionResult = Json(new
+        //        //{
+        //            //ListaCat = gridClientes
+        //        //});
+        //    }
+        //    catch (Exception Ex)
+        //    {
+        //        ContentResultObject.Codigo = "Error";
+        //        ContentResultObject.Mensaje = Ex.Message;
+        //        actionResult = Json(new { codigo = ContentResultObject.Codigo, mensaje = ContentResultObject.Mensaje });
+        //    }
+        //    return actionResult;
+        //}
+
         [HttpPost]
         //[ValidateInput(false)]
         public ActionResult Editar(int Id, string Nombre , string APaterno, string AMaterno, byte Estrellas,

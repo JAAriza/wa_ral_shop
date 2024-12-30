@@ -18,5 +18,6 @@ namespace wa_ral_shop.Models.Anonymous.Catalogos
         public DateTime FechaHoraCaptura { get; set; }
         public bool Estatus { get; set; }
         public string EstatusSTR { get; set; }
+        public string CustomerId { get; set; }
     }
 }

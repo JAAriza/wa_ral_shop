@@ -109,6 +109,44 @@ namespace wa_ral_shop.Models.Repositorios.Administracion
             return dtClientes;
         }
 
+        public DataTable BuscarPorId(int Id)
+        {
+            SqlDataReader sqldrClientes = null;
+            DataTable dtClientes = new DataTable();
+            Conexion conexion = new Conexion();
+            conexion.AbrirConexion(false);
+            try
+            {
+                conexion.sqlCommand.CommandType = CommandType.StoredProcedure;
+                conexion.sqlCommand.CommandText = "SelectClientePorId";
+                conexion.sqlCommand.Parameters.Clear();
+                conexion.sqlCommand.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int)).Value = Id;
+                sqldrClientes = conexion.sqlCommand.ExecuteReader();
+                if (sqldrClientes.HasRows)
+                {
+                    dtClientes.Load(sqldrClientes);
+                }
+            }
+
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                if (sqldrClientes != null)
+                {
+                    if (!sqldrClientes.IsClosed)
+                    {
+                        sqldrClientes.Close();
+                    }
+                    sqldrClientes.Dispose();
+                }
+                conexion.CerrarConexion();
+            }
+            return dtClientes;
+        }
+
         public int Editar(ClienteAnonymous clienteAnonymous, string EMailEnc)
         {
             Conexion conexion = new Conexion();
@@ -153,6 +191,32 @@ namespace wa_ral_shop.Models.Repositorios.Administracion
                 conexion.sqlCommand.Parameters.Clear();
                 conexion.sqlCommand.Parameters.Add(new SqlParameter("@Ide", SqlDbType.Int)).Value = clienteAnonymous.Id;
                 conexion.sqlCommand.Parameters.Add(new SqlParameter("@EMailEnc", SqlDbType.VarChar)).Value = EMailEnc;
+                Editado = int.Parse(conexion.sqlCommand.ExecuteNonQuery().ToString());
+            }
+
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                conexion.CerrarConexion();
+            }
+            return Editado;
+        }
+
+        public int EditarCustomer(int Id, string CustomerId)
+        {
+            Conexion conexion = new Conexion();
+            conexion.AbrirConexion(false);
+            int Editado = 0;
+            try
+            {
+                conexion.sqlCommand.CommandType = CommandType.StoredProcedure;
+                conexion.sqlCommand.CommandText = "UpdateClienteCustomer";
+                conexion.sqlCommand.Parameters.Clear();
+                conexion.sqlCommand.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int)).Value = Id;
+                conexion.sqlCommand.Parameters.Add(new SqlParameter("@CustomerId", SqlDbType.VarChar)).Value = CustomerId;
                 Editado = int.Parse(conexion.sqlCommand.ExecuteNonQuery().ToString());
             }
 
