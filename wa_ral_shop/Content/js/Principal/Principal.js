@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     ConsultaProductosActivos();
-    
 });
 
 
@@ -106,14 +105,15 @@ function ConsultaProductosActivos() {
                     if (Dato.Id == Dato2.IdProducto) {
                         $("#div-" + Dato.Id + "").append(
                             '<div class="item">' +
-                            //'<img src="' + data.RutaImg + '\\' + Dato2.IdProducto + '\\' + Dato2.Nombre + '" alt="image"/>' +
-                            '<img src="https://localhost:44301/Content/images/carousel/banner_1.jpg" alt="image"/>' +
+                            '<img src="' + data.RutaImg + '\\' + Dato2.IdProducto + '\\' + Dato2.Nombre + '" alt="image"/>' +
+                            //'<img src="https://localhost:44301/Content/images/carousel/banner_1.jpg" alt="image"/>' +
                             '</div>'
                         );
                     }
                 }
                 );
             });
+            //$("#divDashboard").load("");
         }
     }).fail(function (jqXHR, textStatus, errorThrown) {
         resetToastPosition();

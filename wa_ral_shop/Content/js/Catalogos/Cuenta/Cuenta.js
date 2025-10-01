@@ -184,7 +184,13 @@ function AgregarUbica() {
     $("#divDireccionF").hide();
     $("#divCalles").hide();
     $("#divSaveUbica").hide();
-    window.scrollBy(0, 500); // horizontal and vertical scroll increments    
+    window.scrollBy(0, 500); // horizontal and vertical scroll increments  
+    $("#txtNombreMUbicacion").attr('readonly', false);
+    $("#txtTelefonoMUbicacion").attr('readonly', false);
+    $("#txtCPMUbicacion").attr('readonly', false);
+    $("#txtNombreMUbicacion").val("");
+    $("#txtTelefonoMUbicacion").val("");
+    $("#txtCPMUbicacion").val("");
 }
 
 function BuscarCP(Colonia) {
@@ -549,6 +555,8 @@ function GuardarCDireccion() {
                 })
                 OcultarUbica();
                 $("#divListaUbicaciones").html('<h4 class="card-title" style="text-align:center">Sin resultados para mostrar</h4>');
+                BuscarUbica();
+                $("#table-responsive").load("Catalogos/Cuenta/Cuenta");
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
             resetToastPosition();
@@ -740,6 +748,8 @@ function EditarUbicacion() {
                 LimpiarCamposEditar();
                 OcultarUbica();
                 $("#divListaUbicaciones").html('<h4 class="card-title" style="text-align:center">Sin resultados para mostrar</h4>');
+                BuscarUbica();
+                $("#table-responsive").load("Catalogos/Cuenta/Cuenta");
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
             resetToastPosition();
@@ -880,6 +890,9 @@ function Eliminar(Id) {
             })
             OcultarUbica();
             $("#divListaUbicaciones").html('<h4 class="card-title" style="text-align:center">Sin resultados para mostrar</h4>');
+            BuscarUbica();
+            $("#table-responsive").load("Catalogos/Cuenta/Cuenta");
+            
         }
     }).fail(function (jqXHR, textStatus, errorThrown) {
         resetToastPosition();

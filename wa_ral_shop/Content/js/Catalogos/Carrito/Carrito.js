@@ -1,11 +1,5 @@
 ﻿$(document).ready(function () {
     ConsultaCarritos();
-
-    
-
-    
-
-
 });
 
 
@@ -66,8 +60,8 @@ function ConsultaCarritos() {
                     '</button>' +
                     '</div>' +
                     '<div class="card-body">' +
-                    '<h4 class="card-title" onclick="ConsultaProductoDetalle(' + Dato.Id +');" style="cursor:pointer;">' + Dato.Nombre + '</h4>' +
-                    
+                    '<h4 class="card-title" onclick="ConsultaProductoDetalle(' + Dato.Id + ');" style="cursor:pointer;">' + Dato.Nombre + '</h4>' +
+
                     '<s style="color:#dcdcdc"><span style="color:#dcdcdc;" class="currency">$' + parseFloat(parseFloat(Dato.PrecioVenta) * parseFloat(1.12)).toFixed(2) + '</span></s>' +
                     '<br />' +
                     '<span style="font-size:large">$' + Pv[0] + '<sup>' + Pv[1] + '</sup>&nbsp; </span>' +
@@ -111,8 +105,8 @@ function ConsultaCarritos() {
                     if (Dato.Id == Dato2.IdProducto) {
                         $("#div-" + Dato.Id + "").append(
                             '<div class="item">' +
-                            '<img src="' + data.RutaImg + Dato2.IdProducto + '\\' + Dato2.Nombre + '" alt="image"/>' +
-                            //'<img src="/Content/images/carousel/banner_12.jpg" alt="image">'+
+                            //'<img src="' + data.RutaImg + Dato2.IdProducto + '\\' + Dato2.Nombre + '" alt="image"/>' +
+                            '<img src="../../../Content/images/carousel/banner_1.jpg" alt="image">' +
                             '</div>'
                         );
                     }
@@ -155,7 +149,7 @@ function Menos(Id, Existencias) {
 
 function ValidarExistencias(a, Id, Existencias) {
     var f = "txtCantidad-" + Id;
-    
+
     if (a > Existencias) {
         $('#' + f).val(Existencias);
     }
@@ -178,12 +172,12 @@ function Mas(Id, Existencias) {
         else {
             $('#' + f).val(parseInt(Cantidad) + parseInt(1));
         }
-        
+
     }
     if (Cantidad > Existencias) {
         $('#' + f).val(Existencias);
     }
-    
+
 }
 
 
@@ -503,7 +497,7 @@ function ConsultaProductoDetalle(IdProducto) {
                     $("#divBodyImg").append(
                         '<div class=" mb-2">' +
                         //'< img src="' + data.RutaImg + '\\' + Dato2.Nombre + '" class="big_image mt-2 border border-0 w-100 " alt="img" style="width:auto; height:auto;" >' +
-                        '<img src="https://localhost:44301/Content/images/carousel/banner_1.jpg" class="big_image mt-2 border border-0 w-100 " alt="img" style="width:auto; height:auto;">' +
+                        '<img src="../Content/images/carousel/banner_1.jpg" class="big_image mt-2 border border-0 w-100 " alt="img" style="width:auto; height:auto;">' +
                         '</div >' +
                         '<div class="d-flex" style="overflow-x:auto;" id="divImg">' +
                         '</div>'
@@ -516,7 +510,7 @@ function ConsultaProductoDetalle(IdProducto) {
             $.each(data.LPI, function (Id2, Dato2) {
                 $("#divImg").append(
                     //'<img src="' + data.RutaImg + '\\' + Dato2.Nombre + '" class="small_img border border-0 w-25" >'                    
-                    '<img src="https://localhost:44301/Content/images/carousel/banner_1.jpg" class="small_img border border-0 w-25">'
+                    '<img src="../../../Content/images/carousel/banner_1.jpg" class="small_img border border-0 w-25">'
                 );
             }
             );
@@ -555,6 +549,81 @@ function MostrarModal() {
         });
     })
 }
+
+function MostrarModalPago() {
+    MostrarMenu();
+    $('#ModalPago').modal('show');
+
+
+}
+
+//function MostrarModalDetallePago() {
+//    //MostrarMenu();
+//    $('#ModalPagoDetalle').modal('show');
+
+
+//}
+
+
+function Buscar(Id) {
+    resetToastPosition();
+    //var ToastInfo =
+    $.toast({
+        heading: 'Informaci&oacute;n',
+        text: 'Buscando...',
+        showHideTransition: 'slide',
+        hideAfter: 3000,
+        icon: 'info',
+        loaderBg: '#46c35f',
+        position: 'top-right'
+    })
+    $.ajax({
+        url: '/Administracion/Payment/Buscar',
+        type: "POST",
+        data: { Id }
+    }).done(function (data, textStatus, jqXHR) {
+        if (data.codigo === "Error") {
+            resetToastPosition();
+            $.toast({
+                heading: 'Error',
+                text: data.mensaje,
+                showHideTransition: 'slide',
+                hideAfter: 8000,
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        }
+        else {
+            //resetToastPosition();
+            $.toast({
+                heading: 'Busqueda',
+                text: 'La busqueda se realizo correctamente',
+                showHideTransition: 'slide',
+                hideAfter: 5000,
+                icon: 'success',
+                loaderBg: '#f96868',
+                position: 'top-right'
+            })
+            alert(data.mensaje);
+
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        resetToastPosition();
+        $.toast({
+            heading: 'Error',
+            text: errorThrown,
+            showHideTransition: 'slide',
+            hideAfter: 8000,
+            icon: 'error',
+            loaderBg: '#f2a654',
+            position: 'top-right'
+        })
+    }).always(function (data, textStatus, errorThrown) {
+        // ToastInfo.reset();
+    });
+}
+
 
 
 //Funcion que valida si se ha de mostrar el menu izquierdo

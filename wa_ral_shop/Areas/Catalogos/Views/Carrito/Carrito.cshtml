@@ -1,16 +1,40 @@
 ﻿
 @{ ViewBag.Title = "Carrito";
-                Layout = "~/Views/Shared/_Layout.cshtml"; }
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+@Styles.Render("~/Content/css/images/payment/style.css")
+
 
 @section Scripts{
 
     @*Necesario para funcionamiento de zoom*@
     <script src="~/Content/js/zoom/zoom.js"></script>
+    <script type="text/javascript" src="https://js.openpay.mx/openpay.v1.min.js"></script>
+    <script type='text/javascript' src="https://js.openpay.mx/openpay-data.v1.min.js"></script>
+
 
     <script src="~/Content/js/Catalogos/Carrito/Carrito.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var deviceSessionId = OpenPay.deviceData.setup("formId", "deviceIdHiddenFieldName");
+
+            $('#pay-button').on('click', function (event) {
+                alert("click");
+                Buscar(@Session["Ide"]);
+
+            });
+
+        });
+
+
+    </script>
+
 }
 
 <div class="content-wrapper">
+    <button type="button" class="btn btn-success btn-rounded btn-fw" onclick="MostrarModalPago();">Pagar</button>
 
     <div class="card-columns" id="divCar">
 
@@ -91,5 +115,121 @@
             </div>
         </div>
     </div>
+
+
+    @*Modal para registrar datos para pago*@
+    <!-- Modal -->
+    <div class="modal fade" id="ModalPago" tabindex="-1" role="dialog" aria-labelledby="DetProdLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="max-width:70%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fc-center" id="DetProdLabel">
+                        <b> Total a pagar: </b> $1700
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Ocultar();">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="align-content-center">
+
+
+                        <div class="bkng-tb-cntnt">
+                            <div class="pymnts">
+
+                                <form action="#" method="POST" id="processCard" name="processCard">
+                                    <input type="hidden" name="token_id" id="token_id">
+                                    <div class="pymnt-itm card active">
+                                        <h2 class="pymnt-h">Tarjeta de crédito o débito</h2>
+                                        <div class="pymnt-cntnt">
+                                            <div class="card-expl">
+                                                <div class="credit"><h4>Tarjetas de crédito</h4></div>
+                                                <div class="debit"><h4>Tarjetas de débito</h4></div>
+                                            </div>
+                                            <div class="sctn-row">
+                                                <div class="sctn-col l">
+                                                    <label>Nombre del titular</label>
+                                                    <input type="text" placeholder="Como aparece en la tarjeta" autocomplete="off" data-openpay-card="holder_name">
+                                                </div>
+                                                <div class="sctn-col">
+                                                    <label>Número de tarjeta</label>
+                                                    <input type="text" autocomplete="off" data-openpay-card="card_number" id="ipttarjeta">
+                                                </div>
+                                            </div>
+                                            <div class="sctn-row">
+                                                <div class="sctn-col l">
+                                                    <label>Fecha de expiración</label>
+                                                    <div class="sctn-col half l">
+                                                        <input type="text" placeholder="Mes" data-openpay-card="expiration_month" id="iptmonth">
+                                                    </div>
+                                                    <div class="sctn-col half l">
+                                                        <input type="text" placeholder="Año" data-openpay-card="expiration_year" id="iptyear">
+                                                    </div>
+                                                </div>
+                                                <div class="sctn-col cvv">
+                                                    <label>Código de seguridad</label>
+                                                    <div class="sctn-col half l">
+                                                        <input type="text" placeholder="3 dígitos" autocomplete="off" data-openpay-card="cvv2" id="iptcvv">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="openpay">
+                                                <div class="logo-pay">Transacciones realizadas vía:</div>
+                                                <div class="shield">Tus pagos se realizan de forma segura con encriptación de 256 bits</div>
+                                            </div>
+                                            <div class="sctn-row">
+                                                <a class="button right" id="pay-button">Pagar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    @*<button type="button" class="btn btn-info btn-rounded btn-fw" onclick="MostrarModalDetallePago();">Detalle</button>*@
+                    <p style="text-align:left">
+                        Productos: $1500
+                        <br />
+                        Envio: $200
+                        <br />
+                        Descuento: $100
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @*Modal para mostrar detalle de pago*@
+    <!-- Modal -->
+    @*<div class="modal fade" id="ModalPagoDetalle" tabindex="-1" role="dialog" aria-labelledby="DetProdLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document" style="max-width:70%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fc-center" id="DetProdLabel">
+                            <b> Total a pagar: </b> $1700
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <p>
+                            Detalle del dinero que acabas de entregar
+                        </p>
+
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>*@
 
 </div>
