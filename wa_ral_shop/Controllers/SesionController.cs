@@ -92,6 +92,7 @@ namespace wa_ral_shop.Controllers
                         clienteAnonymous.APaterno = dtUs.Rows[0][2].ToString();
                         clienteAnonymous.AMaterno = dtUs.Rows[0][3].ToString();
                         clienteAnonymous.Telefono = dtUs.Rows[0][5].ToString();
+                        clienteAnonymous.CustomerId = dtUs.Rows[0][9].ToString();
 
                         Session["Nombre"] = clienteAnonymous.Nombre;
                         Session["APaterno"] = clienteAnonymous.APaterno;
@@ -99,6 +100,7 @@ namespace wa_ral_shop.Controllers
                         Session["Telefono"] = clienteAnonymous.Telefono;
                         Session["EMail"] = email;
                         Session["Ide"] = clienteAnonymous.Id;//Ide es el IdCliente
+                        Session["CustomerId"] = clienteAnonymous.CustomerId.ToString();
                         //Session["TUsuario"] = info.GetTUsuario();//1= Cliente, 2 = Admin del sistema
                     }
                     else

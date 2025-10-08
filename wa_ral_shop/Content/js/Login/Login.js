@@ -57,6 +57,7 @@ function AltaCliente() {
             }
             else {
                 //resetToastPosition();
+
                 $.toast({
                     heading: 'Guardado',
                     text: 'El registro se ha guardado correctamente',
@@ -72,7 +73,10 @@ function AltaCliente() {
                 $("#AltaModal").modal("hide");
 
                 Direccion(NCompleto, Telefono, Id);
+                AgregarCustomer(Nombre, APaterno, AMaterno, Telefono, EMail, Id)
             }
+
+
         }).fail(function (jqXHR, textStatus, errorThrown) {
             resetToastPosition();
             $.toast({
@@ -208,6 +212,38 @@ function Direccion(NCompleto, Telefono, Ide) {
     $("#txtEntreCalleMUbicacion").val("");
     $("#txtYCalleMUbicacion").val("");
     $("#txtDescripcionMUbicacion").val("");
+}
+
+function AgregarCustomer(Nombre, APaterno, AMaterno, Telefono, EMail, Id) {
+    $.ajax({
+        url: '/Payment/AgregarCustomer',
+        type: "POST",
+        data: { Nombre, APaterno, AMaterno, Telefono, EMail, Id }
+    }).done(function (data, textStatus, jqXHR) {
+        if (data.codigo === "Error") {
+            resetToastPosition();
+            $.toast({
+                heading: 'Error',
+                text: data.mensaje,
+                showHideTransition: 'slide',
+                hideAfter: 8000,
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        resetToastPosition();
+        $.toast({
+            heading: 'Error',
+            text: errorThrown,
+            showHideTransition: 'slide',
+            hideAfter: 8000,
+            icon: 'error',
+            loaderBg: '#f2a654',
+            position: 'top-right'
+        })
+    });
 }
 
 function BuscarCP() {
@@ -387,7 +423,7 @@ function LimpiarCP() {
     $("#txtNInteriorMUbicacion").val("");
     $("#txtEntreCalleMUbicacion").val("");
     $("#txtYCalleMUbicacion").val("");
-    $("#txtDescripcionMUbicacion").val("");    
+    $("#txtDescripcionMUbicacion").val("");
 }
 
 function GuardarCDireccion() {

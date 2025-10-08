@@ -12,6 +12,8 @@ namespace wa_ral_shop.Models.Utilerias
 {
     /// <summary>
     /// Clase Pagos que contiene los metodos que brinda la api de pagos OpenPay
+    /// Origen de información: https://github.com/open-pay/openpay-dotnet
+    /// 
     /// </summary>
     public class Pagos
     {
