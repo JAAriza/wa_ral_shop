@@ -28,6 +28,7 @@ namespace wa_ral_shop.Models.Repositorios.Catalogos
 
             catch (Exception e)
             {
+                string error = e.Message;
                 throw;
             }
             finally
@@ -58,6 +59,7 @@ namespace wa_ral_shop.Models.Repositorios.Catalogos
 
             catch (Exception e)
             {
+                string error = e.Message;
                 throw;
             }
             finally
@@ -93,6 +95,7 @@ namespace wa_ral_shop.Models.Repositorios.Catalogos
 
             catch (Exception e)
             {
+                string error = e.Message;
                 throw;
             }
             finally
@@ -118,6 +121,7 @@ namespace wa_ral_shop.Models.Repositorios.Catalogos
 
             catch (Exception e)
             {
+                string error = e.Message;
                 throw;
             }
             finally

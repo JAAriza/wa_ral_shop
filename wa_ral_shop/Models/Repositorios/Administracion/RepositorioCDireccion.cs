@@ -34,6 +34,7 @@ namespace wa_ral_shop.Models.Repositorios.Administracion
 
             catch (Exception e)
             {
+                string error = e.Message;
                 throw;
             }
             finally
@@ -72,6 +73,7 @@ namespace wa_ral_shop.Models.Repositorios.Administracion
 
             catch (Exception e)
             {
+                string error = e.Message;
                 throw;
             }
             finally
@@ -115,6 +117,7 @@ namespace wa_ral_shop.Models.Repositorios.Administracion
 
             catch (Exception e)
             {
+                string error = e.Message;
                 throw;
             }
             finally
