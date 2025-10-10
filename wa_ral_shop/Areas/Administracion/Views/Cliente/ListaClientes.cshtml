@@ -38,6 +38,7 @@
                             <th style="text-align:center" nowrap><b>Validado</b></th>
                             <th style="text-align:center" nowrap><b>Fecha Hora Captura</b></th>
                             <th style="text-align:center" nowrap><b>Estatus</b></th>
+                            <th style="text-align:center" nowrap><b>CustomerId</b></th>
                             <th style="text-align:center" nowrap><b>Operaciones</b></th>
                         </tr>
                     </thead>
@@ -73,15 +74,15 @@
                             {
                                 <td style="text-align:center"><div class="badge badge-error badge-pill">@fila.EstatusSTR</div></td>
                             }
-
+                            <td style="text-align:center">@fila.CustomerId</td>
                             <td class="pr-0 text-center">
                                 <div class="badge badge-pill badge-primary text-center">
                                     <i class="mdi mdi-pencil" onclick="Editar(@fila.Id, '@fila.Nombre', '@fila.APaterno', '@fila.AMaterno'
-                                                                                , @fila.Estrellas, '@fila.Telefono', '@fila.EMail', '@fila.EstatusSTR');"
+                                                                                , @fila.Estrellas, '@fila.Telefono', '@fila.EMail', '@fila.EstatusSTR', '@fila.CustomerId');"
                                        style="cursor:pointer" title="Editar"></i>
                                 </div>
                                 <div class="badge badge-pill badge-warning text-center">
-                                    <i class="mdi mdi-trash-can" onclick="Eliminar(@fila.Id, '@fila.EstatusSTR');" style="cursor:pointer" title="Eliminar"></i>
+                                    <i class="mdi mdi-trash-can" onclick="Eliminar(@fila.Id, '@fila.EstatusSTR', '@fila.CustomerId', '@fila.Nombre' + ' ' + '@fila.APaterno' + ' ' + '@fila.AMaterno', '@fila.EMail', '@fila.Telefono');" style="cursor:pointer" title="Eliminar"></i>
                                 </div>
                                 <div class="badge badge-pill badge-info text-center">
                                     <i class="mdi mdi-map-marker" onclick="Direccion(@fila.Id, '@fila.Nombre', '@fila.APaterno', '@fila.AMaterno'

@@ -52,6 +52,7 @@ namespace wa_ral_shop.Areas.Administracion.Controllers
             return actionResult;
         }
 
+
         [HttpPost]
         //[ValidateInput(false)]
         public ActionResult AgregarCustomer(string Nombre, string APaterno, string AMaterno, string Telefono, string EMail, int Id)
@@ -72,6 +73,7 @@ namespace wa_ral_shop.Areas.Administracion.Controllers
                 customer.CreationDate = DateTime.Now;
                 customer.ExternalId = Id.ToString();
                 customerReturn = openpayAPI.CustomerService.Create(customer);
+
                 if (repositorioCliente.EditarCustomer(Id, customerReturn.Id)< 0)
                 {
                     Mensaje = "Modificado Correctamente";
@@ -91,6 +93,41 @@ namespace wa_ral_shop.Areas.Administracion.Controllers
             }
             return actionResult;
         }
+
+
+        [HttpPost]
+        //[ValidateInput(false)]
+        public ActionResult ActualizarCustomer(string CustomerId, string Nombre, string Email, string Telefono, string EstatusSTR)
+        {
+            ContentResultObject ContentResultObject = new ContentResultObject();
+            ActionResult actionResult = null;
+            string Mensaje = string.Empty;
+            Customer customer = new Customer();
+            Customer customerReturn = new Customer();
+
+            try
+            {
+                customer.Status = EstatusSTR;
+                customer.Name = Nombre;
+                customer.Email = Email;
+                customer.Id = CustomerId;
+                customer.PhoneNumber = Telefono;
+                customerReturn = openpayAPI.CustomerService.Update(customer);
+                
+                actionResult = Json(new { codigo = Mensaje });
+            }
+            catch (Exception Ex)
+            {
+                ContentResultObject.Codigo = "Error";
+                ContentResultObject.Mensaje = Ex.Message;
+                actionResult = Json(new { codigo = ContentResultObject.Codigo, mensaje = ContentResultObject.Mensaje });
+            }
+            return actionResult;
+        }
+
+        //api_key o ID: mcpqgoe22dmeeukfcajw
+
+
 
         [HttpPost]
         public ActionResult BuscarPaises()
@@ -139,53 +176,7 @@ namespace wa_ral_shop.Areas.Administracion.Controllers
             return actionResult;
         }
 
-        [HttpPost]
-        //[ValidateInput(false)]
-        public ActionResult Eliminar(int Id)
-        {
-            ContentResultObject ContentResultObject = new ContentResultObject();
-            ActionResult actionResult = null;
-            DataTable dataTable = new DataTable();
-            RepositorioCliente repositorioCliente = new RepositorioCliente();
-            try
-            {
-                dataTable = repositorioCliente.BuscarPorId(Id);
-                ClienteAnonymous clienteAnonymous = new ClienteAnonymous();
-                foreach (DataRow dr in dataTable.Rows)
-                {
-                    clienteAnonymous.Id = Int32.Parse(dr["Id"].ToString());
-                    clienteAnonymous.Nombre = dr["Nombre"].ToString();
-                    clienteAnonymous.APaterno = dr["APaterno"].ToString();
-                    clienteAnonymous.AMaterno = dr["AMaterno"].ToString();
-                    clienteAnonymous.Estrellas = byte.Parse(dr["Estrellas"].ToString());
-                    clienteAnonymous.Telefono = dr["Telefono"].ToString();
-                    clienteAnonymous.EMail = dr["EMail"].ToString();
-                    clienteAnonymous.Estatus = Boolean.Parse(dr["Estatus"].ToString());
-                    clienteAnonymous.EstatusSTR = Boolean.Parse(dr["Estatus"].ToString()) == true ? "Activo" : "Inactivo";
-                    clienteAnonymous.CustomerId = dr["CustomerId"].ToString();
-                }
-                Pagos pagos = new Pagos();
-                //pagos.BorrarCliente(clienteAnonymous.CustomerId);
-                //o puedes hacerlo así
-                // y traes todo el objeto customer
-                //Customer customer = pagos.ConsultarCliente(clienteAnonymous.CustomerId);
-
-
-                ContentResultObject.Codigo = "Cliente consultado";
-                ContentResultObject.Mensaje = clienteAnonymous.CustomerId;
-                actionResult = Json(new { codigo = ContentResultObject.Codigo, mensaje = ContentResultObject.Mensaje });
-            }
-            catch (Exception ex)
-            {
-                ContentResultObject.Codigo = "Error";
-                ContentResultObject.Mensaje = ex.Message;
-                actionResult = Json(new { codigo = ContentResultObject.Codigo, mensaje = ContentResultObject.Mensaje });
-                throw;
-            }
-
-            return actionResult;
-        }
-
+        
 
 
     }

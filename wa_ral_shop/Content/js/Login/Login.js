@@ -73,7 +73,7 @@ function AltaCliente() {
                 $("#AltaModal").modal("hide");
 
                 Direccion(NCompleto, Telefono, Id);
-                AgregarCustomer(Nombre, APaterno, AMaterno, Telefono, EMail, Id)
+                AgregarCustomer(Nombre, APaterno, AMaterno, Telefono, EMail, Id);
             }
 
 
@@ -216,7 +216,7 @@ function Direccion(NCompleto, Telefono, Ide) {
 
 function AgregarCustomer(Nombre, APaterno, AMaterno, Telefono, EMail, Id) {
     $.ajax({
-        url: '/Payment/AgregarCustomer',
+        url: '/Administracion/Payment/AgregarCustomer',
         type: "POST",
         data: { Nombre, APaterno, AMaterno, Telefono, EMail, Id }
     }).done(function (data, textStatus, jqXHR) {

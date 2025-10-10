@@ -5,6 +5,7 @@
 }
 @section Scripts{
     <script src="~/Content/js/Administracion/Cliente/Cliente.js"></script>
+
 }
 
 @*<div class="main-panel">*@
@@ -133,6 +134,12 @@
                             <label for="txtEMailM">E Mail</label>
                             <input type="text" class="form-control" data-inputmask="'alias': 'email'" im-insert="true" maxlength="50" id="txtEMailM">
                         </div>
+                        <div class="col-sm-4">
+                            <label>Contraseña</label>
+
+                            <input type="password" class="form-control" placeholder="Contraseña (Max: 10)" maxlength="10" id="txtPassM">
+                            <input type="checkbox" onclick="ViewPass();"><label style="font-size:smaller">Ver contraseña</label>
+                        </div>
                     </div>
 
 
@@ -214,6 +221,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="row">
+                        <input class="form-control" id="txtCustomerId" placeholder="Nombre" hidden="hidden">
                         @*<div class="col-sm-1">*@
                         <input type="text" class="form-control" hidden="hidden" id="txtIdClienteMEditar" placeholder="Id">
                         @*</div>*@

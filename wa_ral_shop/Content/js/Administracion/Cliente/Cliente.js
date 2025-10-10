@@ -15,6 +15,7 @@ function AltaCliente() {
         var Estrellas = $("#sltEstrellas").val();
         var Telefono = $("#txtTelefonoM").val();
         var EMail = $("#txtEMailM").val();
+        var Pass = $("#txtPassM").val();
 
         resetToastPosition();
         //var ToastInfo =
@@ -30,7 +31,7 @@ function AltaCliente() {
         $.ajax({
             url: '/Administracion/Cliente/Alta',
             type: "POST",
-            data: { Nombre, APaterno, AMaterno, Estrellas, Telefono, EMail }
+            data: { Nombre, APaterno, AMaterno, Estrellas, Telefono, EMail, Pass }
         }).done(function (data, textStatus, jqXHR) {
             if (data.codigo === "Error") {
                 resetToastPosition();
@@ -45,6 +46,8 @@ function AltaCliente() {
                 })
             }
             else {
+                AgregarCustomer(Nombre, APaterno, AMaterno, Telefono, EMail, data.Ide);
+
                 //resetToastPosition();
                 $.toast({
                     heading: 'Guardado',
@@ -88,6 +91,8 @@ function ValidarCampos() {
     var Estrellas = $("#sltEstrellas").val();
     var Telefono = $("#txtTelefonoM").val();
     var EMail = $("#txtEMailM").val();
+    var Pass = $("#txtPassM").val();
+
 
     if (Nombre === "") {
         Lista[a] = "Nombre";
@@ -111,6 +116,9 @@ function ValidarCampos() {
     }
     if (EMail === "") {
         Lista[a] = "EMail";
+    }
+    if (Pass === "") {
+        Lista[a] = "Contraseña"
     }
     if (Lista.length > 0) {
         var Pendientes = " ";
@@ -147,6 +155,38 @@ function ValidarCampos() {
     return Final;
 }
 
+function AgregarCustomer(Nombre, APaterno, AMaterno, Telefono, EMail, Id) {
+    $.ajax({
+        url: '/Administracion/Payment/AgregarCustomer',
+        type: "POST",
+        data: { Nombre, APaterno, AMaterno, Telefono, EMail, Id }
+    }).done(function (data, textStatus, jqXHR) {
+        if (data.codigo === "Error") {
+            resetToastPosition();
+            $.toast({
+                heading: 'Error',
+                text: data.mensaje,
+                showHideTransition: 'slide',
+                hideAfter: 8000,
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        resetToastPosition();
+        $.toast({
+            heading: 'Error',
+            text: errorThrown,
+            showHideTransition: 'slide',
+            hideAfter: 8000,
+            icon: 'error',
+            loaderBg: '#f2a654',
+            position: 'top-right'
+        })
+    });
+}
+
 function LimpiarCampos() {
     $("#txtNombreM").val("");
     $("#txtAPaternoM").val("");
@@ -154,6 +194,7 @@ function LimpiarCampos() {
     $("#sltEstrellas").val(1).change();
     $("#txtTelefonoM").val("");
     $("#txtEMailM").val("");
+    $("#txtPassM").val("");
 }
 
 resetToastPosition = function () {
@@ -253,7 +294,7 @@ function LimpiarCamposBusqueda() {
     $("#sltEstatus").val('first').change();
 }
 
-function Editar(Id, Nombre, APaterno, AMaterno, Estrellas, Telefono, EMail, Estatus) {
+function Editar(Id, Nombre, APaterno, AMaterno, Estrellas, Telefono, EMail, Estatus, CustomerID) {
     $("#txtIdClienteMEditar").val(Id);
     $("#txtNombreMEditar").val(Nombre);
     $("#txtAPaternoMEditar").val(APaterno);
@@ -267,7 +308,7 @@ function Editar(Id, Nombre, APaterno, AMaterno, Estrellas, Telefono, EMail, Esta
     else {
         $("#sltEstatusModificar").val(0).change();
     }
-
+    $("#txtCustomerId").val(CustomerID);
     MostrarMenu();
     $('#ModificarModal').modal('show');
     $("#txtNombreMEditar").focus();
@@ -284,6 +325,8 @@ function EditarCliente() {
         var Telefono = $("#txtTelefonoMEditar").val();
         var EMail = $("#txtEMailMEditar").val();
         var Estatus = $("#sltEstatusModificar").val() == "1" ? true : false;
+        var CustomerId = $("#txtCustomerId").val();
+
 
         resetToastPosition();
         $.toast({
@@ -314,6 +357,7 @@ function EditarCliente() {
             }
             else {
                 //resetToastPosition();
+                ActualizarCustomer(CustomerId, Nombre + ' ' + APaterno + ' ' + AMaterno, EMail, Telefono, Estatus == true ? "Activo" : "Inactivo");
                 $.toast({
                     heading: 'Actualizado',
                     text: 'El registro se ha modificado correctamente',
@@ -422,7 +466,7 @@ function LimpiarCamposEditar() {
     $("#sltEstatusEditar").val('first').change();
 }
 
-function Eliminar(Id, EstatusSTR) {
+function Eliminar(Id, EstatusSTR, CustomerId, Nombre, Email, Telefono) {
     if (ValidarEliminar(EstatusSTR)) {
         resetToastPosition();
         //var ToastInfo =
@@ -454,6 +498,7 @@ function Eliminar(Id, EstatusSTR) {
             }
             else {
                 //resetToastPosition();
+                ActualizarCustomer(CustomerId, Nombre, Email, Telefono, EstatusSTR);
                 $.toast({
                     heading: 'Eliminado',
                     text: 'El registro se ha Eliminado correctamente',
@@ -509,6 +554,38 @@ function ValidarEliminar(EstatusSTR) {
         });
     }
     return Valido;
+}
+
+function ActualizarCustomer(CustomerId, Nombre, Email, Telefono, EstatusSTR) {
+    $.ajax({
+        url: '/Administracion/Payment/ActualizarCustomer',
+        type: "POST",
+        data: { CustomerId, Nombre, Email, Telefono, EstatusSTR }
+    }).done(function (data, textStatus, jqXHR) {
+        if (data.codigo === "Error") {
+            resetToastPosition();
+            $.toast({
+                heading: 'Error',
+                text: data.mensaje,
+                showHideTransition: 'slide',
+                hideAfter: 8000,
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        resetToastPosition();
+        $.toast({
+            heading: 'Error',
+            text: errorThrown,
+            showHideTransition: 'slide',
+            hideAfter: 8000,
+            icon: 'error',
+            loaderBg: '#f2a654',
+            position: 'top-right'
+        })
+    });
 }
 
 function Direccion(Id, Nombre, APaterno, AMaterno, Telefono) {
@@ -866,6 +943,15 @@ function LimpiarUbicacion() {
     $("#txtYCalleMUbicacion").val("");
     $("#txtDescripcionMUbicacion").val("");
     LimpiarCP();
+}
+
+function ViewPass() {
+    var x = document.getElementById("txtPassM");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
 }
 
 //Funcion que valida si se ha de mostrar el menu izquierdo

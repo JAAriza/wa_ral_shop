@@ -26,7 +26,7 @@ namespace wa_ral_shop.Models.Repositorios
                 conexion.sqlCommand.Parameters.Add(new SqlParameter("@Nombre", SqlDbType.VarChar)).Value = clienteAnonymous.Nombre;
                 conexion.sqlCommand.Parameters.Add(new SqlParameter("@APaterno", SqlDbType.VarChar)).Value = clienteAnonymous.APaterno;
                 conexion.sqlCommand.Parameters.Add(new SqlParameter("@AMaterno", SqlDbType.VarChar)).Value = clienteAnonymous.AMaterno;
-                //conexion.sqlCommand.Parameters.Add(new SqlParameter("@Estrellas", SqlDbType.TinyInt)).Value = clienteAnonymous.Estrellas;
+                conexion.sqlCommand.Parameters.Add(new SqlParameter("@Estrellas", SqlDbType.TinyInt)).Value = clienteAnonymous.Estrellas;
                 conexion.sqlCommand.Parameters.Add(new SqlParameter("@Telefono", SqlDbType.VarChar)).Value = clienteAnonymous.Telefono;
                 conexion.sqlCommand.Parameters.Add(new SqlParameter("@EMail", SqlDbType.VarChar)).Value = clienteAnonymous.EMail;
                 //conexion.sqlCommand.Parameters.Add(new SqlParameter("@Password", SqlDbType.VarChar)).Value = clienteAnonymous.Password;

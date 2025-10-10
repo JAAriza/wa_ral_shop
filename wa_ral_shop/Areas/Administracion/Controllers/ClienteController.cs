@@ -33,15 +33,16 @@ namespace wa_ral_shop.Areas.Administracion.Controllers
             string Password;
             string EMailEnc;
 
+            Password = EncYDec.EncryptPlainTextToCipherText(Pass);
+            EMailEnc = EncYDec.EncryptPlainTextToCipherText(EMail);
+
             clienteAnonymous.Nombre = Nombre;
             clienteAnonymous.APaterno = APaterno;
             clienteAnonymous.AMaterno = AMaterno;
             clienteAnonymous.Estrellas = Estrellas;
             clienteAnonymous.Telefono = Telefono;
             clienteAnonymous.EMail = EMail;
-            Password = EncYDec.EncryptPlainTextToCipherText(Pass);
-            EMailEnc = EncYDec.EncryptPlainTextToCipherText(EMail);
-
+            
             try
             {
                 Id = repositorioCliente.Alta(clienteAnonymous);
@@ -106,6 +107,7 @@ namespace wa_ral_shop.Areas.Administracion.Controllers
                     clienteA.FechaHoraCaptura = DateTime.Parse(dr["FechaHoraCaptura"].ToString());
                     clienteA.Estatus = Boolean.Parse(dr["Estatus"].ToString());
                     clienteA.EstatusSTR = Boolean.Parse(dr["Estatus"].ToString()) == true ? "Activo" : "Inactivo";
+                    clienteA.CustomerId = dr["CustomerID"].ToString();
                     lstClienteAnonymous.Add(clienteA);
                 }
 
@@ -232,6 +234,7 @@ namespace wa_ral_shop.Areas.Administracion.Controllers
                 if (repositorioCliente.Eliminar(Id) == -1)
                 {
                     Mensaje = repositorioCliente.EliminarUC(Id) == -1 ? "Modificado Correctamente" : "Error";
+
                 }
                 else
                 {
