@@ -44,7 +44,7 @@
         RutaBase = int.Parse(Session["RutaBase"].ToString());//RutaBase
         UnidadMedida = int.Parse(Session["UnidadMedida"].ToString());//UnidadMedida
         Almacen = int.Parse(Session["Almacen"].ToString());//Almacen
-        //Payment = int.Parse(Session["Payment"].ToString());//Payment
+                                                           //Payment = int.Parse(Session["Payment"].ToString());//Payment
 
     }
     catch (Exception)
@@ -121,7 +121,8 @@ else
 
         @*style se agregó para que funcione la pantalla de payment*@
 
-        
+        @*Para mejor funcionamiento de los tabs*@
+        <link rel="stylesheet" href="~/Content/vendors/jQuery-PWS-Tabs/assets/jquery.pwstabs.min.css">
 
     </head>
 
@@ -199,7 +200,7 @@ else
                         <li class="nav-item nav-profile">
                             <div class="nav-link">
                                 <!--<div class="profile-image">
-                                <img src="~/Content/images/faces/face3.jpg" alt="image" />-->
+                            <img src="~/Content/images/faces/face3.jpg" alt="image" />-->
                                 @*<span class="online-status online"></span> change class online to offline or busy as needed*@
                                 <!--</div>-->
                                 <br />
@@ -423,8 +424,8 @@ else
         <script src="~/Content/js/modal-demo.js"></script>
 
         @*Sirve para especificar que no todos los Script son necesarios aplica para aquellas llamadas que por
-            pagina se utiliza un solo JS que es normalmente para conectar a la BD o funciones de cada pagina
-                @RenderSection("scripts", required: false)  *@
+        pagina se utiliza un solo JS que es normalmente para conectar a la BD o funciones de cada pagina
+            @RenderSection("scripts", required: false)  *@
 
         @RenderSection("scripts", required: false)
 
@@ -495,6 +496,8 @@ else
         <script src="~/Content/vendors/owl-carousel-2/owl.carousel.min.js"></script>
         <script src="~/Content/js/owl-carousel.js"></script>
 
+        @*Para mejor funcionamiento de los tabs*@
+        <script src="~/Content/vendors/jQuery-PWS-Tabs/assets/jquery.pwstabs.min.js"></script>
 
 
     </body>
