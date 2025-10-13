@@ -218,12 +218,12 @@ namespace wa_ral_shop.Controllers
             string EMailEnc;
             string PassEnc;
 
-            clienteAnonymous.Nombre = EncYDec.EncryptPlainTextToCipherText(Nombre);
-            clienteAnonymous.APaterno = EncYDec.EncryptPlainTextToCipherText(APaterno);
-            clienteAnonymous.AMaterno = EncYDec.EncryptPlainTextToCipherText(AMaterno);
+            clienteAnonymous.Nombre = Nombre;
+            clienteAnonymous.APaterno = APaterno;
+            clienteAnonymous.AMaterno = AMaterno;
             clienteAnonymous.Estrellas = 5;
-            clienteAnonymous.Telefono = EncYDec.EncryptPlainTextToCipherText(Telefono);
-            clienteAnonymous.EMail = EncYDec.EncryptPlainTextToCipherText(EMail);
+            clienteAnonymous.Telefono = Telefono;
+            clienteAnonymous.EMail = EMail;
             EMailEnc = EncYDec.EncryptPlainTextToCipherText(EMail);
             PassEnc = EncYDec.EncryptPlainTextToCipherText(Pass);
 
