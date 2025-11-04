@@ -1,10 +1,12 @@
 ﻿using Openpay;
 using Openpay.Entities;
+using Openpay.Entities.Request;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 using wa_ral_shop.Models.Anonymous;
@@ -127,6 +129,51 @@ namespace wa_ral_shop.Areas.Administracion.Controllers
 
         //api_key o ID: mcpqgoe22dmeeukfcajw
 
+
+        [HttpPost]
+        //[ValidateInput(false)]
+        public ActionResult Pagar(decimal Total, string IdCliente)
+        {
+            ContentResultObject ContentResultObject = new ContentResultObject();
+            RepositorioCliente repositorioCliente = new RepositorioCliente();
+            ActionResult actionResult = null;
+            string Mensaje = string.Empty;
+            Customer customer = new Customer();
+            ChargeRequest request = new ChargeRequest();
+
+            try
+            {
+                customer = openpayAPI.CustomerService.Get(IdCliente);
+
+                if (!string.IsNullOrEmpty(customer.Name.ToString()))
+                {
+                    request.Method = "card";
+                    request.Amount = Total;
+                    request.Description = "Compra en GAR Codex";
+                    request.OrderId = "carrito";// Agregar id del carrito para saber que compró
+                    request.Confirm = "false";
+                    request.SendEmail = false;
+                    //request.RedirectUrl = "http://www.openpay.mx/index.html";
+                    request.Customer = customer;
+
+                    Charge charge = openpayAPI.ChargeService.Create(request);
+                    Mensaje = "Pago realizado Correctamente";
+                }
+                else
+                {
+                    Mensaje = "Error";
+                }
+
+                actionResult = Json(new { codigo = Mensaje });
+            }
+            catch (Exception Ex)
+            {
+                ContentResultObject.Codigo = "Error";
+                ContentResultObject.Mensaje = Ex.Message;
+                actionResult = Json(new { codigo = ContentResultObject.Codigo, mensaje = ContentResultObject.Mensaje });
+            }
+            return actionResult;
+        }
 
 
         [HttpPost]

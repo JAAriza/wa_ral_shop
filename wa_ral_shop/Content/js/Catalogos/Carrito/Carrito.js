@@ -2,8 +2,6 @@
     ConsultaCarritos();
 });
 
-
-
 function ConsultaCarritos() {
     resetToastPosition();
     //var ToastInfo =
@@ -624,6 +622,64 @@ function Buscar(Id) {
     });
 }
 
+
+function Pagar(Total) {
+
+    $.toast({
+        heading: 'Informaci&oacute;n',
+        text: 'Espere, Esto puede tardar algunos segundos...',
+        showHideTransition: 'slide',
+        hideAfter: 8000,
+        icon: 'info',
+        loaderBg: '#46c35f',
+        position: 'top-right'
+    })
+    $.ajax({
+        url: '/Administracion/Payment/Pagar',
+        type: "POST",
+        data: { Total }
+
+    }).done(function (data, textStatus, jqXHR) {
+        if (data.codigo === "Error") {
+            resetToastPosition();
+            $.toast({
+                heading: 'Error',
+                text: data.mensaje,
+                showHideTransition: 'slide',
+                hideAfter: 8000,
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        }
+        else {
+            $('#' + f).css('color', '#dcdcdc');
+            $.toast({
+                heading: 'Eliminado',
+                text: 'El registro se ha eliminado correctamente',
+                showHideTransition: 'slide',
+                hideAfter: 6000,
+                icon: 'success',
+                loaderBg: '#f96868',
+                position: 'top-right'
+            })
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        resetToastPosition();
+        $.toast({
+            heading: 'Error',
+            text: errorThrown,
+            showHideTransition: 'slide',
+            hideAfter: 8000,
+            icon: 'error',
+            loaderBg: '#f2a654',
+            position: 'top-right'
+        })
+    }).always(function (data, textStatus, errorThrown) {
+        // ToastInfo.reset();
+    });
+
+}
 
 
 //Funcion que valida si se ha de mostrar el menu izquierdo
